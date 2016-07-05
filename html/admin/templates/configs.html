@@ -1,0 +1,26 @@
+<div id="configs">
+    <form method="POST" name="form-configs" enctype="multipart/form-data">
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>Configuraci&oacute;n</th>
+                    <th>Valor</th>
+                </tr>
+                {% for config in configs %}
+                <tr>
+                    <td><input type="hidden" name="configs[{{config.id}}][nombre]" value="{{config.nombre}}" />{{config.nombre}}</td>
+                    <td class="form-group">
+                        {% if config.type=='file' %}
+                        <a href="/assets/{{ config.valor }}" target="_blank">Actual: &quot;{{config.valor}}&quot;</a><br/>
+                        <button class="btn btn-primary" onclick="$(this).siblings('input[type=file]:first').click(); return false;">Cambiar</button>
+                        {% endif %}
+                        <input class="form-control" name="configs[{{config.id}}][valor]" value="{{ config.valor }}" type="{{config.type}}" /></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2"><button type="submit" name="grabar" class="btn btn-primary pull-right">GRABAR</button>
+                </tr>
+            </table>
+        </div><!-- /.row -->
+    </form>
+</div>

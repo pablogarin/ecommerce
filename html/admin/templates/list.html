@@ -1,0 +1,35 @@
+<div id="categorias" class="">
+    <form method="POST">
+        <div class="toolbox">
+                <div class="actions">
+                    <button class="btn btn-success" name="action" value="new">Nuevo</button>
+                    <button class="btn btn-danger" name="action" value="del">Eliminar</button>
+                </div>
+                <div class="filter">
+                    Ordenar por 
+                    <select class="">
+                        <option value="nombre">Nombre</option>
+                        <option value="orden">Orden</option>
+                    </select>
+                </div>
+        </div>
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th></th>
+                {% for name,col in cols %}
+                <th>{{ (fields[col]).label | raw }}</th>
+                {% endfor %}
+                <th></th>
+            </tr>
+            {% for row in data %}
+            <tr>
+                <td class="text-center"><input type="checkbox" id="id-{{ row.id }}" name="id" value="{{ row.id }}"><label for="id-{{ row.id }}"><span></span></label></th>
+                {% for name,col in cols %}
+                <td>{{ row[col] | raw }}</td>
+                {% endfor %}
+                <td><button type="submit" name="action" value="edit" onclick="$('#id-{{ row.id }}').attr('checked', true);" class="btn btn-default">Editar</button></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</div>

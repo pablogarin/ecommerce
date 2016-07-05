@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteBase /admin/
+RewriteCond %{REQUEST_URI} !^/(admin/css/*|admin/js/*|admin/assets/*)
+Options -MultiViews
+
+RewriteRule ^(.*)$ index.php   [QSA,L]

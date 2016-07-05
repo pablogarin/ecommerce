@@ -1,0 +1,34 @@
+<?php
+class MarcaControl{
+	function __construct($id){
+		if( $id==null || empty($id) ){
+			Throw new Exception("La clase 'MarcaControlador' necesita una id valida.");
+			exit;
+		}
+		$this->setID($id);
+		$this->getData();
+	}
+	private function setID($id){
+		if( !is_numeric($id) ){
+			Throw new Exception("La id debe ser un numero.");
+			exit;
+		}
+		$this->id = $id;
+	}
+	public function getData(){
+		global $Sql;
+		$data = $Sql->q_read("SELECT * FROM marca WHERE id=?;",array($this->id));
+		$data = $data[0];
+		
+		/* FOTO */
+		$resource = $data['foto'];
+		if( $tmp = $Sql->q_read("SELECT * FROM recurso WHERE id=?;",array($resource)) ){
+			$resource = $tmp[0];
+			$data['foto'] = $resource;
+		}
+		
+		$this->data = $data;
+		return $this->data;
+	}
+}
+?>

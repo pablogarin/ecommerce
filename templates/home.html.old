@@ -1,0 +1,53 @@
+<div id="home">
+    <div id="banners-home" class="row">
+        {% for banner in banners %}
+        <div class="img-banner-container"><img src="/assets/{{banner.foto}}" class="img-responsive" alt="Banner" /></div>
+        {% endfor %}
+    </div><!-- /.row -->
+    <div id="nosotros" class="row">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="title">{{about.titulo}}</h2>
+                    {{about.cuerpo|raw}}
+                    <a href="{{curriculo}}" class="btn curriculo">DESCARGAR CV</a>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.row -->
+    <div id="departamentos" class="row">
+        <div class="container text-center">
+            <div class="row">
+                <div class="bajada col-md-12">
+                    <p>Para poder cubrir de mejor manera las necesidades de los clientes
+                    se poseen 2 departamentos:</p>
+                </div>
+                <div class="thumbs">
+                    <div class="thumb">
+                        <img src="assets/depto_ing.png" alt="Depto. Ingenenieria">
+                        <h5 class="title">{{ing.titulo}}</h5>
+                        <hr class="divider" />
+                        {{ing.cuerpo|raw}}
+                    </div>
+                    <div class="thumb">
+                        <img src="assets/depto_tecnico.png" alt="Depto. Ingenenieria">
+                        <h5 class="title">{{tec.titulo}}</h5>
+                        <hr class="divider" />
+                        {{tec.cuerpo|raw}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.row -->
+    <div id="contactanos">
+        <div class="row">
+            <div class="wrapper">
+                <h3 class="title">¿Tienes un proyecto en mente?</h3>
+                <p>Escr&iacute;benos y te contactaremos a la brevedad.</p>
+                <a href="/contacto" class="btn contacto">CONT&Aacute;CTANOS</a>
+            </div>
+        </div><!-- /.row -->
+    </div>
+    <div id="clientes-carrousel" class="row">
+    </div><!-- /.row -->
+</div>

@@ -1,0 +1,75 @@
+<div id="home">
+    <h3>SERVICIOS</h3>
+    <div class="row toolbar">
+        <div class="col-md-12 well"><button id="add-servicio" class="btn btn-primary" onclick="$('.form-edit').fadeIn(333); $('form')[0].reset(); return false;"><i class="fa fa-plus"></i> AGREGAR</button></div>
+    </div><!-- /.row -->
+    <div class="row">
+        <table id="servicios" class="table table-striped">
+            <tr>
+                <th>Nombre</th>
+                <th>Foto</th>
+                <th></th>
+            </tr>
+            {% for servicio in servicios %}
+            <tr>
+                <td>{{servicio.nombre}}</td>
+                <td><img src="/assets/{{servicio.foto}}" alt="{{servicio.nombre}}" width="200" /></td>
+                <td>
+                    <a href="/admin/servicios?edit={{servicio.id}}" onclick="load(this.href,'.form-edit',function(){ $('.form-edit').fadeIn(333); setEvents(); }); return false;" class="btn btn-primary">EDITAR</a>
+                    <a href="/admin/servicios?eliminar={{servicio.id}}" class="btn btn-danger">ELIMINAR</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div><!-- /.row -->
+</div>
+<form name="home" method="POST">
+    <div class="form-edit">
+        {% if id  %}
+        <input type="hidden" name="id" value="{{ id }}" />
+        <input type="hidden" name="fecha" value="{{ fecha }}" />
+        {% endif %}
+        <div class="container">
+            <div class="row">
+                <h3>Editar/Crear</h3>
+                <a class="close" onclick="$('.form-edit').fadeOut(333);return false;">&times;</a>
+            </div><!-- /.row -->
+            <div class="row">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" name="nombre" value="{{ nombre }}"/>
+                </div>
+                <div class="form-group">
+                    <label>Foto</label>
+                    <div class="thumb-loader">
+                        <div class="thumb-container">
+                            <img src="{% if foto %}/assets/{{ foto }}{% endif %}" class="thumb-foto" alt="Foto del Producto" />
+                            <span class="loading"><i class="fa fa-spinner fa-spin"></i></span>
+                        </div>
+                        <input type="hidden" name="foto" value="{{ foto }}" />
+                        <button class="btn btn-primary" onclick="$('input[name=fotoupload]').click();return false;"><i class="fa fa-upload"></i> Seleccionar...</button>
+                        <input type="file" name="fotoupload" class="hidden" accept="image/*"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descripci&oacute;n</label>
+                    <textarea class="ckeditor" name="descripcion">{{descripcion}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Activo</label>
+                    <div class="form-input-group">
+                        <label class="radio-inline">
+                            <input type="radio" name="activo" value="1"{% if activo=='1' %}checked="checked"{% endif %} /> Si
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="activo" value="0"{% if activo!='1' %}checked="checked"{% endif %} /> No
+                        </label>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+            <div class="row text-right">
+                <button class="btn btn-primary" type="submit" name="grabar">GRABAR</button>
+            </div><!-- /.row.text-right -->
+        </div>
+    </div>
+</form>

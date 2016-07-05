@@ -1,0 +1,325 @@
+*{
+    font-family:'Montserrat', sans-serif;
+}
+#over-nav {
+    width: 100%;
+    text-align: left;
+    height: 60px;
+    line-height: 60px;
+    color: #333;
+    background-color: #fff;
+    margin-top: -20px;
+}
+#over-nav > * {
+    line-height: 60px;
+    max-width: 1170px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+.navbar{
+    background-color:#666;
+    z-index:1031;
+}
+.navbar a{
+    color:#fff;
+}
+.navbar-brand > span{
+    margin-left:24px;
+    text-transform:uppercase;
+}
+#navbar .nav > li > a:focus, #navbar .nav > li > a:hover, #navbar .nav > li > a:active, #navbar .nav > li.active > a, li.open > a {
+    background-color:#333!important;
+}
+#page-body {
+    margin-top: 60px;
+}
+#page-body .toolbox {
+    background-color:#fefede;
+    padding: 12px;
+    margin: 12px auto;
+    border: 1px solid #dedede;
+    border-radius: 3px;
+    position: relative;
+}
+#page-body .toolbox > div {
+    display: inline-block;
+}
+#page-body .toolbox > div.filter {
+    position: absolute;
+    right: 12px;
+    top: 25px;
+}
+#form-modelo, #form-noticia{
+    position:fixed;
+    top:50px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    background-color:#fff;
+    z-index:1030;
+    padding:15px 0;
+}
+.glyph {
+    margin: 0 10px 0 0;
+    stroke-width: 1px;
+}
+.close-btn{
+    margin:0 auto;
+    width:56px;
+    height:56px;
+    line-height:68px;
+    position:absolute;
+    right:16px;
+    top:16px;
+    text-align:center;
+}
+.close-btn svg>*{
+    fill:#999;
+}
+.close-btn:hover svg>*{
+    fill:#005;
+}
+.btn{
+    border-radius:0;
+    text-transform:uppercase;
+    box-shadow:0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+    min-width:120px;
+    margin-bottom:15px;
+}
+.btn-link{
+    box-shadow:none;
+}
+.fab-btn{
+    border-radius:50%;
+    box-shadow:0 3px 1px 0 rgba(0, 0, 0, 0.06), 0 4px 5px 0 rgba(0, 0, 0, 0.2);
+    width:56px;
+    height:56px;
+    line-height:50px;
+    text-align:center;
+    display:inline-block;
+    font-size:24px;
+}
+.btn[href='#crear-modelo']{
+    position:relative;
+    top:-18px;
+    right:24px;
+}
+.form-control{
+    border-radius:0;
+}
+.thumb-foto{
+    display:block;
+    max-width:158px;
+    height:151px;
+}
+.thumb-container{
+    position:relative;
+}
+.thumb-container img{
+    padding:4px;
+    margin:4px 0;
+    border:1px solid rgba(0,0,0,0.3);
+}
+.thumb-loader{
+    width:150px;
+}
+input[type='checkbox']{
+    display:none;
+}
+input[type='checkbox'] + label span{
+    display:inline-block;
+    background-image: url(/assets/input-sprite.png);
+    background-repeat: no-repeat;
+    background-position: -1px -1px;
+    display:inline-block;
+    height:20px;
+    width:20px;
+}
+input[type="checkbox"]:checked + label span{
+    background-position: -1px -28px;
+}
+.loading{
+    display:none;
+    position:absolute;
+    height:151px;
+    width:159px;
+    margin:0 auto;
+    line-height:151px;
+    text-align: center;
+    top: 0;
+    background:#fff;
+}
+#table-modelos{
+    width:100%;
+}
+#table-modelos td, #table-modelos th{
+    text-align:center;
+    vertical-align:middle;
+}
+.foto-container img{
+    padding:4px;
+    margin:4px 0;
+    border:1px solid rgba(0,0,0,0.3);
+}
+tr.detalle td img{
+   max-width:100%;
+   height:151px;
+}
+tr.highlight td img{
+   max-width:100%;
+   width:100%;
+}
+#paneles-modelo .tab-pane{
+    padding-top:16px;
+}
+.ficha-modelo-header{
+    display:block;
+    min-height:208px;
+}
+#nombre-modelo, #foto-modelo{
+    float:left;
+    height:190px;
+    position:relative;
+    padding:0 32px;
+}
+#nombre-modelo{
+    width:70%;
+}
+#nombre-modelo .form-control{
+    border:0;
+    border-bottom:1px solid rgba(0,0,0,0.3);
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+    position:absolute;
+    bottom:32px;
+    font-size:32px;
+    height:56px;
+}
+#foto-modelo .thumb-container{
+    height:151px;
+    width:159px;
+    overflow:hidden;
+}
+#foto-modelo img{
+    margin:0 auto;
+    background:transparent;
+    border:0;
+    max-width:159px;
+    width:100%;
+    height:auto;
+    position:absolute;
+    bottom:0px;
+    text-align:center;
+    color:rgba(0,0,0,0.6);
+}
+.hl-titulo{
+    text-align:center;
+}
+.hl-titulo >*{
+    max-width:240px;
+    width:100%;
+}
+.hl-titulo >input{
+    display:block;
+    width:100%;
+    padding:4px 0;
+    margin: 8px auto;
+}
+.hl-titulo > div{
+    margin: 0 auto;
+}
+.hl-titulo > div button.btn{
+    width:100%;
+}
+.blured{
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    transition: 0.1s;
+}
+#tabla-atributos .btn-container{
+    padding:16px 14px;
+}
+#tabla-atributos .row div{
+    text-align:center;
+    padding:8px 0;
+    border-top:1px solid rgba(0,0,0,0.15);
+}
+#tabla-atributos .col-md-2 input{
+    max-width:100%;
+}
+#tabla-atributos .row:nth-child(odd){
+    background:#eee;
+}
+#tabla-atributos .row.header{
+    font-weight:bolder;
+}
+#historia .row.banner{
+}
+.banner-seccion.thumb-loader,
+#historia .row.banner .thumb-loader{
+    width:50%;
+    margin:0 auto;
+}
+.banner-seccion.thumb-loader img,
+#historia .row.banner .thumb-loader img{
+    width:100%;
+    max-width:100%;
+    height:auto;
+    max-height:none;
+}
+.banner-seccion.thumb-loader .loading,
+#historia .row.banner .thumb-loader .loading{
+    background:rgba(255,255,255,0.6);
+    width:100%;
+    max-width:100%;
+    height:100%;
+}
+.banner-seccion.thumb-loader button,
+#historia .row.banner .thumb-loader button{
+    width:100%;
+}
+img[alt='Foto Historia']{
+    width:100%;
+    height:auto;
+    max-height:100%;
+}
+.panel .btn.fab-btn {
+    position: relative;
+    right: 24px;
+    top: -18px;
+}
+.toolbar{
+    margin:24px 0;
+}
+.form-edit{
+    display:none;
+    position:fixed;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    z-index:10000;
+    background:#fff;
+    overflow-y:scroll;
+    padding:40px;
+}
+.form-edit .close{
+    position:absolute;
+    top:8px;
+    right:8px;
+    width:54px;
+    height:54px;
+}
+#configs input[type='file'] > *,
+#configs input[type='file']{
+    display:none;
+}
+.upload-galery{
+    display:none!important;
+}

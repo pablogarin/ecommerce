@@ -1,0 +1,59 @@
+<div id="home">
+    <h3>TEXTOS</h3>
+    <div class="row">
+        <table id="textos" class="table table-striped">
+            <tr>
+                <th>Secci&oacute;n</th>
+                <th>Texto</th>
+                <th></th>
+            </tr>
+            {% for texto in textos %}
+            <tr>
+                <td>{{texto.titulo}}</td>
+                <td style="max-width:50%;">{{texto.cuerpo|raw}}</td>
+                <td>
+                    <a href="/admin/textos?edit={{texto.id}}" onclick="load(this.href,'.form-edit',function(){ $('.form-edit').fadeIn(333); setEvents(); }); return false;" class="btn btn-primary">EDITAR</a>
+                    <a href="/admin/textos?eliminar={{texto.id}}" class="btn btn-danger">ELIMINAR</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div><!-- /.row -->
+</div>
+<form name="home" method="POST">
+    <div class="form-edit">
+        {% if id %}
+        <input type="hidden" name="id" value="{{ id }}" />
+        {% endif %}
+        <div class="container">
+            <div class="row">
+                <h3>Editar/Crear</h3>
+                <a class="close" onclick="$('.form-edit').fadeOut(333);return false;">&times;</a>
+            </div><!-- /.row -->
+            <div class="row">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" name="titulo" value="{{ titulo }}"/>
+                </div>
+                <div class="form-group">
+                    <label>Descripci&oacute;n</label>
+                    <textarea class="ckeditor" name="cuerpo">{{cuerpo}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Activo</label>
+                    <div class="form-input-group">
+                        <label class="radio-inline">
+                            <input type="radio" name="activo" value="1"{% if activo=='1' %}checked="checked"{% endif %} /> Si
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="activo" value="0"{% if activo!='1' %}checked="checked"{% endif %} /> No
+                        </label>
+                    </div>
+                </div>
+            </div><!-- /.row -->
+            <div class="row text-right">
+                <button class="btn btn-primary" type="submit" name="grabar">GRABAR</button>
+            </div><!-- /.row.text-right -->
+        </div>
+    </div>
+</form>

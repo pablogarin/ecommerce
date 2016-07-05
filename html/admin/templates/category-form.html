@@ -1,0 +1,48 @@
+<div id="category-form">
+    <form method="POST">
+        <input type="hidden" name="action" value="{{ action }}">
+        {% if data.id %}
+        <input type="hidden" name="id" value="{{ data.id }}">
+        {% endif %}
+        <div class="row">
+            <div class="col-md-3">
+                <h4>{% if nombre is not empty %}{{nombre|raw}}{% else %}Categor&iacute;a Nueva{% endif %}</h4>
+                <ul class="nav nav-stacked">
+                    <li><a href="#" class="active">Datos Generales</a></li>
+                </ul>
+            </div>
+            <div class="col-md-9">
+                {% for field in fields %}
+                <div class="form-group">
+                    <label>{{ field.label|raw }}</label>
+                    {% if field.type == 'text' %}
+                    <input type="text" class="form-control" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
+                    {% endif %}
+                    {% if field.type == 'boolean' %}
+                    <div class="radio">
+                        <label class="radio-inline"><input type="radio" name="{{ field.nombre }}" value="1"{% if data[field.nombre]=='1' %} checked{% endif %}> Si</label>
+                        <label class="radio-inline"><input type="radio" name="{{ field.nombre }}" value="0"{% if data[field.nombre]!='1' %} checked{% endif %}> No</label>
+                    </div>
+                    {% endif %}
+                    {% if field.type == 'select' %}
+                    <select class="form-control" name="{{ field.nombre }}">
+                        {% for val in field.data %}
+                        <option value="{{ val.id }}"{% if data[field.nombre]==val.id %} selected="selected"{% endif %}>{{ val.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                    {% if field.type == 'file' %}
+                    <input type="file" class="form-control" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
+                    {% endif %}
+                    {% if field.type is empty and field.nombre != 'id' %}
+                    <input type="hidden" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <div class="form-group">
+                    <button type="submit" name="grabar" class="btn btn-success form-control">Grabar</button>
+                </div>
+            </div>
+        </div><!-- /.row -->
+    </form>
+</div>

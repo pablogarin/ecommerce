@@ -1,0 +1,37 @@
+<div id="config-form">
+    <div class="row title">
+        <h3>Configuraciones</h3>
+    </div>
+    <div class="row">
+        <p class="col-md-12">Desde ac&aacute; puede modificar los valores generales de configuraci&oacute;n del sitio.</p>
+    </div><!-- /-row -->
+	<form method="POST" enctype="form/multipart">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Configuraci&oacute;n</th>
+                <th>Valor</th>
+            </tr>
+            {% for conf in data %}
+            <tr>
+                <td>{{ conf.nombre }}</td>
+                <td>
+                    {% if conf.tipo == 'text' or conf.tipo == 'password' %}
+                    <input type="{{ conf.tipo }}" value="{{ conf.valor }}" name="configs[{{ conf.id }}]" class="form-control">
+                    {% endif %}
+                    {% if conf.tipo == 'select' %}
+                    <select name="configs[{{ conf.id }}]" class="form-control">
+                        <option value="0">Seleccione uno</option>
+                        {% for opt in conf.options %}
+                        <option value="{{ opt }}"{% if conf.valor==opt %} selected{% endif %}>{{ opt }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2"><button type="submit" name="grabar" class="form-control btn btn-success">Grabar</button>
+            </tr>
+        </table>
+	</form>
+</div><!-- /#config-form -->

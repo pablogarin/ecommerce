@@ -17,4 +17,8 @@ foreach( $cur as $row ){
 }
 $view->set("data", $data);
 
+$template = "config.html";
+$view->setTemplate($template);
+$content = $view->getView();
+
 ?>

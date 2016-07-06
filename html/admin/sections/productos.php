@@ -1,6 +1,6 @@
 <?php
 $Model = new Producto($dbh);
-$view->set("title", "Producto");
+$view->set("title", "Productos");
 if( isset($_REQUEST['id']) ){
     $ID = $_REQUEST['id'];
     $modelData = ($dbh->query("SELECT * FROM producto WHERE id=?",array($ID))[0]);

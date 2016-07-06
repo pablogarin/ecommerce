@@ -47,6 +47,7 @@ switch( $current ){
 }
 if( isset($Model) ){
     $fields = $Model->getValidFields();
+    $view->set("back", $backURL);
     $fields = array_merge($fields, $Model->getForeignFields());
     if( isset($orderFields) && is_array($orderFields) ){
         $tmp = array();

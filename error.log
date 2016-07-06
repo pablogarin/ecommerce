@@ -779,3 +779,54 @@
 [Tue Jul 05 20:29:45 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /usr/share/php/Twig/Environment.php(403) : eval()'d code on line 38, referer: http://preciada.doitmedia.cl/
 [Tue Jul 05 20:29:45 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /usr/share/php/Twig/Environment.php(403) : eval()'d code on line 42, referer: http://preciada.doitmedia.cl/
 [Tue Jul 05 20:31:53 2016] [error] [client 200.73.64.74] File does not exist: /var/www/preciada.doitmedia.cl/html/css/font-awesome/font-awesome.min.css, referer: http://preciada.doitmedia.cl/
+[Tue Jul 05 22:21:07 2016] [error] [client 200.73.64.74] PHP Parse error:  syntax error, unexpected '[' in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:29 2016] [error] [client 200.73.64.74] PHP Parse error:  syntax error, unexpected '[' in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Deprecated:  Function split() is deprecated in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Deprecated:  Function split() is deprecated in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Deprecated:  Function split() is deprecated in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Deprecated:  Function split() is deprecated in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Deprecated:  Function split() is deprecated in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Deprecated:  Function split() is deprecated in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Deprecated:  Function split() is deprecated in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Deprecated:  Function split() is deprecated in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Deprecated:  Function split() is deprecated in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Deprecated:  Function split() is deprecated in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:44 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:57 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:57 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:57 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:57 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:57 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:57 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:57 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:57 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:57 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:21:57 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:22:12 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:22:12 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:22:12 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:22:12 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:22:12 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:22:12 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:22:12 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:22:12 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:22:12 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:22:12 2016] [error] [client 200.73.64.74] PHP Notice:  Undefined offset: 1 in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 6
+[Tue Jul 05 22:22:54 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 10
+[Tue Jul 05 22:22:54 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 10
+[Tue Jul 05 22:22:54 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 10
+[Tue Jul 05 22:22:54 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 10
+[Tue Jul 05 22:22:54 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 10
+[Tue Jul 05 22:22:54 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 10
+[Tue Jul 05 22:22:54 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 10
+[Tue Jul 05 22:22:54 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 10
+[Tue Jul 05 22:22:54 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 10
+[Tue Jul 05 22:22:54 2016] [error] [client 200.73.64.74] PHP Notice:  Array to string conversion in /var/www/preciada.doitmedia.cl/html/admin/sections/config.php on line 10

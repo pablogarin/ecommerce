@@ -11,49 +11,63 @@
                     <li><a href="#" class="active">Datos Generales</a></li>
                 </ul>
             </div>
-            <div class="col-md-9">
-                {% for key,field in fields %}
-                {% if field.type is empty and field.nombre != 'id' %}
-                <input type="hidden" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
-                {% else %}
-                <div class="form-group">
-                    <label>{{ field.label|raw }}</label>
-                    {% if field.type == 'text' %}
-                    <input type="text" class="form-control" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
-                    {% endif %}
-                    {% if field.type == 'boolean' %}
-                    <div class="radio">
-                        <label class="radio-inline"><input type="radio" name="{{ field.nombre }}" value="1"{% if data[field.nombre]=='1' %} checked{% endif %}> Si</label>
-                        <label class="radio-inline"><input type="radio" name="{{ field.nombre }}" value="0"{% if data[field.nombre]!='1' %} checked{% endif %}> No</label>
+            <div id="form-main" class="col-md-9">
+                <div class="toolbox">
+                    <div class="toolbox-title">
+                        <strong class="lead"><i class="fa fa-pencil-square"></i> {% if data['nombre'] %}{{ data['nombre'] }}{% else %}Nuevo{% endif %}</strong>
                     </div>
-                    {% endif %}
-                    {% if field.type == 'select' %}
-                    <select class="form-control" name="{{ field.nombre }}">
-                        {% for val,label in field.data %}
-                        <option value="{{ val }}"{% if data[field.nombre]==val %} selected="selected"{% endif %}>{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                    {% endif %}
-                    {% if field.type == 'multiselect' %}
-                    {% set selected = (data[key]|keys) %}
-                    <select class="form-control" name="{{ field.nombre }}" multiple>
-                        {% for val,label in field.data %}
-                        <option value="{{ val }}"{% if val in selected %} selected="selected"{% endif %}>{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                    {% endif %}
-                    {% if field.type == 'file' %}
-                    <input type="file" class="form-control" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
-                    {% endif %}
-                    {% if field.type == 'ckeditor' %}
-                    <textarea class="form-control ckeditor" name="{{ field.nombre }}">{{ data[field.nombre] }}</textarea>
-                    {% endif %}
+                    <div class="toolbox-actions">
+                        <a href="{{ back }}" class="btn btn-danger">Volver</a>
+                        <button type="submit" name="grabar" class="btn btn-success">Grabar</button>
+                    </div>
                 </div>
-                {% endif %}
-                {% endfor %}
-                <div class="form-group">
-                    <button type="submit" name="grabar" class="btn btn-success form-control">Grabar</button>
-                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">General</h3></div>
+                    <div class="panel-body">
+                        {% for key,field in fields %}
+                        {% if field.type is empty and field.nombre != 'id' %}
+                        <input type="hidden" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
+                        {% else %}
+                        <div class="form-group">
+                            <label>{{ field.label|raw }}</label>
+                            {% if field.type == 'text' %}
+                            <input type="text" class="form-control" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
+                            {% endif %}
+                            {% if field.type == 'boolean' %}
+                            <div class="radio">
+                                <label class="radio-inline"><input type="radio" name="{{ field.nombre }}" value="1"{% if data[field.nombre]=='1' %} checked{% endif %}> Si</label>
+                                <label class="radio-inline"><input type="radio" name="{{ field.nombre }}" value="0"{% if data[field.nombre]!='1' %} checked{% endif %}> No</label>
+                            </div>
+                            {% endif %}
+                            {% if field.type == 'select' %}
+                            <select class="form-control" name="{{ field.nombre }}">
+                                {% for val,label in field.data %}
+                                <option value="{{ val }}"{% if data[field.nombre]==val %} selected="selected"{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            {% endif %}
+                            {% if field.type == 'multiselect' %}
+                            {% set selected = (data[key]|keys) %}
+                            <select class="form-control" name="{{ field.nombre }}" multiple>
+                                {% for val,label in field.data %}
+                                <option value="{{ val }}"{% if val in selected %} selected="selected"{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            {% endif %}
+                            {% if field.type == 'file' %}
+                            <input type="file" class="form-control" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
+                            {% endif %}
+                            {% if field.type == 'ckeditor' %}
+                            <textarea class="form-control ckeditor" name="{{ field.nombre }}">{{ data[field.nombre] }}</textarea>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" name="grabar" class="btn btn-success form-control">Grabar</button>
+                    </div>
+                </div><!-- /.panel -->
             </div>
         </div><!-- /.row -->
     </form>

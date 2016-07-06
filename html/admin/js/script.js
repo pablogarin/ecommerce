@@ -274,4 +274,11 @@ function load(url,target,callback){
     } catch(e){
         console.log(e);
     }
+    $(window).on('scroll',function(e){
+        if( window.pageYOffset > 35 ){
+            $(".toolbox").addClass("fixed");
+        } else {
+            $(".toolbox").removeClass("fixed");
+        }
+    });
 })();

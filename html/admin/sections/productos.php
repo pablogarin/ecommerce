@@ -10,7 +10,7 @@ if( isset($_REQUEST['id']) ){
         $modelData['categoria'][$row['id']] = $row['nombre'];
     }
 }
-$backURL = "/admin/producto";
+$backURL = "/admin/productos";
 $formTemplate = "form.html";
 $listTemplate = "list.html";
 $cols = array(

@@ -1,0 +1,2 @@
+#!/bin/bash
+mysqldump --no-create-info -u root -p preciada texto > ./texto.sql

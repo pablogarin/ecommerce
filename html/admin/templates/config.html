@@ -5,6 +5,9 @@
     <div class="row">
         <p class="col-md-12">Desde ac&aacute; puede modificar los valores generales de configuraci&oacute;n del sitio.</p>
     </div><!-- /-row -->
+    {% if success is not empty %}
+    <p class="alert alert-success">{{ success|raw }}</p>
+    {% endif %}
 	<form method="POST" enctype="form/multipart">
         <table class="table table-bordered table-striped">
             <tr>

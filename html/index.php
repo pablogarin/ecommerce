@@ -23,6 +23,15 @@ if( isset($cur[0]) ){
 $view->set("url",$configs['urlSitio']['valor']);
 $view->set("configs",$configs);
 
+$cur = $dbh->query("SELECT * FROM texto;");
+$textos = array();
+if( isset($cur[0]) ){
+    foreach( $cur as $row ){
+        $textos[$row['llave']] = $row;
+    }
+}
+$view->set("textos",$textos);
+
 $view->set("current",$page);
 
 /* CARRO DE COMPRAS */
@@ -39,15 +48,28 @@ switch( $page ){
         $view->set("title","Contacto");
         $template = "contacto.html";
         break;
+    case 'quienes-somos':
+        $view->set("title",$textos['quienesSomos']['titulo']);
+        $view->set("texto", $textos['quienesSomos']['cuerpo']);
+        $template = "texto.html";
+        break;
+    case 'como-comprar':
+        $view->set("title",$textos['comoComprar']['titulo']);
+        $view->set("texto", $textos['comoComprar']['cuerpo']);
+        $template = "texto.html";
+        break;
     case '':
     case null:
-    default:
         $view->set("title","Home");
         $cur = $dbh->query("select * from banner;");
         if( isset($cur[0]) ){
             $view->set("banners",$cur);
         }
         $template = "home.html";
+        break;
+    default:
+        $view->set("title","P&aacute;gina no encontrada");
+        $template = "error.html";
         break;
 }
 if( isset($template) ){

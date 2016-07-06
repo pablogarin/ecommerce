@@ -37,6 +37,9 @@ switch( $current ){
     case 'productos':
         include_once 'productos.php';
         break;
+    case 'textos':
+        include_once 'textos.php';
+        break;
     case 'configuraciones':
         include_once 'config.php';
         break;

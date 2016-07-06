@@ -413,6 +413,8 @@ INSERT INTO config(llave, nombre, valor, tipo) VALUES
 ("claveCorreo","Clave del Correo","","text"),
 ("servidorCorreo","Servidor de Correo Saliente","smtp.gmail.com","text"),
 ("puertoCorreo","Puerto para Correo","465","text"),
-("seguridadCorreo","Tipo de Seguridad del Correo","ssl","select[ssl,tls]")
+("seguridadCorreo","Tipo de Seguridad del Correo","ssl","select[ssl,tls]"),
+("blogURL","URL del blog","http://wordpress.com","text"),
+('instagramURL','URL Instagram','http://instagram.com','text')
 ;
 --GO

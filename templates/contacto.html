@@ -1,0 +1,31 @@
+<div id="contacto" class="container">
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <h3>{{ textos.contacto.titulo }}</h3>
+            <p>{{ textos.contacto.cuerpo|raw }}</p>
+            <div class="socials-contacto">
+                <a href="{{ configs.facebookURL.valor }}" target="_blank"><i class="fa fa-facebook"></i></a>
+                <a href="{{ configs.instagramURL.valor }}" target="_blank"><i class="fa fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <form name="contacto" method="POST">
+                <div class="form-group">
+                    <input type="text" name="nombre" class="form-control" placeholder="Nombre completo" />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="mail" class="form-control" placeholder="Correo Electr&oacute;nico" />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="fono" class="form-control" placeholder="Tel&eacute;fono" />
+                </div>
+                <div class="form-group">
+                    <textarea name="comentario" class="form-control"></textarea>
+                </div>
+                <div id="enviar-container" class="form-group text-right">
+                    <button class="btn btn-primary">ENVIAR</button>
+                </div>
+            </form>
+        </div>
+    </div><!-- /.row -->
+</div>

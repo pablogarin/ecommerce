@@ -1,4 +1,4 @@
-<div id="{{ current }}-form">
+<div id="{{ current }}-form" class="form">
     <form method="POST">
         <input type="hidden" name="action" value="{{ action }}">
         {% if data.id %}
@@ -6,7 +6,7 @@
         {% endif %}
         <div class="row">
             <div class="col-md-3">
-                <h4>{% if nombre is not empty %}{{nombre|raw}}{% else %}{{ title|raw }} Nuevo{% endif %}</h4>
+                <h4>{% if nombre is not empty %}{{nombre|raw}}{% else %}{% if title is not empty %}{{ title }}{% else %}Nuevo{% endif %}{% endif %}</h4>
                 <ul class="nav nav-stacked">
                     <li><a href="#" class="active">Datos Generales</a></li>
                 </ul>

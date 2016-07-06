@@ -20,16 +20,16 @@
         <![endif]-->
         </head>
     <body>
-        <div class="container">
+        <div id="main-container" class="container">
             <div class="masthead">
                 <nav>
                     <ul class="nav nav-justified">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#">&iquest;Qui&eacute;nes Somos?</a></li>
-                        <li><a href="#">Bazar</a></li>
-                        <li><a href="#">&iquest;C&oacute;mo Comprar?</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Contacto</a></li>
+                        <li{% if current is empty %} class="active"{% endif %}><a href="{{ url }}">Home</a></li>
+                        <li{% if current=='quienes-somos' %} class="active"{% endif %}><a href="{{ url }}/quienes-somos">&iquest;Qui&eacute;nes Somos?</a></li>
+                        <li{% if current=='bazar' %} class="active"{% endif %}><a href="#">Bazar</a></li>
+                        <li{% if current=='como-comprar' %} class="active"{% endif %}><a href="{{ url }}/como-comprar">&iquest;C&oacute;mo Comprar?</a></li>
+                        <li{% if current=='blog' %} class="active"{% endif %}><a href="{{ configs.blogURL.valor }}">Blog</a></li>
+                        <li{% if current=='contacto' %} class="active"{% endif %}><a href="{{ url }}/contacto">Contacto</a></li>
                         <li id="cart-container">
                             {{ CART|raw }}
                         </li>
@@ -38,18 +38,18 @@
                 <div class="logo-container">
                     <img src="{{url}}/assets/logo.png" alt="Preciada Bazar" />
                 </div>
-            </div>
+            </div><!-- /.masthead -->
             <div id="main-content">{{ content|raw }}</div>
-            <footer id="footer">
-                <div class="container">
-                    <div class="row socials pull-right">
-                        <a class="social-badge" href="{{ configs.facebookURL.valor }}" target="_blank"><i class="fa fa-facebook"></i></a>
-                        <a class="social-badge" href="{{ configs.instagramURL.valor }}" target="_blank"><i class="fa fa-instagram"></i></a>
-                        <!-- <a class="social-badge" href="{{ configs.twitterURL.valor }}" target="_blank"><i class="fa fa-twitter"></i></a>-->
-                    </div>
-                </div>
-            </footer>
         </div><!-- /.container -->
+        <footer id="footer">
+            <div class="container">
+                <div class="row socials pull-right">
+                    <a class="social-badge" href="{{ configs.facebookURL.valor }}" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a class="social-badge" href="{{ configs.instagramURL.valor }}" target="_blank"><i class="fa fa-instagram"></i></a>
+                    <!-- <a class="social-badge" href="{{ configs.twitterURL.valor }}" target="_blank"><i class="fa fa-twitter"></i></a>-->
+                </div>
+            </div>
+        </footer>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->

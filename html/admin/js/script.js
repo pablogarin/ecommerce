@@ -276,9 +276,9 @@ function load(url,target,callback){
     }
     $(window).on('scroll',function(e){
         if( window.pageYOffset > 35 ){
-            $(".toolbox").addClass("fixed");
+            $(".form .toolbox").addClass("fixed");
         } else {
-            $(".toolbox").removeClass("fixed");
+            $(".form .toolbox").removeClass("fixed");
         }
     });
 })();

@@ -1,6 +1,8 @@
 body {
     font-family: georgia;
     font-style: italic;
+    min-height: 100vh;
+    color: #470613;
 }
 
 #footer {
@@ -131,6 +133,47 @@ body {
     border-bottom-color: #000;
     border-width: 11px;
     margin-left: -11px;
+}
+#main-container {
+    min-height: 100vh;
+    padding-bottom: 70px;
+    margin-bottom: -50px;
+}
+#texto p{
+    max-width:650px;
+    width: 100%;
+    margin: 0 auto;
+    font-size:16px;
+    text-align: justify;
+}
+form[name='contacto'] {
+    padding-top: 60px;
+}
+form[name='contacto'] input, form[name='contacto'] textarea{
+    border-radius: 0;
+    border-color:#333;
+}
+form[name='contacto'] .btn-primary {
+    background-color: #333;
+    border-color: #333;
+    border-radius: 0;
+    color: #ffe;
+}
+form[name='contacto'] .btn-primary:hover, form[name='contacto'] .btn-primary:focus {
+    background-color: #000;
+    color: #fff;
+}
+.socials-contacto {
+    margin-top: 16px;
+    width: 100%;
+}
+.socials-contacto a {
+    display: inline-block;
+    color: #000;
+    font-size:28px;
+    width: 30px;
+    height: 30px;
+    margin: 0 4px;
 }
 
 @media (min-width: 768px) {

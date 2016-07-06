@@ -313,5 +313,6 @@ include_once 'Configuracion.model.php';
 include_once 'Categoria.model.php';
 include_once 'Producto.model.php';
 include_once 'ProductoCategoria.model.php';
+include_once 'Texto.model.php';
 
 ?>

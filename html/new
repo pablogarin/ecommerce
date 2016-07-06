@@ -1,0 +1,10 @@
+
+$cur = $dbh->query("SELECT * FROM texto;");
+$textos = array();
+if( isset($cur[0]) ){
+    foreach( $cur as $row ){
+        $textos[$row['llave']] = $row;
+    }
+}
+$view->set("url",$textos['urlSitio']['valor']);
+$view->set("textos",$textos);

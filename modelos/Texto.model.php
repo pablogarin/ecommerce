@@ -27,15 +27,21 @@ class Texto extends Model{
 				"null" => true
 			),
 			"titulo" => array(
-				"nombre"=>"titulo",
+				"nombre" => "titulo",
+                "label" => "Titulo",
+				"type" => "text",
 				"null" => false
 			),
 			"cuerpo" => array(
 				"nombre"=>"cuerpo",
+                "label" => "Cuerpo del texto",
+				"type" => "ckeditor",
 				"null" => false
 			),
 			"llave" => array(
 				"nombre"=>"llave",
+                "label" => "Llave",
+				"type" => "text",
 				"null" => true
 			),
 			"idioma" => array(
@@ -44,6 +50,8 @@ class Texto extends Model{
 			),
 			"activo" => array(
 				"nombre"=>"activo",
+                "label" => "¿Activo?",
+				"type" => "boolean",
 				"null" => true
 			),
 			"idTipo" => array(

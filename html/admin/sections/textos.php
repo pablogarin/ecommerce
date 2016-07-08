@@ -1,4 +1,7 @@
 <?php
+
+use Modelos\Texto as Texto;
+
 $Model = new Texto($dbh);
 $view->set("title", "Textos");
 if( isset($_REQUEST['id']) ){

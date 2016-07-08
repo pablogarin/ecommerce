@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class Banner extends Model{
 	public $insert = "INSERT INTO banner VALUES(?,?,?,?,?,?,?,?,?);";
 	public $update = "UPDATE banner SET nombre=?,idRecurso=?,url=?,target=?,tipo=?,estado=?,datetime=?,orden=? WHERE id=?;";

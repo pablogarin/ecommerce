@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class Filtro extends Model{
 	public $insert = "INSERT INTO atributo VALUES(?,?,?,?,?,?,?);";
 	public $update = "UPDATE atributo SET nombre=?,tipo=?,descripcion=?,idCategoria=?,esFiltro=?,esGrupo=? WHERE id=?;";

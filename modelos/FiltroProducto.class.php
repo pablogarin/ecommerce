@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class FiltroProducto extends Model{
 	public $insert = "INSERT INTO atributo_producto VALUES(?,?,?,?);";
 	public $update = "UPDATE atributo_producto SET idProducto=?, idAtributo=?, valor=? WHERE id=?;";

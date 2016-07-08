@@ -1,4 +1,5 @@
-<?php
+<?php namespace Modelos;
+
 class Categoria extends Model{
 	public $insert = "INSERT INTO categoria VALUES(?,?,?,?,?,?,?);";
 	public $update = "UPDATE categoria SET nombre=?, padre=?, activa=?, foto=?, banner=?, orden=? where id=?";

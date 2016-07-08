@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class Destacado extends Model{
 	public $insert = "INSERT INTO destacado VALUES(?,?,?,?,?,?,?);";
 	public $update = "UPDATE destacado SET titulo=?,activo=?,fechaInicio=?,fechaFin=?,mostrarHome=?,fechaCreacion=? WHERE id=?;";

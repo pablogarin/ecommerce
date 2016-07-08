@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class Oferta extends Model{
 	public $insert = "INSERT INTO oferta VALUES(?,?,?,?,?,?,?);";
 	public $update = "UPDATE oferta SET idProducto=?,precio=?,fechaInicio=?,fechaFin=?,orden=?,maxCantidad=? WHERE id=?;";

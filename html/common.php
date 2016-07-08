@@ -10,11 +10,14 @@ ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$path);
 $classes = $path."/classes";
 ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$classes);
 
+$modelos = $path."/modelos";
+ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$modelos);
+
+$controllers = $path."/controllers";
+ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$controllers);
+
 $includes = $path."/includes";
 ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$includes);
-
-$database = $path."/modelos";
-ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$database);
 
 $libs = $path."/html/libs";
 ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$libs);

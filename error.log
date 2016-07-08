@@ -1,0 +1,17 @@
+[Wed Jul 06 11:34:58.151475 2016] [:error] [pid 5533] [client 127.0.0.1:55277] PHP Fatal error:  Class 'Modelos\\Model' not found in /var/www/preciada/modelos/Configuracion.model.php on line 2
+[Wed Jul 06 11:35:25.512336 2016] [:error] [pid 5609] [client 127.0.0.1:55287] PHP Warning:  The use statement with non-compound name 'Modelos' has no effect in /var/www/preciada/html/admin/index.php on line 3
+[Wed Jul 06 11:35:25.527487 2016] [:error] [pid 5609] [client 127.0.0.1:55287] PHP Fatal error:  Class 'Modelos\\Model' not found in /var/www/preciada/modelos/Configuracion.model.php on line 2
+[Wed Jul 06 11:35:48.434569 2016] [:error] [pid 5610] [client 127.0.0.1:55288] PHP Fatal error:  Class 'Modelos\\stdClass' not found in /var/www/preciada/classes/model.php on line 4
+[Wed Jul 06 11:36:02.456794 2016] [:error] [pid 5525] [client 127.0.0.1:55289] PHP Fatal error:  Class 'Texto' not found in /var/www/preciada/html/admin/sections/textos.php on line 2
+[Wed Jul 06 11:36:40.814094 2016] [:error] [pid 5528] [client 127.0.0.1:55290] PHP Fatal error:  Class 'Texto' not found in /var/www/preciada/html/admin/sections/textos.php on line 2
+[Wed Jul 06 11:36:58.313360 2016] [:error] [pid 5526] [client 127.0.0.1:55291] PHP Parse error:  syntax error, unexpected '*', expecting identifier (T_STRING) in /var/www/preciada/classes/model.php on line 312
+[Wed Jul 06 11:37:05.536396 2016] [:error] [pid 5538] [client 127.0.0.1:55292] PHP Fatal error:  Class 'Texto' not found in /var/www/preciada/html/admin/sections/textos.php on line 2
+[Wed Jul 06 11:37:31.644505 2016] [:error] [pid 5529] [client 127.0.0.1:55293] PHP Warning:  The use statement with non-compound name 'Modelos' has no effect in /var/www/preciada/html/admin/index.php on line 5
+[Wed Jul 06 11:37:31.674889 2016] [:error] [pid 5529] [client 127.0.0.1:55293] PHP Fatal error:  Class 'Texto' not found in /var/www/preciada/html/admin/sections/textos.php on line 2
+[Wed Jul 06 11:37:37.474958 2016] [:error] [pid 5535] [client 127.0.0.1:55294] PHP Warning:  The use statement with non-compound name 'Modelos' has no effect in /var/www/preciada/html/admin/index.php on line 2
+[Wed Jul 06 11:37:37.498807 2016] [:error] [pid 5535] [client 127.0.0.1:55294] PHP Fatal error:  Class 'Texto' not found in /var/www/preciada/html/admin/sections/textos.php on line 2
+[Wed Jul 06 11:46:35.599439 2016] [:error] [pid 5535] [client 127.0.0.1:55391] PHP Parse error:  syntax error, unexpected 'use' (T_USE) in /var/www/preciada/html/index.php on line 62
+[Wed Jul 06 11:47:58.029608 2016] [:error] [pid 5529] [client 127.0.0.1:55401] PHP Fatal error:  Class 'Controllers\\Bazar' not found in /var/www/preciada/html/index.php on line 65
+[Wed Jul 06 11:48:33.374963 2016] [:error] [pid 5535] [client 127.0.0.1:55402] PHP Fatal error:  Class 'Controllers\\Bazar' not found in /var/www/preciada/html/index.php on line 65
+[Wed Jul 06 11:48:54.400127 2016] [:error] [pid 6481] [client 127.0.0.1:55403] PHP Fatal error:  Class 'Controllers\\Bazar' not found in /var/www/preciada/html/index.php on line 64
+[Wed Jul 06 11:52:52.562338 2016] [:error] [pid 6481] [client 127.0.0.1:55443] PHP Fatal error:  Class 'Controllers\\Bazar' not found in /var/www/preciada/html/index.php on line 64, referer: http://preciada.cl/

@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class Texto extends Model{
 	public $insert = "INSERT INTO texto VALUES(?,?,?,?,?,?,?);";
 	public $update = "UPDATE texto SET titulo=?,cuerpo=?,llave=?,idioma=?,activo=?,idTipo=? WHERE id=?;";

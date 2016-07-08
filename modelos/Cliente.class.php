@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class Cliente extends Model{
 	public $insert = "INSERT INTO cliente VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	public $update = "UPDATE cliente SET usuario=?,contrasena=?,rut=?,nombre=?,apellido=?,correo=?,fechaNacimiento=?,genero=?,fono=?,esEmpresa=?,razon=?,rutEmpresa=?,giro=?,cod_cliente_SAP WHERE id=?;";

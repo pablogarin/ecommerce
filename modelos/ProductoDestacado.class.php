@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class ProductoDestacado extends Model{
 	public $insert = "INSERT INTO producto_destacado VALUES(?,?,?,?,?);";
 	public $update = "UPDATE producto_destacado SET idProducto=?,idDestacado=?,orden=?,activo=? WHERE id=?;";

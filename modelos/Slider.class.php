@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class Slider extends Model{
 	public $insert = "INSERT INTO slider_categoria VALUES(?,?,?,?);";
 	public $update = "UPDATE slider_categoria SET idCategoria=?,activo=?,orden=? WHERE id=?;";

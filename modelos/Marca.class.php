@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class Marca extends Model{
 	public $insert = "INSERT INTO marca VALUES(?,?,?,?,?,?,?);";
 	public $update = "UPDATE marca SET nombre=?,descripcion=?,foto=?,activo=?,orden=?,fotoProductos=? WHERE id=?;";

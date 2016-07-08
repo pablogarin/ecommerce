@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class Recurso extends Model{
 	public $insert = "INSERT INTO recurso VALUES(?,?,?,?,?,?);";
 	public $update = "UPDATE recurso SET nombre=?,mime=?,url=?,activo=?,ultimaModificacion=? WHERE id=?;";

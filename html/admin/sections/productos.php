@@ -1,4 +1,7 @@
 <?php
+
+use Modelos\Producto as Producto;
+
 $Model = new Producto($dbh);
 $view->set("title", "Productos");
 if( isset($_REQUEST['id']) ){

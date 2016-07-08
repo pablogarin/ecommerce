@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class Cupon extends Model{
 	public $insert = "INSERT INTO cupon VALUES(?,?,?,?,?,?,?);";
 	public $update = "UPDATE cupon SET titulo=?,codigo=?,fechaInicio=?,fechaFin=?,activo=?,giftcard=? WHERE id=?;";

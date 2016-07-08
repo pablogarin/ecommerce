@@ -2,6 +2,8 @@
 include_once 'common.php';
 include_once 'install.php';
 
+use Controllers\Bazar as Bazar;
+
 $view = new View();
 $view->setFolder(PATH."/templates/");
 
@@ -58,6 +60,11 @@ switch( $page ){
         $view->set("texto", $textos['comoComprar']['cuerpo']);
         $template = "texto.html";
         break;
+    case 'bazar':
+        $ctrl = new Bazar();
+        $view->set("title","Bazar");
+        $template = "bazar.html";
+        break;
     case '':
     case null:
         $view->set("title","Home");
@@ -68,7 +75,7 @@ switch( $page ){
         $template = "home.html";
         break;
     default:
-        $view->set("title","P&aacute;gina no encontrada");
+        $view->set("title","Error");
         $template = "error.html";
         break;
 }

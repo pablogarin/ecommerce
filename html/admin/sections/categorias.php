@@ -1,4 +1,7 @@
 <?php
+
+use Modelos\Categoria as Categoria;
+
 $Model = new Categoria($dbh);
 $view->set("title", "Categor&iacute;a");
 if( isset($_REQUEST['id']) ){

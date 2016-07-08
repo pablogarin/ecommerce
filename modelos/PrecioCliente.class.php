@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class PrecioCliente extends Model{
 	public $insert = "INSERT INTO precio_cliente VALUES(?,?,?,?);";
 	public $update = "UPDATE precio_cliente SET idProducto,precio,tipoCliente WHERE id=?;";

@@ -1,4 +1,5 @@
-<?php
+<?php namespace Modelos;
+use stdClass;
 include_once("common.php");
 
 abstract class Model extends stdClass{

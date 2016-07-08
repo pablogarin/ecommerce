@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class Configuracion extends Model{
 	public $insert = "INSERT INTO configs VALUES(?,?,?);";
 	public $update = "UPDATE configs SET nombre=?,valor=?,type=? WHERE id=?;";

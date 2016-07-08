@@ -1,4 +1,4 @@
-<?php
+<?php namespace Modelos;
 class direccion extends Model{
 	public $insert = "INSERT INTO direccion VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 	public $update = "UPDATE direccion SET nombre=?,receptorNombre=?,receptorApellido=?,nombreEmpresa=?,facturacion=?,principal=?,idCliente=?,direccion=?,fono=?,cel=?,idZona=?,cod_destinatario_SAP=?,retiro=? WHERE id=?;";

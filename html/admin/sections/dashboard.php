@@ -1,3 +1,5 @@
 <?php
+$template = "dashboard.html";
 
-$content = "DB";
+$view->setTemplate($template);
+$content = $view->getView();

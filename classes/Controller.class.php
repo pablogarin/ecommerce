@@ -1,10 +1,11 @@
 <?php namespace Controllers;
+use \stdClass;
 /*
 * Clase Abstracta de Controller
 //*/
 abstract class Controller extends stdClass
 {
-    protected $template, $data, ;
+    protected $template, $data;
     function __construct($template, $data = array()){
         $this->template = $template;
         $this->data = (array)$data;

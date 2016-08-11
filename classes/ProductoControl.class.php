@@ -11,16 +11,19 @@ class ProductoControl{
 			exit;
 		}
 		$this->setId($id);
-		$this->getData();
+        if( !$this->getData() ){
+            throw new Exception("No se encontro el producto.");
+        }
 	}
 	public function getData(){
-		global $Sql;
+		global $dbh;
 		$this->data = array();
-		if( $data = $Sql->q_read("SELECT * FROM producto WHERE id=?;",array($this->id)) ){
+        $data = $dbh->query("SELECT * FROM producto WHERE id=?;",array($this->id));
+		if( isset($data[0]) ){
 			$data = $data[0];
 			$this->data = $data;
 			/* CATEGORIAS */
-			if( $category = $Sql->q_read("SELECT * FROM producto_categoria WHERE idProducto=?;",array($this->id)) ){
+			if( $category = $dbh->query("SELECT * FROM producto_categoria WHERE idProducto=?;",array($this->id)) ){
 				$tmp = $category[0];
 				$category = new CategoriaControl($tmp['idCategoria']);
 				$data['categoria'] = $category;
@@ -29,7 +32,7 @@ class ProductoControl{
 
 			/* TIPO */
 			$type = $data['tipo'];
-			if( $tmp = $Sql->q_read("SELECT * FROM tipo WHERE id=?;",array($type)) ){
+			if( $tmp = $dbh->query("SELECT * FROM tipo WHERE id=?;",array($type)) ){
 				$type = $tmp[0];
 				$data['tipo'] = $type;
 				$this->data = $data;
@@ -44,12 +47,14 @@ class ProductoControl{
 			$this->data = $data;
 			
 			/* FOTO */
+            /*
 			$resource = $data['foto'];
-			if( $tmp = $Sql->q_read("SELECT * FROM recurso WHERE id=?;",array($resource)) ){
+			if( $tmp = $dbh->query("SELECT * FROM recurso WHERE id=?;",array($resource)) ){
 				$resource = $tmp[0];
 				$data['foto'] = $resource;
 				$this->data = $data;
-			}
+            }
+             */
 
 			/* CHECK DE STOCK */
 			$stock = (int)$data['stock'];
@@ -62,25 +67,29 @@ class ProductoControl{
 			
 			/* URL */
 			$PATH = $data['nombre'];
-			$PATH = PATH_slug($PATH);
+			$PATH = url_slug($PATH);
+            $data['url'] = "/".$this->id."/$PATH";
 			$data['PATH'] = PATH."$PATH/";
 			$this->data = $data;
 			
 			/* BREADCRUMB */
+            /*
 			$breadcrumb = array();
 			//$breadcrumb[] = array("PATH"=>PATH,"name"=>"Home");
 			if( gettype($category)!=='array' ){
 				//$breadcrumb[] = array("PATH"=>$category->getData()['padre']['PATH'],"name"=>$category->getData()['padre']['nombre']);
-				$breadcrumb[] = array("PATH"=>$category->getData()['PATH'],"name"=>$category->getData()['nombre']);
+				$breadcrumb[] = array("PATH"=>$category->getData()['url'],"name"=>$category->getData()['nombre']);
 			}
 			$breadcrumb[] = array("PATH"=>"#","name"=>$data['nombre'],"active"=>true);
 			$data['breadcrumb'] = $breadcrumb;
 			$this->data = $data;
-			
+             */
 			/* FINALMENTE LO GRABAMOS COMO PROPIEDAD DEL OBJETO */
 			$this->data = $data;
 			return $this->data;
-		}
+        } else {
+            return false;
+        }
 	}
 	public function setId($id){
 		if( !is_numeric($id) ){
@@ -96,6 +105,7 @@ class ProductoControl{
 		return $this->getView("producto-list.html");
 	}
 	public function getView($template=null){
+
 		if( $template==null ){
 			$template = "producto.html";
 		}
@@ -118,11 +128,27 @@ class ProductoControl{
 			$View->set("offer",$offer);
 		}
 		
+        $View->setFolder(PATH."/templates");
 		$View->setTemplate($template);
 		return $View->getView();
 	}
+    public function getCrumbs(){
+        $crumbs = array();
+
+        $cat = $this->data['categoria'];
+        $cat = $cat->getData();
+        $crumbs[] = array(
+            "link" => "/".$cat['url'],
+            "value" => $cat['nombre']
+        );
+        $crumbs[] = array(
+            "link" => false,
+            "value" => $this->data['nombre']
+        );
+        return $crumbs;
+    }
 	public function filter($filters){
-		global $Sql;
+		global $dbh;
 		$retval = true;
 		if( !is_array($filters) ){
 			Throw new Exception("El metodo 'filter' acepta un arreglo multidimensional de parametro.");
@@ -135,7 +161,7 @@ class ProductoControl{
 			if( isset($this->inclusiveFilter) && $this->inclusiveFilter ){
 				$isOK = true;
 				foreach( $filters['filtros'] as $k=>$v ){
-					$rows = $Sql->q_read("SELECT * FROM atributo_producto WHERE idProducto=? AND idAtributo=?;",array($this->id,$v));
+					$rows = $dbh->query("SELECT * FROM atributo_producto WHERE idProducto=? AND idAtributo=?;",array($this->id,$v));
 					if( empty($rows[0]) ){
 						$isOK &= false;
 					}
@@ -157,7 +183,7 @@ class ProductoControl{
 				$tmp = array();
 				/* ordenamos los filtros por tipo para exluir entre filtros del mismo grupo */
 				foreach( $filters['filtros'] as $k=>$v ){
-					$cur = $Sql->q_read("SELECT * FROM atributo WHERE id=?;",array($v));
+					$cur = $dbh->query("SELECT * FROM atributo WHERE id=?;",array($v));
 					if( !empty($cur[0]) && is_array($cur[0]) ){
 						if( !isset($tmp[$cur[0]['tipo']]) ){
 							$tmp[$cur[0]['tipo']] = array();
@@ -168,7 +194,7 @@ class ProductoControl{
 				$allOK = true; // variable temporal 2, graba resultado del cruce de filtros.
 				foreach( $tmp as $k=>$v ){
 					$isOK = false;
-					$rows = $Sql->q_read("SELECT * FROM atributo_producto WHERE idProducto=?;",array($this->id));
+					$rows = $dbh->query("SELECT * FROM atributo_producto WHERE idProducto=?;",array($this->id));
 					foreach( $rows as $row ){
 						// si el atributo del producto esta en la lista de filtros solicitados, le pasamos true y pasamos
 						// al siguiente item del primer ciclo (continue).
@@ -188,7 +214,7 @@ class ProductoControl{
 		return $retval;
 	}
 	public function getRelated(){
-		global $Sql;
+		global $dbh;
 		$retval = array();
 		$tags = $this->data['tags'];
 		$tags = explode(",",$tags);
@@ -208,7 +234,7 @@ class ProductoControl{
 		$copy = $values;
 		$values = array_merge($values,$copy);
 		$values = array_merge(array($this->id),$values);
-		$rows = $Sql->q_read($query,$values);
+		$rows = $dbh->query($query,$values);
 		foreach( $rows as $k=>$v ){
 			$retval[] = new ProductoControl($v['id']);
 		}
@@ -258,10 +284,10 @@ class ProductoControl{
 		return $stock>=$quantity;
 	}
 	public function dropStock($quantity){
-		global $Sql;
+		global $dbh;
 		$stock = ((int)$this->data['stock'])-((int)$quantity);
-		$res = $Sql->q_mod("UPDATE producto SET stock=? WHERE id=?;",array($stock,$this->id));
-		if( !empty($Sql->dbh->errorInfo()[2]) ){
+		$res = $dbh->query("UPDATE producto SET stock=? WHERE id=?;",array($stock,$this->id));
+		if( !empty($dbh->dbh->errorInfo()[2]) ){
 			return false;
 		}
 		return true;
@@ -277,8 +303,8 @@ class ProductoControl{
 	*	
 	* */
 	public function getPrice($tipo = "Normal"){
-		global $Sql, $cli, $cart;
-		$cur = $Sql->q_read("SELECT * FROM oferta WHERE idProducto=?;",array($this->id));
+		global $dbh, $cli, $cart;
+		$cur = $dbh->query("SELECT * FROM oferta WHERE idProducto=?;",array($this->id));
 		if( isset($cur[0]) && is_array($cur[0]) ){
 			$this->data['oferta'] = true;
 			$this->data['precio'] = $cur[0]['precio'];
@@ -292,23 +318,11 @@ class ProductoControl{
 			*		tipoCliente varchar(128) not null
 			*	);
 			* */
-			$cur = $Sql->q_read("Select * from precio_cliente where idProducto=? and tipoCliente=?;",array($this->id, $tipo));
+			$cur = $dbh->query("Select * from precio_cliente where idProducto=? and tipoCliente=?;",array($this->id, $tipo));
 			if( isset($cur[0]) ){
 				return $cur[0]['precio'];
 			}
 		}
-		// no tocar por favor
-		/*
-		if( $totalQ<=18 && $cli!=null && $cli->getData()['tipo'] == 'Empleado' ){
-			$cur = $Sql->q_read("SELECT * FROM precio_cliente WHERE tipoCliente=? and idProducto=?;",array('Empleado',$this->id));
-			if( isset($cur[0]) ){
-				$cur = $cur[0];
-				if( $cur['precio']<$this->data['precio'] ){
-					$this->data['precio'] = $cur['precio'];
-				}
-			}
-		}
-		//*/
 		return $this->data['precio'];
 	}
 	public function getMobileDetailView(){

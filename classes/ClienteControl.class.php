@@ -46,23 +46,11 @@ class ClienteControl{
 	*
 	* */
 	public function getData(){
-		global $Sql;
+		global $dbh;
 		$this->data = array();
-		$data = $Sql->q_read("SELECT * FROM cliente WHERE id=?;",array($this->id));
+		$data = $dbh->query("SELECT * FROM cliente WHERE id=?;",array($this->id));
 		if( $data!==false && !empty($data) ){
 			$data = $data[0];
-			if( $data['tipo']=='Empleado' ){
-				$_SESSION['empleado'] = true;
-				$cur = $Sql->q_read("SELECT * FROM venta WHERE idCliente=? and idEstado in (4,7);",array($data['id']));
-				if( isset($cur[0]) ){
-					$_SESSION['descuento'] = true;
-					if( !empty($cur[0]['fecha']) ){
-						$ultimaFecha = $cur[0]['fecha'];
-						$date = new DateTime($ultimaFecha);
-						$_SESSION['descuento'] = !($date->format("Y-m")==date("Y-m"));
-					}
-				}
-			}
 			$this->data = $data;
 			return $this->data;
 		}
@@ -77,12 +65,12 @@ class ClienteControl{
 	* */
 	public function getAddresses(){
 		/* DIRECCIONES */
-		global $Sql;
-		$data = $Sql->q_read("SELECT * FROM direccion WHERE idCliente=?;",array($this->id));
+		global $dbh;
+		$data = $dbh->query("SELECT * FROM direccion WHERE idCliente=?;",array($this->id));
 		if( $data!==false ){
 			foreach( $data as $k=>$v ){
 				$zona = $v['idZona'];
-				$tmp = $Sql->q_read("SELECT c.nombre as comuna, p.nombre as ciudad, r.nombre as region FROM zona c LEFT JOIN zona p ON c.padre=p.id LEFT JOIN zona r ON p.padre=r.id WHERE c.id=?;",array($zona));
+				$tmp = $dbh->query("SELECT c.nombre as comuna, p.nombre as ciudad, r.nombre as region FROM zona c LEFT JOIN zona p ON c.padre=p.id LEFT JOIN zona r ON p.padre=r.id WHERE c.id=?;",array($zona));
 				$data[$k] = array_merge($data[$k],$tmp[0]);
 			}
 			$this->data['direcciones'] = $data;
@@ -100,7 +88,7 @@ class ClienteControl{
 	*
 	* */
 	public function addAddress($data){
-		global $Sql;
+		global $dbh;
 		$fields = array(
 			"nombre",
 			"receptorNombre",
@@ -129,7 +117,7 @@ class ClienteControl{
 					//$update[$field] = $old[$field];
 				}
 			}
-			$res = $Sql->q_mod($query,$update);
+			$res = $dbh->query($query,$update);
 			return $res;
 		}
 		return false;
@@ -143,7 +131,7 @@ class ClienteControl{
 	*
 	* */
 	public function updateAddress($data){
-		global $Sql;
+		global $dbh;
 		$fields = array(
 			"nombre",
 			"receptorNombre",
@@ -163,7 +151,7 @@ class ClienteControl{
 		if( $data!=null && is_array($data) ){
 			if( isset($data['id']) && is_numeric($data['id']) ){
 				$id = $data['id'];
-				$old = $Sql->q_read("SELECT * FROM direccion WHERE id=?;",array($id));
+				$old = $dbh->query("SELECT * FROM direccion WHERE id=?;",array($id));
 				$old = $old[0];
 			} else {
 				Throw new Exception("En el metodo ClienteControl::updateAddress(data), el parametro debe ser un arreglo y debe contener la id de la direccion a actualizar.");
@@ -181,7 +169,7 @@ class ClienteControl{
 					$update[$field] = $old[$field];
 				}
 			}
-			$res = $Sql->q_mod($query,$update);
+			$res = $dbh->query($query,$update);
 			return $res;
 		}
 		return false;
@@ -196,23 +184,14 @@ class ClienteControl{
 	*
 	* */
 	public static function login($user,$password){
-		global $Sql;
+		global $dbh;
 		if( empty($user) || empty($password) ){
 			return false;
 		}
-		$client = $Sql->q_read("SELECT * FROM cliente WHERE correo=? AND contrasena=?;",array($user,$password));
+		$client = $dbh->query("SELECT * FROM cliente WHERE correo=? AND contrasena=?;",array($user,$password));
 		if( isset($client[0]) ){
 			$client = $client[0];
 			setcookie(USER_COOKIE_ID,$client['id'],time()+3600*24*360,"/"); //3600=segundos, 24=horas, 360=dias
-			if( $client['tipo']=='Empleado' ){
-				$_SESSION['empleado'] = true;
-				$cur = $Sql->q_read("SELECT * FROM venta WHERE idCliente=?;",array($client['id']));
-				if( isset($cur[0]) ){
-					$ultimaFecha = $cur[0]['fecha'];
-					$date = new DateTime($ultimaFecha);
-					$_SESSION['descuento'] = !($date->format("Y-m")==date("Y-m"));
-				}
-			}
 			return true;
 		} else {
 			return false;
@@ -230,99 +209,72 @@ class ClienteControl{
 		header("Location: ".url);
 	}
 
-	/* createUser
+	/** createUser
 	* Crea un nuevo usuario y deja la sesion activa
 	* @return Integer id de cliente
 	* ======================================================
 	* @param Array $data["nombre","apellido","correo","rut","contrasena","fechaNacimiento","esEmpresa","razon","rutEmpresa","giro"]
 	*
-	* */
+	**/
 	public static function createUser($data){
-		// Integracion SAP
-		global $dirData,$Sql;
-
-		$data['direccion'] = $dirData['direccion'];
-		$data['fono'] = $dirData['fono'];
-		$cur = $Sql->q_read("select p.nombre as comuna,c.nombre as ciudad from zona p left join zona c on p.padre=c.id where p.id=?;",array($dirData['idZona']));
-		if( isset($cur[0]) ){
-			$data['comuna'] = $cur[0]['comuna'];
-			$data['ciudad'] = $cur[0]['ciudad'];
-		}
-		$rut = $data['rut'];
-		$rut = preg_replace('/[^0-9kK]/i','',$rut);
-		// $dv = substr($rut,-1);
-		$rut = substr($rut,0,-1);
-		// $rut = number_format($rut,0,',','.');
-		// $rut = (string)($rut."-".$dv);
-
+        global $dbh;
 		if( !is_array($data) ){
 			Throw new Exception("Los datos de usuario deben ser un arreglo.");
 			exit;
 		}
-		$validFields = array("nombre","apellido","correo","rut","contrasena","fechaNacimiento","esEmpresa","razon","rutEmpresa","giro","cod_cliente_SAP");
-		$requiredFields = array("nombre","apellido","correo","rut","contrasena");
-		foreach( $data as $k=>$v ){
-			if( !in_array($k,$validFields) ){
-				unset($data[$k]);
-			}
-			if( !isset($data[$k]) || empty($data[$k]) ){
-				$data[$k] = null;
-			}
-		}
-		foreach( $validFields as $k=>$v ){
-			if( !isset($data[$v]) ){
-				$data[$v] = null;
-			}
-		}
-		foreach( $requiredFields as $field ){
-			if( !isset($data[$field]) || empty($data[$field]) ){
-				Throw new Exception("Debe especificar todos los datos requeridos, '$field' esta vacio.");
-				exit;
-			}
-		}
-		$data['rut'] = preg_replace('/[^0-9kK]/','',$data['rut']);
-		$insert = array(
-			$data['correo'],
-			$data['correo'],
-			$data['nombre'],
-			$data['apellido'],
-			$data['rut'],
-			$data['contrasena'],
-			$data['fechaNacimiento'],
-			$data['esEmpresa'],
-			$data['razon'],
-			$data['rutEmpresa'],
-			$data['giro']
-		);
-		$retval = $Sql->q_mod("INSERT INTO cliente(usuario,correo,nombre,apellido,rut,contrasena,fechaNacimiento,esEmpresa,razon,rutEmpresa,giro) VALUES(?,?,?,?,?,?,?,?,?,?,?);",$insert);
-		setcookie(USER_COOKIE_ID,$retval,time()+3600*24*360,"/"); //3600=segundos, 24=horas, 360=dias
-		$cli = new ClienteControl($retval);
-		$cli->sendMail("registro");
-		return $retval;
+        $remember = (isset($data['remember']) && strtolower($data['remember'])=='on');
+        $model = new \Modelos\Cliente($dbh);
+        $model->setNew(true);
+        $dataModel = $model->getValidFields();
+        foreach( $dataModel as $name=>$format ){
+            if( isset($data[$name]) ){
+                $value = $data[$name];
+                switch( $format['type'] ){
+                    case 'mail':
+                        if( !filter_var($value, FILTER_VALIDATE_EMAIL) ){
+                            throw new \Exception("E-Mail inv&aacute;lido.");
+                        }
+                        break;
+                    case 'text':
+                        break;
+                }
+            }
+        }
+        $id = $model->setValues($data);
+        if( is_numeric($id) && (int)$id>0 ){
+            if( $remember ){
+                setcookie(USER_COOKIE_ID,$id,time()+3600*24*360,"/"); //3600=segundos, 24=horas, 360=dias
+            } else {
+                $_SESSION['cliente'] = $id;
+            }
+            $cli = new ClienteControl($id);
+            // $cli->sendMail("registro");
+            return $cli;
+        }
+        throw new \Exception("No se pudo crear el cliente en la base de datos.");
 	}
 	public function sendMail($type){
-		global $View;
-		$View->set("logo",getLogoBase64());
-		$View->setPath("templates");
+		global $view;
+		$view->set("logo",getLogoBase64());
+		$view->setFolder(PATH."/templates");
 		switch( $type ){
 			case 'registro':
 				$title = "Registro exitoso";
-				$View->setPath(PROJECT_FOLDER."templates");
-				$View->setTemplate("mail-registro.html");
+				$view->setTemplate("mail-registro.html");
 				break;
 			case 'clave':
 				$title = "Cambio de clave";
-				$View->setTemplate("mail-cambio-clave.html");
+				$view->setTemplate("mail-cambio-clave.html");
 				break;
             case 'recuperar':
 				$title = "Cambio de clave";
-				$View->setTemplate("mail-recupera-clave.html");
+				$view->setTemplate("mail-recupera-clave.html");
                 break;
 		}
 		foreach( $this->data as $k=>$v ){
-			$View->set($k,$v);
+			$view->set($k,$v);
 		}
-		$body = $View->getView();
+		$body = $view->getView();
 		sendEmail($this->data['correo'], $title, $body);
 	}
 	public function getMainAddress(){
@@ -349,7 +301,7 @@ cel varchar(16),
 idZona integer not null references zona(id)
 //*/
 	public function setMainAddress($data){
-		global $Sql;
+		global $dbh;
 		$fields = array(
 			"nombre",
 			"receptorNombre",
@@ -376,7 +328,7 @@ idZona integer not null references zona(id)
 					$update[$field] = $old[$field];
 				}
 			}
-			$res = $Sql->q_mod($query,$update);
+			$res = $dbh->query($query,$update);
 			return $res;
 		}
 		return false;
@@ -391,7 +343,7 @@ idZona integer not null references zona(id)
 		return $ad[0];
 	}
 	public function getView($template="tu-cuenta.html"){
-		global $Sql;
+		global $dbh;
 		$View = new View();
 		$View->set("URL",url);
 		foreach( $this->data as $k=>$v ){
@@ -406,11 +358,11 @@ idZona integer not null references zona(id)
 			}
 		}
 		/* REGIONES */
-		if( $data = $Sql->q_read("SELECT * FROM zona WHERE padre=(SELECT id FROM zona WHERE codigo='CL');") ){
+		if( $data = $dbh->query("SELECT * FROM zona WHERE padre=(SELECT id FROM zona WHERE codigo='CL');") ){
 			$View->set("regiones",$data);
 		}
 		$View->set("direcciones",$direcciones);
-		$cur = $Sql->q_read("SELECT id FROM venta WHERE idCliente=?;",array($this->id));
+		$cur = $dbh->query("SELECT id FROM venta WHERE idCliente=?;",array($this->id));
 		$compras = array();
 		foreach( $cur as $sale ){
 			$ord = new OrdenCompra($sale['id']);
@@ -439,7 +391,7 @@ rutEmpresa varchar(16),
 giro varchar(128)
 //*/
 	public function syncToDB($data=null){
-		global $Sql;
+		global $dbh;
 		// ojo con el orden ...
 		$fields = array(
 			"usuario",
@@ -482,7 +434,7 @@ giro varchar(128)
 		if( is_array($update['fechaNacimiento']) ){
 			$update['fechaNacimiento'] = $update['fechaNacimiento']['year']."-".$update['fechaNacimiento']['month']."-".$update['fechaNacimiento']['day'];
 		}
-		$res = $Sql->q_mod($query,array_values($update));
+		$res = $dbh->query($query,array_values($update));
 		return $res;
 	}
 
@@ -494,7 +446,7 @@ giro varchar(128)
 	*
 	* */
 	public function setPassword($old,$new){
-		global $Sql;
+		global $dbh;
 		if( $old==null || $new==null ){
 			Throw new Exception("El metodo ClienteControl::setPassword() recibe 2 parametros.");
 			exit;

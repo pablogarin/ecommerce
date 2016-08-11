@@ -25,12 +25,12 @@ abstract class Model extends stdClass{
 		$validState = $this->validateStrings();
 		if( $validState!==true ){
 			$error = compile_error("<p><b>Error: </b>" . $validState['message'] . "</p>");
-			Throw new Exception($error);
+			Throw new \Exception($error);
 		}
 		$this->setValidFields();
 		if( gettype($this->validFields)!='array' ){
 			$error = compile_error("<p><b>Error Fatal: </b>Debe inicializar la variable 'validFields' de la clase '" . get_class($this) . "'.</p><p>Para esto debe ingresar los datos en la funcion 'setValidFields' con los campos de la tabla y sus propiedades.</p><p><b>Referencia:</b> inc/classes/modelos/Producto.class.php</p>");
-			Throw new Exception($error);
+			Throw new \Exception($error);
 		}
 		foreach( $this->validFields as $k=>$v ){
 			$this->data[$k] = null;
@@ -42,7 +42,7 @@ abstract class Model extends stdClass{
 	function insertValue($values=null){
 		if( $values!=null && gettype($values)!='array' ){
 			$error = compile_error("<p><b>Error Fatal: </b>El insert debe contener un arreglo con los valores a insertar</p>");
-			Throw new Exception($error);
+			Throw new \Exception($error);
 		} else {
 			if( $values!=null && is_array($values) ){
 				$this->setValues($values);
@@ -55,7 +55,7 @@ abstract class Model extends stdClass{
 	function updateValue($values=null){
 		if( $values!=null && gettype($values)!='array' ){
 			$error = compile_error("<p><b>Error Fatal: </b>El update debe contener un arreglo con los valores a insertar</p>");
-			Throw new Exception($error);
+			Throw new \Exception($error);
 		} else {
 			if( $values!=null && is_array($values) ){
 				$this->setValues($values);
@@ -71,7 +71,7 @@ abstract class Model extends stdClass{
 	function delete($ID){
 		if( !is_numeric($ID) ){
 			$error = compile_error("<p><b>Error:</b> La id debe ser un número, se le paso '$ID'.</p>");
-			Throw new Exception($error);
+			Throw new \Exception($error);
 		}
 		return $this->query->raw_query($this->delete,array($ID));
 	}
@@ -87,8 +87,8 @@ abstract class Model extends stdClass{
 						$this->data[$k] = empty($v) ? null : $v;
 					} else {
 						if( empty($v) || $v==null ){
-							$error = "<p><b>Error:</b> El campo '$k' no puede ser nulo.</p>";
-							Throw new Exception($error);
+							$error = "<b>Error:</b><br/> El campo '".$this->validFields[$k]['label']."' no puede estar vac&iacute;o.";
+							Throw new \Exception($error);
 						} else {
 							$this->data[$k] = $v;
 						}
@@ -99,15 +99,16 @@ abstract class Model extends stdClass{
 		if( isset($values['grabar']) ){
 			Try{
 				if( $this->isNew ){
-					$retval = $this->insertValue();
-				} else {
-					$retval = $this->updateValue();
+                    $this->insertValue();
+					$retval = $this->dbh->getLastInsertId();
+                } else {
+                    $this->updateValue();
+					$retval = $this->dbh->getLastInsertId();
 				}
 				if( !is_numeric($retval) && !empty($retval) ){
 					$view->set("error",$retval);
 				} else {
 					if( @$this->isNew ){
-						// primero debemos grabar el producto para setear los foraneos.
                         $this->id = $retval;
 						$this->data['id'] = $retval;
                     } else {
@@ -124,7 +125,8 @@ abstract class Model extends stdClass{
 						exit;
 					}
 				}
-			} catch(Exception $e){
+                return $retval;
+			} catch(\Exception $e){
 				$view->set("error",$e->getMessage());
 			}
 		}
@@ -163,12 +165,16 @@ class query{
 		$this->table = $table;
 		$this->dbh = $dbh;
 	}
-	function all(){
+	function all( $order = null ){
 		if( isset($_REQUEST['excel']) ){
-			$retval = $this->dbh->query($q = "SELECT * FROM " . $this->table . "");
+            $retval = $this->dbh->query($q = "SELECT * FROM " . $this->table . "");
 		} else {
 			$paginationArray = $this->setUpPagination();
-			$retval = $this->dbh->query( ("SELECT * FROM " . $this->table . " limit " . join(',',$paginationArray) . ";" ) );
+            if( $order == null ){
+                $retval = $this->dbh->query( ("SELECT * FROM " . $this->table . " limit " . join(',',$paginationArray) . ";" ) );
+            } else {
+                $retval = $this->dbh->query( ("SELECT * FROM " . $this->table . " ORDER BY ".$order." LIMIT " . join(',',$paginationArray) . ";" ) );
+            }
 		}
 		if(isset($_REQUEST['debug'])){
 			print_r($this->dbh->errorInfo());exit;
@@ -181,7 +187,7 @@ class query{
 	function raw_query($query,$values=null){
 		if( ($values!=null) && (gettype($values)!='array') ){
 			$error = compile_error("<p>Los valores a insertar deben ser un arreglo con los valores en el orden de insercion.</p>");
-			Throw new Exception($error);
+			Throw new \Exception($error);
 		} else {
 			$retval = $this->dbh->query($query,$values);
 			if( !empty($this->dbh->errorInfo()[2]) ){
@@ -212,7 +218,7 @@ class query{
 				$whereString.=join(' AND ',$fields);
 			} else {
 				$error = compile_error("El método sólo acepta los valores como arreglo.\nUso: $[clase]->query->byField(array([CAMPO]=>[VALOR]))");
-				Throw new Exception($error);
+				Throw new \Exception($error);
 			}
 		}
 		if( $exclude!=null ){
@@ -233,7 +239,7 @@ class query{
 				$whereString.=join(' AND ',$antiFields);
 			} else {
 				$error = compile_error("El método 'byField' sólo acepta los valores como arreglo.\nUso: $[clase]->query->byField(array([CAMPO]=>[VALOR]), array([CAMPO A EXCLUIR]=>[VALOR A EXCLUIR]))");
-				Throw new Exception($error);
+				Throw new \Exception($error);
 			}
 		}
 		$values = array_merge($values,$antiValues);
@@ -254,7 +260,7 @@ class query{
 		} else {
 			if( !is_array($values) ){
 				$error = compile_error("La condicion de debe armar con prepare, por lo que los valores deben venir en formato de arrgelo");
-				Throw new Exception($error);
+				Throw new \Exception($error);
 			} else {
 				// "prepare" no funciona con arreglos asociativos ya que estamos usando el operador '?'.
 				$values = array_values($values);
@@ -310,8 +316,11 @@ class query{
 	}
 }
 /* MODELOS BASE DE DATOS */
+include_once 'Blog.model.php';
 include_once 'Configuracion.model.php';
 include_once 'Categoria.model.php';
+include_once 'Cliente.model.php';
+include_once 'CostoDespacho.model.php';
 include_once 'Producto.model.php';
 include_once 'ProductoCategoria.model.php';
 include_once 'Texto.model.php';

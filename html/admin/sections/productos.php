@@ -4,9 +4,15 @@ use Modelos\Producto as Producto;
 
 $Model = new Producto($dbh);
 $view->set("title", "Productos");
+$orden = "";
+if( isset($_REQUEST['orden']) ){
+    $orden = $_REQUEST['orden'];
+    $Model->order = preg_replace('/[^a-zA-Z0-9]/i','',$orden);
+}
 if( isset($_REQUEST['id']) ){
     $ID = $_REQUEST['id'];
     $modelData = ($dbh->query("SELECT * FROM producto WHERE id=?",array($ID))[0]);
+    $hiddens['foto'] = $modelData['foto'];
     $modelData['categoria'] = array();
     $cur = $dbh->query("SELECT categoria.id, categoria.nombre FROM producto_categoria LEFT JOIN categoria ON producto_categoria.idCategoria=categoria.id WHERE idProducto=?",array($ID));
     foreach( $cur as $row ){
@@ -17,8 +23,11 @@ $backURL = "/admin/productos";
 $formTemplate = "form.html";
 $listTemplate = "list.html";
 $cols = array(
+    "foto",
     "nombre",
-    "precio"
+    "SKU",
+    "precio",
+    "stock"
 );
 $orderFields = array(
     "foto",

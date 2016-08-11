@@ -44,6 +44,10 @@ class SQLHelper extends PDO{
     }
     public function query($query,$data=null){
         $result = array();
+        $tmp = (explode(' ', $query));
+        $command = $tmp[0];
+        $command = trim($command);
+        $mod = (strtolower($command) == 'insert' or strtolower($command)=='update');
         if( $query==null || empty($query) ){
             return false;
         }
@@ -53,17 +57,22 @@ class SQLHelper extends PDO{
             return false;
         }
         if( $exec = $cur->execute($data) ){
-            while( $row = $cur->fetch(PDO::FETCH_ASSOC) ){
-                $result[] = $row;
-            }
-            if( empty($result) && $this->lastInsertId()!=0){
-                return $this->lastInsertId();
+            if( $mod ){
+                $result = $this->lastInsertId();
+            } else {
+                while( $row = $cur->fetch(PDO::FETCH_ASSOC) ){
+                    $result[] = $row;
+                }
             }
         } else {
             $this->error = $this->errorInfo()[2];
             return false;
         }
         return $result;
+    }
+    public function getLastInsertId()
+    {
+        return $this->lastInsertId();
     }
     public static function getDBType()
     {

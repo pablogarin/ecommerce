@@ -63,6 +63,18 @@ $navs = array(
     'contenido' => array(
         'name' => 'Contenido del Sitio (CMS)',
         'navs' => array(
+            /*
+            "home" => array(
+                'url' => 'home',
+                'name' => 'Home',
+                'current' => $current=='home'
+            ),
+            //*/
+            "blog" => array(
+                'url' => 'blog',
+                'name' => 'Blog',
+                'current' => $current=='blog'
+            ),
             "textos" => array(
                 'url' => 'textos',
                 'name' => 'Textos',

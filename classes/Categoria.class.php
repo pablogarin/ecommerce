@@ -22,36 +22,39 @@ class CategoriaControl{
 		return $this->id;
 	}
 	public function setId($id){
-		global $Sql;
+		global $dbh;
 		if( !is_numeric($id) ){
 			return false;
 		}
 		$this->id = $id;
 	}
 	public function getData(){
-		include_once 'inc/classes/SeoUrl.class.inc';
-		global $Sql;
-		if( $row = $Sql->q_read("SELECT * FROM categoria WHERE id=?;",array($this->id)) ){
+		global $dbh;
+		if( $row = $dbh->query("SELECT * FROM categoria WHERE id=?;",array($this->id)) ){
 			$this->data['subcategoria'] = true;
 			foreach( $row[0] as $k=>$v ){
 				if( ($k=='padre') && ($v=='-1') ){
 					$this->data['subcategoria'] = false;
 				}
 				if( $k=='foto' ){
-					$row = $Sql->q_read("SELECT * FROM recurso WHERE id=?;",array($v));
+					$row = $dbh->query("SELECT * FROM recurso WHERE id=?;",array($v));
 					$v = @$row[0]['url'];
 				}
 				$this->data[$k] = $v;
 			}
-			$this->data['url'] = url.SeoUrl::seo_friendly($this->data['nombre'])."/";
-			$row = $Sql->q_read("SELECT * FROM categoria WHERE id=? and id>0;",array($this->data['padre']));
-			if( isset($row[0]) ){
+			$this->data['url'] = url_slug($this->data['nombre']);
+            /*
+			$cur = $dbh->query("SELECT * FROM categoria WHERE id=? and id>0;",array($this->data['padre']));
+			if( isset($cur[0]) ){
+                print_r($cur);
 				$this->data['padre'] = $row[0];
-				$this->data['padre']['url'] = url.SeoUrl::seo_friendly($this->data['padre']['nombre'])."/";
-			}
+				$this->data['padre']['url'] = "/".url_slug($this->data['padre']['nombre']);
+            }
+            */
 			/* TRAER LAS SUBCATEGORIAS QUE LE PERTENECEN */
+            /*
 			if( !$this->data['subcategoria'] ){
-				$group = $Sql->q_read("SELECT id FROM categoria WHERE padre=?;",array($this->id));
+				$group = $dbh->query("SELECT id FROM categoria WHERE padre=?;",array($this->id));
 				$categorias = array();
 				foreach( $group as $id ){
 					$id = $id['id'];
@@ -60,18 +63,18 @@ class CategoriaControl{
 				}
 				$this->data['subcategorias'] = $categorias;
 			}
-			
+             */
 			/* FILTROS */
 			$this->data['filtros'] = array();
-			$filtros = $Sql->q_read("SELECT * FROM atributo WHERE idCategoria=? AND esFiltro=1;",array($this->id));
+			$filtros = $dbh->query("SELECT * FROM atributo WHERE idCategoria=? AND esFiltro=1;",array($this->id));
 			if( $this->data['subcategoria'] ){
-				$tmp = $Sql->q_read("SELECT * FROM atributo WHERE idCategoria=? AND esFiltro=1;",array($this->data['padre']['id']));
+				$tmp = $dbh->query("SELECT * FROM atributo WHERE idCategoria=? AND esFiltro=1;",array($this->data['padre']['id']));
 				if( $tmp!==false && is_array($tmp) ){
 					$filtros = array_merge($filtros,$tmp);
 				}
 			} else {
 			}
-			if( $filtros ){
+			if( is_array($filtros) ){
 				foreach( $filtros as $k=>$v ){
 					$this->data['filtros'][$v['tipo']][$v['id']] = $v;
 				}
@@ -82,7 +85,7 @@ class CategoriaControl{
 	public function getProducts($limit = 8, $offset = 0){
 		/* TRAER SUS PRODUCTOS */
 		include_once("common.php");
-		include_once("inc/model.php");
+		include_once("model.php");
 		include_once("ProductoControl.class.php");
 		$this->data['productos'] = array();
 		$order = false;
@@ -99,7 +102,7 @@ class CategoriaControl{
 					break;
 			}
 		}
-		$prodList = Producto::getAll($this->id,$order);
+		$prodList = Modelos\Producto::getAll($this->id,$order);
 		foreach( $prodList as $k=>$v ){
 			$obj = new ProductoControl($v['id']);
 			if( empty($this->min) ){
@@ -152,17 +155,20 @@ class CategoriaControl{
 		}
 	}
 	public function getView(){
-		global $Sql, $_REQUEST;
+		global $dbh, $_REQUEST;
 		$View = new View();
 		
 		// pasar datos a la vista
+        /*
 		if( !empty($this->min) ){
 			$catPrice = array(); // rango de precios de la categoria
+         */
 			/*
 			if( $this->min+5000>=$this->max || $this->min==$this->max ){
 				$this->min = 0;
 			}
 			//*/
+            /*
 			$catPrice['min'] = 0;//$this->min;
 			$catPrice['max'] = ceil($this->max/100)*100; // es mas ordenado que termine en numero cerrado
 			$View->set("catPrice",$catPrice);
@@ -172,11 +178,10 @@ class CategoriaControl{
 
 		$priceRange = $this->data['priceRange']; 
 		$View->set('priceRange',$priceRange);	
+        // */
 
-		$View->set("URL",url);
-		
 		// espcificar layout
-		$cur = $Sql->q_read("SELECT * FROM categoria WHERE padre=?;",array($this->id));
+		$cur = $dbh->query("SELECT * FROM categoria WHERE padre=?;",array($this->id));
 		if( empty($cur) ){
 			$this->data['subcategoria'] = true;
 		}
@@ -185,7 +190,7 @@ class CategoriaControl{
 			$View->set($k,$v);
 		}
 		// PAGINATION
-		$View->set('orderBy',$this->orderBy);
+		// $View->set('orderBy',$this->orderBy);
 		$viewType = 'grid';
 		if( isset($_REQUEST['view']) ){
 			$viewType = $_REQUEST['view'];
@@ -224,11 +229,25 @@ class CategoriaControl{
 		$total = ceil(count($productos)/$porpagina);
 		$View->set('pages',$total);
 		
+        $View->setFolder(PATH."/templates");
 		$View->setTemplate("categoria.html");
 		return $View->getView();
 	}
 	public function getTitle(){
 		return $this->data['nombre'];
 	}
+    public static function getAll($padre = null){
+        global $dbh;
+        if( $padre != null ){
+            $cur = $dbh->query("Select * from categoria where id>-1 and padre=$padre and activa=1;");
+        } else {
+            $cur = $dbh->query("Select * from categoria where id>-1 and activa=1;");
+        }
+        foreach( $cur as $index=>$row ){
+            $row['link'] = url_slug($row['nombre']);
+            $cur[$index] = $row;
+        }
+        return $cur;
+    }
 }
 ?>

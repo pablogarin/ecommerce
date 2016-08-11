@@ -185,7 +185,7 @@ function compile_error($msg){
 	return $view->getView();
 }
 function getLogoBase64(){
-	$path = PROJECT_FOLDER.'assets/logo.png';
+	$path = PATH.'/html/assets/logo.png';
 	$type = pathinfo($path, PATHINFO_EXTENSION);
 	$data = file_get_contents($path);
 	$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
@@ -374,7 +374,7 @@ function url_slug($str, $options = array()) {
 	$str = preg_replace(array_keys($options['replacements']), $options['replacements'], $str);
 	// Transliterate characters to ASCII
 	if ($options['transliterate']) {
-	$str = str_replace(array_keys($char_map), $char_map, $str);
+        $str = str_replace(array_keys($char_map), $char_map, $str);
 	}
 	// Replace non-alphanumeric characters with our delimiter
 	$str = preg_replace('/[^\p{L}\p{Nd}]+/u', $options['delimiter'], $str);

@@ -57,7 +57,7 @@ class Categoria extends Model{
 			"foto" => array(
 				"nombre" => "foto",
                 "label" => "Foto",
-				"type" => "file",
+				"type" => "thumb",
 				"null" => true
 			),	
 			"banner" => array(

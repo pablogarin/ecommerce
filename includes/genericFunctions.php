@@ -73,7 +73,7 @@ function url_slug($str, $options = array()) {
 	$str = preg_replace(array_keys($options['replacements']), $options['replacements'], $str);
 	// Transliterate characters to ASCII
 	if ($options['transliterate']) {
-	$str = str_replace(array_keys($char_map), $char_map, $str);
+        $str = str_replace(array_keys($char_map), $char_map, $str);
 	}
 	// Replace non-alphanumeric characters with our delimiter
 	$str = preg_replace('/[^\p{L}\p{Nd}]+/u', $options['delimiter'], $str);

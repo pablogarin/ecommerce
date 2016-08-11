@@ -56,127 +56,133 @@ class OrdenCompra{
 		return $this->nuevo;
 	}
 	public function getData($strict = true){
-		global $Sql;
+		global $dbh;
 		$data = array();
-		$data = $Sql->q_read("SELECT * FROM venta  WHERE id=?;",array($this->id));
+		$data = $dbh->query("SELECT * FROM venta  WHERE id=?;",array($this->id));
 		if( $data!==false && !empty($data) ){
 			$data = $data[0];
 			
-			if( $strict && (int)$data['idEstado']==4 ){
-				unset($_SESSION['orden']);
-				$this->nuevo = true;
-				return false;
-			} else {
-				$this->data = $data;
-				
-				/* PRODUCTOS */
-				$this->getProducts();
-				
-				/* CLIENTE */
-				$cur = $Sql->q_read("SELECT * FROM cliente WHERE id=?;",array($this->data['idCliente']));
-				$this->data['cliente'] = $cur[0];
-				
-				/* DIRECCION */
-				include_once('inc/classes/DireccionControl.class.php');
-				$this->data['direccion'] = new DireccionControl($this->data['idDireccion']);
-				/*
-				$curUser = $_COOKIE[USER_COOKIE_ID];
-				if( (int)$this->data['idCliente']==(int)$curUser ){
-					include_once('inc/classes/DireccionControl.class.php');
-					$this->data['direccion'] = new DireccionControl($this->data['idDireccion']);
-				}
-				//*/
-				
-				/* ESTADO */
-				$cur = $Sql->q_read("SELECT * FROM estado WHERE id=?;",array($this->data['idEstado']));
-				$this->data['estado'] = $cur[0]['descripcion'];
+		//	if( $strict && (int)$data['idEstado']==4 ){
+		//		unset($_SESSION['orden']);
+		//		$this->nuevo = true;
+		//		return false;
+		//	} else {
+            $this->data = $data;
+            
+            /* PRODUCTOS */
+            $this->getProducts();
+            
+            /* CLIENTE */
+            $cur = $dbh->query("SELECT * FROM cliente WHERE id=?;",array($this->data['idCliente']));
+            $this->data['cliente'] = $cur[0];
+            
+            /* DIRECCION */
+            include_once('DireccionControl.class.php');
+            if( isset($this->data['idDireccion']) && !empty($this->data['idDireccion']) ){
+                $this->data['direccion'] = new DireccionControl($this->data['idDireccion']);
+                /*
+                $curUser = $_COOKIE[USER_COOKIE_ID];
+                if( (int)$this->data['idCliente']==(int)$curUser ){
+                    include_once('inc/classes/DireccionControl.class.php');
+                    $this->data['direccion'] = new DireccionControl($this->data['idDireccion']);
+                }
+                //*/
+            }
+            
+            /* ESTADO */
+            $cur = $dbh->query("SELECT * FROM estado WHERE id=?;",array($this->data['idEstado']));
+            if( isset($cur[0]) ){
+                $this->data['estado'] = $cur[0]['descripcion'];
+            }
 
-				/* CUPONES */
-				/* 
-					DEFINICION:
-						- PUEDE HABER MAS DE CUPON POR COMPRA
-						- CADA CUPON LE HACE UN DESCUENTO DISTINTO A CADA PRODUCTO
-						- EL MAYOR DESCUENTO NO NECESARIAMENTE SALE DEL CUPON, PUEDE HABER OFERTA
-					POR LO TANTO HAY QUE ASEGURAR QUE EL DESCUENTO APLICADO SEA EL MEJOR, EN OTRAS
-					PALABRAS, EL QUE DE EL MENOR PRECIO
-				 */
-				include_once 'inc/classes/Cupon.class.php';
-				$cur = $Sql->q_read("SELECT * FROM cupon_venta WHERE idVenta=?;",array($this->data['id']));
-				$descuentos = array();
-				$giftcards = array();
-				$cupones = array();
-				if( isset($cur[0]) && is_array($cur[0]) ){
-					foreach( $cur as $k=>$v ){
-						$obj = new CuponController($v['idCupon']);
-						$this->data['cupones'][] = $obj;
-						$d = $obj->getData();
-						if( !empty($d['giftcard']) ){
-							$cursor = $Sql->q_read("Select * from giftcard where id=?;",array($d['giftcard']));
-							if( isset($cursor[0]) ){
-								$giftcards[$cursor[0]['codigo']] = $cursor[0]['monto'];
-							}
-						} else {
-							foreach( $this->data['productos'] as $id=>$prd ){
-								$pData = $prd->getData();
-								$totalDcto = ($prd->getTotalItems()*$pData['precio'])*((int)@$d['descuentos'][$pData['id']]/100);
-								$totalBruto = $prd->getTotalItems()*$pData['precio'];
-								$cupones[$v['idCupon']][$pData['id']] = $totalDcto; // si por algun motivo no se aplica ni uno de los descuentos de un cupon lo debemos quitar de la lista
-								if( $prd->getTotalPrice()>($totalBruto-$totalDcto) ){
-									if( isset($descuentos[$pData['id']]) ){ 
-										if( $descuentos[$pData['id']] < $totalDcto ){
-											$descuentos[$pData['id']] = $totalDcto;
-										} else {
-											unset($cupones[$v['idCupon']][$pData['id']]);
-											if( empty($cupones[$v['idCupon']]) ){
-												unset($cupones[$v['idCupon']]);
-											}
-										}
-									} else {
-										$descuentos[$pData['id']] = $totalDcto;
-									}
-								} else {
-									unset($cupones[$v['idCupon']][$pData['id']]);
-									if( empty($cupones[$v['idCupon']]) ){
-										unset($cupones[$v['idCupon']]);
-									}
-								}
-							}
-						}
-					}
-				}
-                $subtotal = 0;
+            /* CUPONES */
+            /* 
+                DEFINICION:
+                    - PUEDE HABER MAS DE CUPON POR COMPRA
+                    - CADA CUPON LE HACE UN DESCUENTO DISTINTO A CADA PRODUCTO
+                    - EL MAYOR DESCUENTO NO NECESARIAMENTE SALE DEL CUPON, PUEDE HABER OFERTA
+                POR LO TANTO HAY QUE ASEGURAR QUE EL DESCUENTO APLICADO SEA EL MEJOR, EN OTRAS
+                PALABRAS, EL QUE DE EL MENOR PRECIO
+             */
+            include_once 'Cupon.class.php';
+            $cur = $dbh->query("SELECT * FROM cupon_venta WHERE idVenta=?;",array($this->data['id']));
+            $descuentos = array();
+            $giftcards = array();
+            $cupones = array();
+            if( isset($cur[0]) && is_array($cur[0]) ){
+                foreach( $cur as $k=>$v ){
+                    $obj = new CuponController($v['idCupon']);
+                    $this->data['cupones'][] = $obj;
+                    $d = $obj->getData();
+                    if( !empty($d['giftcard']) ){
+                        $cursor = $dbh->query("Select * from giftcard where id=?;",array($d['giftcard']));
+                        if( isset($cursor[0]) ){
+                            $giftcards[$cursor[0]['codigo']] = $cursor[0]['monto'];
+                        }
+                    } else {
+                        foreach( $this->data['productos'] as $id=>$prd ){
+                            $pData = $prd->getData();
+                            $totalDcto = ($prd->getTotalItems()*$pData['precio'])*((int)@$d['descuentos'][$pData['id']]/100);
+                            $totalBruto = $prd->getTotalItems()*$pData['precio'];
+                            $cupones[$v['idCupon']][$pData['id']] = $totalDcto; // si por algun motivo no se aplica ni uno de los descuentos de un cupon lo debemos quitar de la lista
+                            if( $prd->getTotalPrice()>($totalBruto-$totalDcto) ){
+                                if( isset($descuentos[$pData['id']]) ){ 
+                                    if( $descuentos[$pData['id']] < $totalDcto ){
+                                        $descuentos[$pData['id']] = $totalDcto;
+                                    } else {
+                                        unset($cupones[$v['idCupon']][$pData['id']]);
+                                        if( empty($cupones[$v['idCupon']]) ){
+                                            unset($cupones[$v['idCupon']]);
+                                        }
+                                    }
+                                } else {
+                                    $descuentos[$pData['id']] = $totalDcto;
+                                }
+                            } else {
+                                unset($cupones[$v['idCupon']][$pData['id']]);
+                                if( empty($cupones[$v['idCupon']]) ){
+                                    unset($cupones[$v['idCupon']]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            $subtotal = 0;
+            if( isset($this->data['productos']) && is_array($this->data['productos']) ){
                 foreach( $this->data['productos'] as $id=>$prd ){
                     $pData = $prd->getData();
                     $totalBruto = $prd->getTotalItems()*$pData['precio'];
                     $subtotal += $totalBruto;
                 }
-                $this->data['subtotal'] = $subtotal;
-				$this->data['giftcards'] = $giftcards;
-				$tmp = array();
-				foreach( $cupones as $id=>$det){
-					$cup = $Sql->q_read("SELECT * FROM cupon WHERE id=?;",array($id));
-					if( isset($cup[0]) && is_array($cup[0]) ){
-						$data = $cup[0];
-						$desc = 0;
-						foreach( $det as $prd=>$dcto ){
-							$desc+=$dcto;
-						}
-						$data['descuento'] = $desc;
-						$tmp[] = $data;
-					}
-				}
-				$this->data['descuentos'] = $tmp;
-				
-				return $this->data;
-			}
+            }
+            $this->data['subtotal'] = $subtotal;
+            $this->data['giftcards'] = $giftcards;
+            $tmp = array();
+            foreach( $cupones as $id=>$det){
+                $cup = $dbh->query("SELECT * FROM cupon WHERE id=?;",array($id));
+                if( isset($cup[0]) && is_array($cup[0]) ){
+                    $data = $cup[0];
+                    $desc = 0;
+                    foreach( $det as $prd=>$dcto ){
+                        $desc+=$dcto;
+                    }
+                    $data['descuento'] = $desc;
+                    $tmp[] = $data;
+                }
+            }
+            $this->data['descuentos'] = $tmp;
+            
+            return $this->data;
+		//	}
 		}
 		return false;
 	}
 	public function getProducts(){
-		include_once 'inc/classes/ProductoControl.class.php';
-		global $Sql;
+		include_once 'ProductoControl.class.php';
+		global $dbh;
 		$data = array();
-		$productos = $Sql->q_read("SELECT * FROM venta_detalle WHERE idVenta=?;",array($this->id));
+		$productos = $dbh->query("SELECT * FROM venta_detalle WHERE idVenta=?;",array($this->id));
 		if( $productos!==false && !empty($productos) ){
 			foreach( $productos as $prd ){
 				$PrdObj = new ProductoControl($prd['idProducto']);
@@ -188,10 +194,14 @@ class OrdenCompra{
 	public function set($key,$value){
 		$this->data[$key] = $value;
 	}
+    public function getID(){
+        return $this->id;
+    }
 	public function getNumero(){
-		global $Sql;
+		global $dbh;
 		$n = (int)time();
-		if( $Sql->q_read("SELECT * FROM venta WHERE numero=?;",array($n)) ){
+        $cur = $dbh->query("SELECT * FROM venta WHERE numero=?;",array($n));
+		if( !empty($cur) ){
 			return $this->getNumero();
 		}
 		return $n;
@@ -209,32 +219,31 @@ class OrdenCompra{
 	);
 	*/
 	public function setFromCart($cart){
-		global $Sql;
+		global $dbh;
 		date_default_timezone_set('Chile/Continental');
 		$cartData = $cart->getData();
 		$cartData['productos'] = $cart->getProducts();
+        $idCliente = "";
+        if( isset($_SESSION['cliente']) or isset($_COOKIE[USER_COOKIE_ID]) ){
+            $idCliente = isset($_SESSION['cliente']) ? $_SESSION['cliente'] : $_COOKIE[USER_COOKIE_ID];
+        } else {
+            $idCliente = $this->data['idCliente'];
+        }
 		//*
 		$data = array(
 			'numero' => $this->getNumero(),
+            'esFactura' => "0",
 			'fecha' => date('Y-m-d H:i:s'),
 			'costoDespacho' => 0,
 			'total' => $cartData['total'],
-			'idCliente' => empty($this->data['idCliente']) ? $_COOKIE[USER_COOKIE_ID] : $this->data['idCliente'],
+			'idCliente' => $idCliente,
 			'idEstado' => 1,
 			'tipoTransaccionTBK' => 'TR_NORMAL',
 			'idCarro' => $_COOKIE[COOKIE_ID]
 		);
+        // redundancia...
 		if( !$this->nuevo ){
 			unset($data['numero']);
-		}
-		if( $cur = $Sql->q_read("SELECT * FROM cliente WHERE id=?;",array($_COOKIE[USER_COOKIE_ID])) ){
-			if($cur[0]['esEmpresa']){
-				$data['esFactura'] = "1";
-			} else {
-				$data['esFactura'] = "0";
-			}
-		} else {
-			$data['esFactura'] = "0";
 		}
 		$tmp = $data;
 		$data = array();
@@ -256,14 +265,14 @@ class OrdenCompra{
 			$query = "UPDATE venta SET numero=?,esFactura=?,fecha=?,costoDespacho=?,total=?,idCliente=?,idEstado=?,idDireccion=?,idEmpresa=?,tipoTransaccionTBK=?,codigoAutorizacionTBK=?,idCarro=?,notificada=? WHERE id=?;";
 			$data['id'] = $this->id;
 		}
-		$res = $Sql->q_mod($query,array_values($data));
+		$res = $dbh->query($query,array_values($data));
 		error_log($res);
 		error_log(print_r($data,1));
 		if( is_numeric($res) ){
 			if( $this->nuevo ){
 				$this->setID($res);
 			}
-			$del = $Sql->q_mod("DELETE FROM venta_detalle WHERE idVenta=?;",array($this->id));
+			$del = $dbh->query("DELETE FROM venta_detalle WHERE idVenta=?;",array($this->id));
 			foreach( $cartData['productos'] as $obj ){
 				$prdData = $obj->getData();
 				$data = array(
@@ -274,24 +283,25 @@ class OrdenCompra{
 					'descuento' => $obj->getDiscount()
 				);
 				$query = "INSERT INTO venta_detalle(idVenta,idProducto,cantidad,precio,descuento) values(?,?,?,?,?);";
-				$res = $Sql->q_mod($query,$data);
+				$res = $dbh->query($query,array_values($data));
 				if( $res===false ){
 					return false;
 				}
 			}
 			if( isset($cartData['cupones']) && !empty($cartData['cupones']) && is_array($cartData['cupones']) ){
-				$Sql->q_mod("DELETE FROM cupon_venta WHERE idVenta=?;",array($this->id));
+				$dbh->query("DELETE FROM cupon_venta WHERE idVenta=?;",array($this->id));
 				foreach( $cartData['cupones'] as $k=>$v ){
 					$data = array(
 						"idCupon" => $v['id'],
 						"idVenta" => $this->id
 					);
-					$res = $Sql->q_mod("INSERT INTO cupon_venta(idCupon,idVenta) VALUES(?,?);",array_values($data));
+					$res = $dbh->query("INSERT INTO cupon_venta(idCupon,idVenta) VALUES(?,?);",array_values($data));
 					if( !is_numeric($res) || $res==0 ){
 						return false;
 					}
 				}
 			}
+            $this->getData();
 			return true;
 		}
 		return false;
@@ -303,19 +313,27 @@ class OrdenCompra{
 		return $this->getView("orden-detalle.html");
 	}
 	public function getView($template=null){
+        global $view;
 		if( $template==null ){
 			$template = "pago.html";
 		}
-		$View = new View();
-		$View->set("URL",url);
+        $view->setFolder(PATH."/templates");
+		$view->set("URL",URL);
 		foreach( $this->data as $k=>$v ){
-			$View->set($k,$v);
+			$view->set($k,$v);
 		}
-		$View->setTemplate($template);
-		return $View->getView();
+        $totalBruto = 0;
+		foreach( $this->data['productos'] as $obj ){
+			$obData = $obj->getData();
+			$productos[$obData['id']] = $obj;
+			$totalBruto += $obData['precio']*$obj->getTotalItems();
+		}
+        $view->set("totalBruto",$totalBruto);
+		$view->setTemplate($template);
+		return $view->getView();
 	}
 	public function syncToDB(){
-		global $Sql;
+		global $dbh;
 		$data = array();
 		$fields = array('numero','esFactura','fecha','costoDespacho','total','idCliente','idEstado','idDireccion','idEmpresa','tipoTransaccionTBK','codigoAutorizacionTBK','idCarro','notificada=?');
 		foreach( $fields as $key ){
@@ -327,8 +345,8 @@ class OrdenCompra{
 		}
 		$data['id'] = $this->id;
 		$query = "UPDATE venta SET numero=?, esFactura=?, fecha=?, costoDespacho=?, total=?, idCliente=?, idEstado=?, idDireccion=?, idEmpresa=?, tipoTransaccionTBK=?, codigoAutorizacionTBK=?, idCarro=?, notificada=? WHERE id=?;";
-		$res = $Sql->q_mod($query,array_values($data));
-		if( !empty($Sql->dbh->errorInfo()[2]) ){
+		$res = $dbh->query($query,array_values($data));
+		if( !empty($dbh->errorInfo()[2]) ){
 			return false;
 		}
 		return true;
@@ -354,21 +372,23 @@ class OrdenCompra{
 		return $retval;
 	}
 	public function acceptOrder(){
-		include_once 'inc/classes/CartControl.class.php';
-		global $Sql;
+		include_once 'CartControl.class.php';
+		global $dbh;
 		$retval = true;
 		//*
 		$this->set("idEstado",4);
 		if( $this->syncToDB() ){
 			// $this->sendMail('aceptada');
+            /*
 			$this->checkAndCreateGiftcards();
 			$this->consumeGiftcards();
+            //*/
 			unset($_SESSION['orden']);
 			$idCarro = $this->data['idCarro'];
 			$cart = new CartControl($idCarro);
 			$cart->destroy();
 		} else {
-			error_log("Orden no aceptada. errorInfo = ".print_r($Sql->dbh->errorInfo(),1));
+			error_log("Orden no aceptada. errorInfo = ".print_r($dbh->dbh->errorInfo(),1));
 			$retval = false;
 		}
 		//*/
@@ -376,28 +396,28 @@ class OrdenCompra{
 		return $retval;
 	}
 	public function dispatchOrder(){
-		global $Sql;
+		global $dbh;
 		$retval = true;
 		
 		$this->set("idEstado",7);
 		if( $this->syncToDB() ){
 			$this->sendMail('despacho');
 		} else {
-			error_log("Orden no enviada. errorInfo = ".print_r($Sql->dbh->errorInfo(),1));
+			error_log("Orden no enviada. errorInfo = ".print_r($dbh->dbh->errorInfo(),1));
 			$retval = false;
 		}
 
 		return $retval;
 	}
 	public function sendMail($type){
-		global $View, $Sql;
+		global $View, $dbh;
 		$descuentos = 0;
 		$totalBruto = 0;
 		$View->set("logo",getLogoBase64());
 		$View->setPath("templates");
 
 		$productos = array();
-		$cur = $Sql->q_read("Select * from cupon_venta cv left join cupon c on c.id=cv.idCupon where idVenta=?;",array($this->id));
+		$cur = $dbh->query("Select * from cupon_venta cv left join cupon c on c.id=cv.idCupon where idVenta=?;",array($this->id));
 		foreach( $this->data['productos'] as $obj ){
 			$obData = $obj->getData();
 			$productos[$obData['id']] = $obj;
@@ -408,12 +428,12 @@ class OrdenCompra{
 		if( isset($cur[0]) ){
 			foreach( $cur as $cup ){
 				if( !empty($cup['giftcard']) ){
-					$sc = $Sql->q_read("Select * from giftcard where id=?;",array($cup['giftcard']));
+					$sc = $dbh->query("Select * from giftcard where id=?;",array($cup['giftcard']));
 					if( isset($sc[0]) ){
 						$descuentos += $sc[0]['monto'];
 					}
 				} else {
-					$sc = $Sql->q_read("Select p.id as idProd, ((cp.descuento/100)*p.precio) as descuento from cupon_producto cp left join producto p on cp.idProducto=p.id where cp.idCupon=? and cp.idProducto in (".join(',',array_keys($productos)).");",array($cup['idCupon']));
+					$sc = $dbh->query("Select p.id as idProd, ((cp.descuento/100)*p.precio) as descuento from cupon_producto cp left join producto p on cp.idProducto=p.id where cp.idCupon=? and cp.idProducto in (".join(',',array_keys($productos)).");",array($cup['idCupon']));
 					if( isset($sc[0]) ){
 						foreach( $sc as $dcto ){
 							$descuentos += $mnt = (int)$dcto['descuento']*(int)$productos[$dcto['idProd']]->getTotalItems();
@@ -426,7 +446,7 @@ class OrdenCompra{
 		$attachments = null;
 		switch( $type ){
 			case 'aceptada':
-				$cur = $Sql->q_read("Select * from giftcard where idVenta=?;",array($this->id));
+				$cur = $dbh->query("Select * from giftcard where idVenta=?;",array($this->id));
 				if( isset($cur[0]) ){
 					$attachments = array();
 					foreach( $cur as $val ){
@@ -459,7 +479,8 @@ class OrdenCompra{
 		return $body;
 	}
 	private function checkAndCreateGiftcards(){
-		global $Sql;
+        /*
+		global $dbh;
 		include "giftcard.php";
 		
 		$attachments = array();
@@ -470,7 +491,7 @@ class OrdenCompra{
 				$codigo = generaCodigo();
 				$continue = false;
 				while( !$continue ){
-					$cur = $Sql->q_read("select * from giftcard where codigo=?;",array($codigo));
+					$cur = $dbh->query("select * from giftcard where codigo=?;",array($codigo));
 					if( isset($cur[0]['codigo']) ){
 						$codigo = generaCodigo();
 					} else {
@@ -481,20 +502,33 @@ class OrdenCompra{
 			}
 		}
 		$this->data['attachments'] = $attachments;
+        //*/
 	}
 	private function consumeGiftcards(){
-		global $Sql;
-		$cur = $Sql->q_read("Select * from cupon where id in (Select idCupon from cupon_venta where idVenta=?);",array($this->id));
+		global $dbh;
+		$cur = $dbh->query("Select * from cupon where id in (Select idCupon from cupon_venta where idVenta=?);",array($this->id));
 		if( isset($cur[0]) ){
 			foreach( $cur as $k=>$v ){
 				if( !empty($v['giftcard']) ){
-					$mod = $Sql->q_mod("update giftcard set estado='U', fechaUso=? where id=?;",$d = array(date("Y-m-d H:i:s"), $this->id));
+					$mod = $dbh->query("update giftcard set estado='U', fechaUso=? where id=?;",$d = array(date("Y-m-d H:i:s"), $this->id));
 					error_log("Detalles de modificacion de giftcard: ".date("Y-m-d H:i:s")." - Datos: ".var_dump($d,1)."; Resultado: ".var_dump($mod,1)); // guardamos el resultado en el log de errores: /tmp/php-error.log
 				}
-				$mod = $Sql->q_mod("update cupon set activo=0 where id=?;",$d = array($v['id']));
+				$mod = $dbh->query("update cupon set activo=0 where id=?;",$d = array($v['id']));
 				error_log("Detalles de modificacion de cupon: ".date("Y-m-d H:i:s")." - Datos: ".var_dump($d,1)."; Resultado: ".var_dump($mod,1)); // guardamos el resultado en el log de errores: /tmp/php-error.log
 			}
 		}
 	}
+    public function getEstado($id = true){
+        global $dbh;
+        if( $id ){
+            return $this->data['idEstado'];
+        } else {
+            $cur = $dbh->query("SELECT * FROM estado WHERE id=?;", array($this->data['idEstado']));
+            if( isset($cur[0]) ){
+                return $cur[0]['id'];
+            }
+            return "Ingresada";
+        }
+    }
 }
 ?>

@@ -244,6 +244,7 @@ CREATE TABLE producto(
 	id integer primary key autoincrement not null,
 	nombre varchar(120) not null,
 	tipo integer references tipo(id),
+    resumen varchar(128) not null,
 	descripcion text,
 	SKU varchar(120) UNIQUE not null,
     color text,
@@ -386,3 +387,13 @@ CREATE TABLE zona(
 	codigo varchar(3) not null,
 	padre integer not null default -1 references zona(id)
 );
+ CREATE TABLE blog(
+    id integer primary key auto_increment not null,
+    titulo varchar(255) not null,
+    fecha datetime not null,
+    foto varchar(255) not null,
+    cuerpo text not null,
+    activo integer default 1, /* 1si, 0 no */
+    autor integer references usuario(id) on delete cascade
+);
+

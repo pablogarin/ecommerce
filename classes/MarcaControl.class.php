@@ -16,19 +16,22 @@ class MarcaControl{
 		$this->id = $id;
 	}
 	public function getData(){
-		global $Sql;
-		$data = $Sql->q_read("SELECT * FROM marca WHERE id=?;",array($this->id));
-		$data = $data[0];
-		
-		/* FOTO */
-		$resource = $data['foto'];
-		if( $tmp = $Sql->q_read("SELECT * FROM recurso WHERE id=?;",array($resource)) ){
-			$resource = $tmp[0];
-			$data['foto'] = $resource;
-		}
-		
-		$this->data = $data;
-		return $this->data;
+		global $dbh;
+		$data = $dbh->query("SELECT * FROM marca WHERE id=?;",array($this->id));
+        if( isset($data[0]) ){
+            $data = $data[0];
+            
+            /* FOTO */
+            $resource = $data['foto'];
+            if( $tmp = $dbh->query("SELECT * FROM recurso WHERE id=?;",array($resource)) ){
+                $resource = $tmp[0];
+                $data['foto'] = $resource;
+            }
+            
+            $this->data = $data;
+            return $this->data;
+        }
+        return false;
 	}
 }
 ?>

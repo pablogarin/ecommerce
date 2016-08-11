@@ -1,12 +1,13 @@
 <?php namespace Modelos;
 class Producto extends Model{
-	public $insert = "INSERT INTO producto VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-	public $update = "UPDATE producto SET nombre=?,tipo=?,descripcion=?,SKU=?,color=?,tags=?,stock=?,marca=?,foto=?,archivo=?,precio=?,precioReferencia=?,iva=?,activo=?,disponible=?,pack=?,modificado=?,orden=?,minimo=?,entrega=? WHERE id=?;";
+	public $insert = "INSERT INTO producto VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+	public $update = "UPDATE producto SET nombre=?,tipo=?,resumen=?,descripcion=?,SKU=?,color=?,tags=?,stock=?,marca=?,foto=?,archivo=?,precio=?,precioReferencia=?,iva=?,activo=?,disponible=?,pack=?,modificado=?,orden=?,minimo=?,entrega=? WHERE id=?;";
 	public $delete = "DELETE FROM producto WHERE id=?;";
 	public $create = "CREATE TABLE producto(
 		id integer primary key autoincrement not null,
 		nombre varchar(120) not null,
 		tipo integer references tipo(id),
+        resumen varchar(128) not null,
 		descripcion text,
 		SKU varchar(120) UNIQUE not null,
         color text,
@@ -59,6 +60,12 @@ class Producto extends Model{
                 ),
 				"null" => true,
 			),		
+			"resumen" => array(
+				"nombre"=>"resumen",
+                "label" =>"Resumen del Producto",
+                "type" => "ckeditor",
+				"null" => true,
+			),	
 			"descripcion" => array(
 				"nombre"=>"descripcion",
                 "label" =>"Descripci&oacute;n",
@@ -96,7 +103,7 @@ class Producto extends Model{
 			"foto" => array(
 				"nombre"=>"foto",
                 "label" =>"Foto",
-                "type" => "file",
+                "type" => "thumb",
 				"null" => true,
 			),		
 			"archivo" => array(
@@ -106,7 +113,7 @@ class Producto extends Model{
 			"precio" => array(
 				"nombre"=>"precio",
                 "label" =>"Precio",
-                "type" => "text",
+                "type" => "money",
 				"null" => true,
 			),		
 			"precioReferencia" => array(

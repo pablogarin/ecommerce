@@ -12,6 +12,7 @@ $backURL = "/admin/categorias";
 $formTemplate = "form.html";
 $listTemplate = "list.html";
 $cols = array(
+    "foto",
     "nombre",
     "padre",
     "activa",

@@ -22,6 +22,10 @@ class View{
 
         // initialize Twig environment
         $twig = new Twig_Environment($loader);
+        $path = ini_get('include_path').PATH_SEPARATOR.PATH."/html/libs/Twig/Extensions/Extension/";
+        ini_set("include_path", $path);
+        include_once("Intl.php");
+        $twig->addExtension(new Twig_Extensions_Extension_Intl());
 
         // load template
         $template = $twig->loadTemplate($this->template);

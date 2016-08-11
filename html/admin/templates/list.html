@@ -1,4 +1,4 @@
-<div id="categorias" class="">
+<div id="lista" class="container">
     <div class="row title">
         <h3>{{ title|raw }}</h3>
     </div><!-- /.row.title -->
@@ -10,7 +10,8 @@
                 </div>
                 <div class="filter">
                     Ordenar por 
-                    <select class="">
+                    <select name="orden">
+                        <option>--Seleccione--</option>
                         <option value="nombre">Nombre</option>
                         <option value="orden">Orden</option>
                     </select>
@@ -28,7 +29,18 @@
             <tr>
                 <td class="text-center"><input type="checkbox" id="id-{{ row.id }}" name="id" value="{{ row.id }}"><label for="id-{{ row.id }}"><span></span></label></th>
                 {% for name,col in cols %}
-                <td>{{ row[col] | raw }}</td>
+                <td>
+                    {% set type = (fields[col]).type %}
+                {% if type=='money' %}
+                    ${{ row[col] | number_format(0,',','.') }}
+                {% elseif type=='thumb'  %}
+                    <div class="thumb-container">
+                        <img src="{{row[col]}}" alt="Thumb">
+                    </div>
+                {% else %}
+                    {{ row[col] | raw }}
+                {% endif %}
+                </td>
                 {% endfor %}
                 <td><button type="submit" name="action" value="edit" onclick="$('#id-{{ row.id }}').attr('checked', true);" class="btn btn-default">Editar</button></td>
             </tr>

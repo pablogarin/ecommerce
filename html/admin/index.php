@@ -18,24 +18,40 @@ include_once 'menubar.php';
 $view->set("navs",$navs);
 //*
 if( isset($_FILES) ){
-    foreach( $_FILES  as $file ){
-        $name = $file['name'];
-        $filepath = PATH."/html/assets/".$name;
-        if( !move_uploaded_file($file['tmp_name'],$filepath) ){
-            error_log("No se pudo subir el archivo '".$name."'");
+    foreach( $_FILES  as $nominare => $file ){
+        if( $file['error']==0 ) {
+            $name = date("YmdHis").$file['name'];
+            $name = url_slug($name);
+            $filepath = PATH."/html/assets/".$name;
+            if( !move_uploaded_file($file['tmp_name'],$filepath) ){
+                error_log("No se pudo subir el archivo '".$name."'");
+                exit;
+            } else {
+                $_POST[$nominare] = $_GET[$nominare] = $_REQUEST[$nominare] = "/assets/".$name;
+            }
         }
     }
 }
+$hiddens = array();
 //*/
 switch( $current ){
     case 'dashboard':
         include_once 'dashboard.php';
+        break;
+    case 'costos-despacho':
+        include_once 'costo_despacho.php';
         break;
     case 'categorias':
         include_once 'categorias.php';
         break;
     case 'productos':
         include_once 'productos.php';
+        break;
+    case 'home':
+        include_once 'home.php';
+        break;
+    case 'blog':
+        include_once 'blog.php';
         break;
     case 'textos':
         include_once 'textos.php';
@@ -61,6 +77,7 @@ if( isset($Model) ){
         $fields = array_merge($tmp, $fields);
     }
     $view->set("fields", $fields);
+    $view->set("hiddens", $hiddens);
     if( isset($_REQUEST['action']) ){
         $view->set("action", $_REQUEST['action']);
         switch( $_REQUEST['action'] ){
@@ -95,11 +112,34 @@ if( isset($Model) ){
             break;
         }
         if( isset($_REQUEST['grabar']) ){
+            if( isset($_POST['fecha']) ){
+                $meses = array(
+                    "01" => "enero",
+                    "02" => "febrero",
+                    "03" => "marzo",
+                    "04" => "abril",
+                    "05" => "mayo",
+                    "06" => "junio",
+                    "07" => "julio",
+                    "08" => "agosto",
+                    "09" => "septiembre",
+                    "10" => "octubre",
+                    "11" => "noviembre",
+                    "12" => "diciembre",
+                );
+                $fecha = $_POST['fecha'];
+                $fecha = str_replace(" de ","-", $fecha);
+                $fecha = str_replace($meses, array_keys($meses), $fecha);
+                $_POST['fecha'] = date("Y-m-d H:i:s",strtotime($fecha));
+            }
             $Model->setValues($_POST);
         }
         $view->setTemplate( $formTemplate );
     } else {
-        $data = $Model->query->all();
+        if( !isset($Model->order) ){
+            $Model->order = null;
+        }
+        $data = $Model->query->all($Model->order);
         foreach( $data as $key => $value ){
             if( (int)$value['id']<0 ){
                 unset($data[$key]);

@@ -42,9 +42,14 @@ class CartControl{
 	function setNewCart(){
 		global $dbh;
 		$this->data = array();
-		$id = $dbh->query("INSERT INTO carro(id,total,despacho) VALUES(null,0,0);");
+		$cur = $dbh->query("INSERT INTO carro(id,total,despacho) VALUES(null,0,0);");
+        if( is_array($cur) ){
+            $id = $dbh->getLastInsertId();
+        } else {
+            $id = $cur;
+        }
 		if( !$id || !is_numeric($id) ){
-			print_r($dbh->dbh->errorInfo());
+			print_r($dbh->errorInfo());
 			exit;
 		}
 		$this->id = $id;
@@ -96,27 +101,9 @@ class CartControl{
 		if( $quantity>0 ){
 			$obj = new ProductoControl($id);
 			if( $obj->checkStock($quantity) ){
-				// precio empleado
-				if( isset($_SESSION['empleado']) && isset($_SESSION['descuento']) && $_SESSION['descuento'] ){
-					$dbh->query("DELETE FROM producto_carro WHERE idProducto=? AND idCarro=?;",array($id,$this->id));
-					$descuento = 0;
-					$cur = $dbh->query("select p.nombre,p.precio-pc.precio as descuento from producto p left join precio_cliente pc on p.id=pc.idProducto where p.id=?;",array($id));
-					if( isset($cur[0]) ){
-						$descuento = $cur[0]['descuento'];
-					}
-					$cur = $dbh->query("INSERT INTO producto_carro(idProducto,idCarro,cantidad,descuento) VALUES(?,?,?,?);",array($id,$this->id,$quantity,$descuento));
-					$this->data['productos'][$id] = $quantity;
-					$totalItems = 0;
-					foreach( $this->data['productos'] as $prd=>$cant ){
-						$totalItems += (int)$cant;
-					}
-					$_SESSION['descuento'] = $totalItems<=18;
-				} else {
-					// original
-					$dbh->query("DELETE FROM producto_carro WHERE idProducto=? AND idCarro=?;",array($id,$this->id));
-					$dbh->query("INSERT INTO producto_carro(idProducto,idCarro,cantidad) VALUES(?,?,?);",array($id,$this->id,$quantity));
-					$this->data['productos'][$id] = $quantity;
-				}
+                $dbh->query("DELETE FROM producto_carro WHERE idProducto=? AND idCarro=?;",array($id,$this->id));
+                $dbh->query("INSERT INTO producto_carro(idProducto,idCarro,cantidad) VALUES(?,?,?);",array($id,$this->id,$quantity));
+                $this->data['productos'][$id] = $quantity;
 				return true;
 			}
 			return false;
@@ -280,27 +267,7 @@ class CartControl{
 				$natural = true;
 			}
 			$descuentos['visual']['naturales'][$id] = $desc;
-			$descuentos['practico']['naturales'][$id] = $desc;
-			if( isset($_SESSION['empleado']) && isset($_SESSION['descuento']) && $_SESSION['descuento'] ){
-				// es empleado
-				$empleado = true;
-				$q = (int)$obj->getTotalItems();
-				// para hacer el descuento, primero tenemos que saber si la cantidad d productos es 18 o mas.
-				// si son mas de 18, debemos considerar la diferencia entre el total de productos y la
-				// cantidad actual para hacer descuento a 18 productos.
-				if( $q>18 ){
-					$q = 18-(int)$cantidadEmpleado;
-					if( $q<0 ){
-						$q = 0;
-					}
-				}
-				if( $cantidadEmpleado<18 ){
-					$desc = ($obj->getPrice()-$obj->getPrice("Empleado"))*$q; // necesitamos el monto descontado, no es valor de venta.
-					$descuentos['visual']['empleado'][$id] = $desc;
-					$descuentos['practico']['empleado'][$id] = $desc;
-				}
-				$cantidadEmpleado += $q;
-			}
+			// $descuentos['practico']['naturales'][$id] = $desc;
 		}
 		// CUPONES Y GIFTCARDS
 		if( isset($_SESSION['cupones']) ){
@@ -414,100 +381,6 @@ class CartControl{
 			}
 		}
 		return $descuentoTotal;
-
-		// ANTIGUA IMPLEMENTACION; NO BORRAR SE ESTA PROBANDO NUEVAS OPCIONES QUE FUNCIONEN MEJOR.
-		/*
-		// precio empleado
-		$empleado = false;
-		$descuento = 0;
-		$descuentosEmpleado = array();
-		$cupones = array();
-		if( isset($_SESSION['empleado']) ){
-			$empleado = true;
-			$cur = $dbh->query("select * from producto_carro where idCarro=?;",array($this->id));
-			if( isset($cur[0]) ){
-				$cant = 0;
-				foreach( $cur as $prd ){
-					$q = (int)$prd['cantidad'];
-					if( $q>18 ){
-						$q = 18-(int)$cant;
-						if( $q<0 ){
-							$q = 0;
-						}
-					}
-					if( $cant<18 ){
-						$d = $prd['descuento']*$q;
-						$descuento += $d;
-						$descuentosEmpleado[$prd['idProducto']] = array("descuento" => $d, "cantidad" => $q);
-					}
-					$cant += $q;
-				}
-			}
-		}
-		// aplicar cupones
-		if( isset($_SESSION['cupones']) ){
-			$now = date("Y-m-d H:i:s");
-			foreach( $_SESSION['cupones'] as $key=>$value){
-				$cur = $dbh->query("SELECT * FROM cupon WHERE id=? AND '$now'<fechaFin and activo=1;",array($key));
-				if( isset($cur[0]) && is_array($cur[0]) ){
-					$cupon = $cur[0];
-					if( !empty($cupon['giftcard']) ){
-						$cur = $dbh->query("Select * from giftcard where id=?;",array($cupon['giftcard']));
-						if( isset($cur[0]) ){
-							$gc = $cur[0];
-							// $cupon['total'] = $descuento = (int)$gc['monto'];
-							$cupon['total'] = (int)$gc['monto'];
-							$descuento .= $cupon['total'];
-							echo $descuento;
-						}
-					} else {
-						$idCupon = $cur[0]['id'];
-						$scur = $dbh->query("SELECT * FROM cupon_producto WHERE idCupon=?;",array($idCupon));
-						$tmp = array();
-						if( !isset($scur[0]) || !is_array($scur[0]) ){
-							continue;
-						}
-						foreach( $scur as $prdDesc ){
-							$tmp[$prdDesc['idProducto']] = $prdDesc['descuento'];
-						}
-						foreach( $this->getProducts() as $k=>$v ){
-							$dcto = @$tmp[$v->getData()['id']];
-							$dcto = (int)$dcto;
-							if( $empleado ){
-								// DESCUENTO A PARTIR DEL PRECIO DE EMPLEADO
-								$pd = $v->getData();
-								$totalDcto = ($dcto/100)*$pd['precioReferencia']*$v->getTotalItems();
-								if( $totalDcto<$descuentosEmpleado[$pd['id']]['descuento'] ){
-									$totalDcto = $descuentosEmpleado[$pd['id']]['descuento'];
-								} else {
-									$descuento -= $descuentosEmpleado[$pd['id']]['descuento'];// $totalDcto;
-								}
-							} else {
-								// DESCUENTO A PARTIR DEL PRECIO DE REFERENCIA
-								$totalDcto = ($dcto/100)*$v->getData()['precioReferencia']*$v->getTotalItems();
-							}
-							// DEJAR EL MEJOR PRECIO PARA EL CLIENTE
-							$precRef = $v->getData()['precioReferencia']*$v->getTotalItems();
-							if( ($precRef-$totalDcto)<$v->getTotalPrice() ){
-								$descuento += $totalDcto;
-								$cupon['total'] = $totalDcto;
-							}
-						}
-					}
-					//print $descuento;exit;
-					$cupones[] = $cupon;
-				}
-			}
-			// exit;
-			$this->data["cupones"] = $cupones;
-		}
-		$this->data['descuento'] = $descuento;
-		$this->data['total'] = $this->data['total']-$descuento;
-		if( $this->data['total']<0 ){
-			$this->data['total'] = 0;
-			$this->data['warning'] = "Tiene excedente de descuento. Si no lo usa, ese monto se perder&aacute;. <a href='".url."' class='btn btn-simple'>Seguir Comprando</a>";
-		}
-		//*/
 	}
 }
 ?>

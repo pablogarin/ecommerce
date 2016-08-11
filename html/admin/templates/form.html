@@ -1,9 +1,12 @@
 <div id="{{ current }}-form" class="form">
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="action" value="{{ action }}">
         {% if data.id %}
         <input type="hidden" name="id" value="{{ data.id }}">
         {% endif %}
+        {% for name,value in hiddens %}
+        <input type="hidden" name="{{name}}" value="{{ value }}">
+        {% endfor %}
         <div class="row">
             <div class="col-md-3">
                 <h4>{% if nombre is not empty %}{{nombre|raw}}{% else %}{% if title is not empty %}{{ title }}{% else %}Nuevo{% endif %}{% endif %}</h4>
@@ -25,13 +28,16 @@
                     <div class="panel-heading"><h3 class="panel-title">General</h3></div>
                     <div class="panel-body">
                         {% for key,field in fields %}
-                        {% if field.type is empty and field.nombre != 'id' %}
+                        {% if ( field.type is empty and field.nombre != 'id' ) or field.type is empty or field.type == 'hidden' %}
                         <input type="hidden" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
                         {% else %}
                         <div class="form-group">
                             <label>{{ field.label|raw }}</label>
-                            {% if field.type == 'text' %}
+                            {% if field.type == 'text' or field.type == 'money' %}
                             <input type="text" class="form-control" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
+                            {% endif %}
+                            {% if field.type == 'date' %}
+                            <input type="date" class="form-control date" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
                             {% endif %}
                             {% if field.type == 'boolean' %}
                             <div class="radio">
@@ -55,7 +61,19 @@
                             </select>
                             {% endif %}
                             {% if field.type == 'file' %}
+                            <p>Archivo actual: <a href="{{ data[field.nombre] }}" target="_blank">{{ data[field.nombre] }}</a></p>
                             <input type="file" class="form-control" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
+                            {% endif %}
+                            {% if field.type == 'thumb' %}
+                            <a href="{{ data[field.nombre] }}" target="_blank"><img src="{{ data[field.nombre] }}" alt="{{ data[field.nombre] }}" height="80" /></a>
+                            <p class="p-{{ field.nombre }}">Foto: {{ data[field.nombre] }}</p>
+                            <input type="hidden" name="{{ field.nombre }}" value="{{ data[field.nombre] }}" >
+                            <input type="file" class="thumb-change" name="{{ field.nombre }}" value="{{ data[field.nombre] }}" onchange="changeFoto('{{ field.nombre }}');">
+                            <button 
+                                class="btn btn-thumb-change" 
+                                onclick="var inp = $('[name=\'{{ field.nombre }}\'][type=\'file\']'); inp.click(); return false;">
+                                Cambiar Foto
+                            </button>
                             {% endif %}
                             {% if field.type == 'ckeditor' %}
                             <textarea class="form-control ckeditor" name="{{ field.nombre }}">{{ data[field.nombre] }}</textarea>

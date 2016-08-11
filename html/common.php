@@ -25,6 +25,7 @@ ini_set('include_path', ini_get('include_path').PATH_SEPARATOR.$libs);
 
 define('PATH',$path);
 define('COOKIE_ID',md5($path));
+define('USER_COOKIE_ID',md5($path."user"));
 
 // INCLUDES
 include_once 'View.class.php';
@@ -33,4 +34,7 @@ include_once 'connect.php';
 include_once 'model.php';
 include_once 'functions.php';
 include_once 'CartControl.class.php';
+include_once 'OrdenCompra.class.php';
+include_once 'Controller.class.php';
+
 ?>

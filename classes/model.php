@@ -196,7 +196,7 @@ class query{
 			return $retval;
 		}
 	}
-	function byField($where,$exclude=null,$order=null){
+	function byField( $where, $exclude = null, $order = null, $limit = true ){
 		/* $where = array('nombreCampo'=>'valorCampo') */
 		$query = "SELECT * FROM ".$this->table;//." WHERE ";
 
@@ -247,8 +247,10 @@ class query{
 		if($order!=null){
 			$query.=" ORDER BY ".$order;
 		}
-		$query.=" LIMIT ?,?";
-		$values = array_merge($values,$paginationArray);
+        if( $limit ){
+            $query.=" LIMIT ?,?";
+            $values = array_merge($values,$paginationArray);
+        }
 		return $this->dbh->query($query,$values);
 	}
 	function setUpPagination($cond=null,$values=null){
@@ -316,6 +318,7 @@ class query{
 	}
 }
 /* MODELOS BASE DE DATOS */
+include_once 'Banner.model.php';
 include_once 'Blog.model.php';
 include_once 'Configuracion.model.php';
 include_once 'Categoria.model.php';

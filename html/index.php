@@ -261,16 +261,30 @@ switch( $page ){
             $resultado = $sale->acceptOrder();
         }
         if($resultado){
+            // La orden quedo aceptada
             $view->set("content", $sale->getSuccessView());
+            // el carro aun tiene los productos pq se creo antes del switch
+            $cart = new CartControl();
+            $view->set("CART",$cart->getSmallView());
         }
         break;
     case '':
     case null:
+        include_once "Banner.class.php";
         $view->set("title","Home");
-        $cur = $dbh->query("select * from banner;");
-        if( isset($cur[0]) ){
-            $view->set("banners",$cur);
+        $dbObj = new \Modelos\Banner($dbh);
+        $dbData = $dbObj->query->all();
+        $banners = array();
+        foreach( $dbData as $row ){
+            try {
+                $banner = new Banner($row['id']);
+                $banners[$banner->getID()] = $banner;
+            } catch( Exception $ex ){
+                echo $ex->getMessage();
+                exit;
+            }
         }
+        $view->set("banners",$banners);
         $cur = $dbh->query("Select * from producto;");
         if( isset($cur[0]) ){
             $view->set("productos",$cur);

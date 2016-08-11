@@ -1,12 +1,27 @@
-<div id="home" class="row">
-    {% for cat in categories %}
-    <div class="categoria-container col-md-4">
-        <a href="{{ cat.link }}">
-            <h3>{{ cat.nombre }}</h3>
-            <div  class="categoria-portada">
-                <img src="{{ cat.foto }}" />
+<div id="home">
+    <div id="banners" class="row"></div>
+        <div class="col-md-2">
+            {{ presentacion|raw }}
+        </div>
+        <div class="col-md-10">
+            <div id="slider-home">
+                {% for banner in banners %}
+                <div class="banner item">
+                    {{ banner.getView()|raw }}
+                </div>
+                {% endfor %}
             </div>
-        </a>
-    </div>
-    {% endfor %}
+        </div>
+    <div class="row">
+        {% for cat in categories %}
+        <div class="categoria-container col-md-4">
+            <a href="{{ cat.link }}">
+                <h3>{{ cat.nombre }}</h3>
+                <div  class="categoria-portada">
+                    <img src="{{ cat.foto }}" />
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div><!-- /.row -->
 </div>

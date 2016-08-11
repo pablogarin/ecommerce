@@ -271,7 +271,11 @@ class ProductoControl{
 	public function getDiscount(){
 		//TODO: obtener los descuentos o promociones del producto
 		//return floor((((float)$this->data['precioReferencia']*100.0)/(float)$this->data['precio'])-100)."% dcto.";
-		return 100-floor(((float)$this->getPrice()*100.0)/((float)$this->data['precioReferencia']))."%";
+        if( (int)$this->data['precioReferencia']>0 ){
+            return 100-floor(((float)$this->getPrice()*100.0)/((float)$this->data['precioReferencia']))."%";
+        } else {
+            return 0;
+        }
 	}
 	public function hasDiscount(){
 		if( $this->getPrice()<$this->data['precioReferencia'] ){

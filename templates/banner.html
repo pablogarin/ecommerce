@@ -1,0 +1,7 @@
+{% if url is not empty %}
+<a href="{{ url }}" alt="{{ nombre }}">
+    <img src="{{ imagen }}" alt="{{ nombre }}" />
+</a>
+{% else %}
+<img src="{{ imagen }}" alt="{{ nombre }}" />
+{% endif %}

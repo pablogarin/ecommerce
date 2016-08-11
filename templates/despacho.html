@@ -1,0 +1,37 @@
+<div id="despacho" class="container">
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <h3>Direcci&oacute;n de Env&iacute;o</h3>
+            <p>
+                Por favor, ingrese la direcci&oacute;n a la que desea enviar el producto.<br/>
+                <br/>
+                El env&iacute;o tiene un costo de ${{costoEnvio|number_format(0,',','.')}}<br/>
+                <br/>
+                Si desea coordinar el retiro, deje la direcci&oacute;n en blanco.
+            </p>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <form method="POST" name="identity-form" class="">
+                <div class="form-group">
+                    <input type="text" name="direccion" value="{{ direccion.direccion }}" class="form-control" placeholder="Direcci&oacute;n" />
+                </div>
+                <div class="form-group">
+                    {% set current = direccion.comuna %}
+                    <select name="comuna" class="form-control">
+                        <option value="0">Comuna</option>
+                        {% for zona in comunas%}
+                        <option value="{{ zona.id }}"{% if current==zona.id %} selected{% endif %}>{{ zona.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="fono" value="{{ direccion.fono }}" class="form-control" placeholder="Tel&eacute;fono" />
+                </div>
+                <div class="form-group text-right">
+                    <button type="submit" class="btn btn-success" name="grabar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div><!-- /.row -->
+</div>
+

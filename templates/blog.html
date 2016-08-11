@@ -1,0 +1,51 @@
+<div id="blog" class="row">
+    <div class="col-md-9">
+        {% if blogs %}
+        {% for blog in blogs %}
+        <div class="blog-entry">
+            <div class="blog-title"><a href="{{ blog.url }}">{{ blog.titulo }}</a></div>
+            <div class="fecha">{{ blog.fecha|localizeddate('long', 'none', 'es') }}</div>
+            <div class="blog-detail">
+                <div class="image">
+                    <img src="{{ blog.foto }}" alt="{{ blog.titulo }}" />
+                </div>
+                <div class="resumen">
+                    {{ blog.cuerpo|raw }}
+                    <a href="{{ blog.url }}" class="btn-seguir-leyendo">Seguir Leyendo</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="blog-entry detail">
+            <div class="blog-title"><h1>{{ titulo }}</h1></div>
+            <div class="fecha">{{ fecha|localizeddate('long','none','es') }}</div>
+            <div class="image-full">
+                <img src="{{ foto }}" alt="{{ titulo }}" width="100%" />
+            </div>
+            <div class="cuerpo">
+                {{ cuerpo|raw }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-md-3 text-center">
+        <h4>Art&iacute;culos Recientes</h4>
+        <hr class="blog-divider" />
+        <ul class="latest">
+            {% for blog in ultimos %}
+            <li class="latest-entry">
+                <a href="{{ blog.url }}">
+                    <div class="image">
+                        <img src="{{ blog.foto }}" alt="{{ blog.titulo }}" />
+                    </div>
+                    <div class="title">
+                        {{ blog.titulo|raw }}
+                        <div class="fecha">{{ blog.fecha|localizeddate('long', 'none', 'es')}}</div>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div><!-- /.row -->

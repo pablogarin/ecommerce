@@ -1,0 +1,15 @@
+<div class="product-title">
+    <a href="{{url}}">
+        <h2 class="nombre">{{ nombre }}</h2>
+    </a>
+</div>
+<div class="product-image">
+    <a href="{{url}}">
+        <img src="{{foto}}" alt="" title="" />
+    </a>
+</div>
+<div class="product-detail text-center">
+    {{ resumen | raw }}
+    <label class="precio">${{ precio|number_format(0, ',', '.') }}{% if offer is not empty %}<br/><small>(Antes: ${{ precioReferencia|number_format(0,',','.') }})</small>{% endif %}</label>
+    <button class="btn-actions btn-cart-add" data-rel="{{ id }}">AGREGAR AL CARRO</button>
+</div>

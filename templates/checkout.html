@@ -1,0 +1,22 @@
+<div class="checkout-container">
+    <div id="steps-checkout" class="row">
+        <ul class="steps">
+            <li{% if current=='identificacion' %} class="active"{% endif %}><span class="step-number">1</span><span class="desc"> Identificaci&oacute;n</span></li>
+            <li{% if current=='despacho' %} class="active"{% endif %}><span class="step-number">2</span><span class="desc"> Env&iacute;o</span></li>
+            <li{% if current=='confirmar-orden' %} class="active"{% endif %}><span class="step-number">3</span><span class="desc"> Confirmar Orden</span></li>
+        </ul>
+    </div>
+    {{ content|raw }}
+    <div id="actions-checkout" class="row">
+        <a id="prev" href="{{ back }}" class="btn btn-link seguir-comprando"><i class="fa fa-arrow-left"></i> Volver</a>
+        {% if not next %}
+        <span class="alert alert-warning pull-right">{{ status_message }}</span>
+        {% elseif next == 'finalizar'%}
+        <form id="confirmar" method="POST" action="/comprar">
+            <button id="next" class="btn btn-pagar btn-success" name="orden" value="{{idOrden}}">{{ nextMessage }} <i class="fa fa-arrow-right"></i></button>
+        </form>
+        {% else %}
+        <a id="next" href="{{ next }}" class="btn btn-pagar btn-success">{{ nextMessage }} <i class="fa fa-arrow-right"></i></a>
+        {% endif %}
+    </div>
+</div>

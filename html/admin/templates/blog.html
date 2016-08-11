@@ -1,0 +1,90 @@
+<div id="blog-form" class="form">
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="{{ action }}">
+        {% if data.id %}
+        <input type="hidden" name="id" value="{{ data.id }}">
+        {% endif %}
+        {% for name,value in hiddens %}
+        <input type="hidden" name="{{name}}" value="{{ value }}">
+        {% endfor %}
+        <div class="row">
+            <div id="form-main" class="col-md-9">
+                <div class="toolbox">
+                    <div class="toolbox-title">
+                        <strong class="lead"><i class="fa fa-pencil-square"></i> {% if data['titulo'] %}Editar{% else %}Nuevo{% endif %}</strong>
+                    </div>
+                    <div class="toolbox-actions">
+                        <a href="{{ back }}" class="btn btn-danger">Volver</a>
+                        <button type="submit" name="grabar" class="btn btn-success">Grabar</button>
+                    </div>
+                </div>
+                <div class="blog-entry">
+                    {% for key,field in fields %}
+                    {% if ( field.type is empty and field.nombre != 'id' ) or field.type is empty or field.type == 'hidden' %}
+                    <input type="hidden" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
+                    {% else %}
+                    <div class="form-group">
+                        {% if field.type == 'text' or field.type == 'money' %}
+                        <input type="text" class="form-control" name="{{ field.nombre }}" value="{{ data[field.nombre] }}" placeholder="{{ field.label|raw }}">
+                        {% endif %}
+                        {% if field.type == 'date' %}
+                        <input type="date" class="form-control date" name="{{ field.nombre }}" value="{{ data[field.nombre] }}" placeholder="{{ field.label|raw }}">
+                        {% endif %}
+                        {% if field.type == 'boolean' %}
+                        <label>{{ field.label }}</label>
+                        <div class="radio">
+                            <label class="radio-inline"><input type="radio" name="{{ field.nombre }}" value="1"{% if data[field.nombre]=='1' %} checked{% endif %}> Si</label>
+                            <label class="radio-inline"><input type="radio" name="{{ field.nombre }}" value="0"{% if data[field.nombre]!='1' %} checked{% endif %}> No</label>
+                        </div>
+                        {% endif %}
+                        {% if field.type == 'select' %}
+                        <select class="form-control" name="{{ field.nombre }}">
+                            {% for val,label in field.data %}
+                            <option value="{{ val }}"{% if data[field.nombre]==val %} selected="selected"{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                        {% if field.type == 'multiselect' %}
+                        {% set selected = (data[key]|keys) %}
+                        <select class="form-control" name="{{ field.nombre }}" multiple>
+                            {% for val,label in field.data %}
+                            <option value="{{ val }}"{% if val in selected %} selected="selected"{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                        {% if field.type == 'file' %}
+                        <p>Archivo actual: <a href="{{ data[field.nombre] }}" target="_blank">{{ data[field.nombre] }}</a></p>
+                        <input type="file" class="form-control" name="{{ field.nombre }}" value="{{ data[field.nombre] }}">
+                        {% endif %}
+                        {% if field.type == 'thumb' %}
+                        <div class="thumb-wysiwyg">
+                            <a class="thumb-container" href="{{ data[field.nombre] }}" target="_blank">
+                                <img src="{{ data[field.nombre] }}" alt="{{ data[field.nombre] }}" />
+                            </a>
+                            <div class="thumb-controls">
+                                <input type="hidden" name="{{ field.nombre }}" value="{{ data[field.nombre] }}" >
+                                <input type="file" class="thumb-change" name="{{ field.nombre }}" value="{{ data[field.nombre] }}" accept="image/*">
+                                <button 
+                                    class="btn btn-thumb-change" 
+                                    onclick="var inp = $('[name=\'{{ field.nombre }}\'][type=\'file\']'); inp.click(); return false;">
+                                    Cambiar Foto
+                                </button>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if field.type == 'ckeditor' %}
+                        <textarea class="form-control ckeditor" name="{{ field.nombre }}">
+                            {% if data[field.nombre] is empty %}{{ field.label|raw }}{% else %}{{ data[field.nombre] }}{% endif %}
+                        </textarea>
+                        {% endif %}
+                        {% if field.type == 'text' or field.type == 'date' or field.type == 'ckeditor' %}<i class="fa fa-pencil pull-right edit-indicator"></i>{% endif %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div><!-- /.row -->
+    </form>
+</div>

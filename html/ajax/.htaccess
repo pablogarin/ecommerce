@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteBase /ajax/
+
+RewriteRule service service.php [QSA,L]

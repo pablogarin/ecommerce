@@ -1,0 +1,13 @@
+<div id="categoria">
+    <div class="row">
+    {% for producto in productos %}
+        <div class="producto-tile col-sm-12 col-md-3 col-lg-3">
+        {{ producto.getTileView() | raw }}
+        </div>
+        {% if loop.index%4==0 %}
+    </div><!-- /.row -->
+    <div class="row">
+        {% endif %}
+    {% endfor %}
+    </div><!-- /.row -->
+</div><!-- /#categoria -->

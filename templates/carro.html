@@ -1,0 +1,73 @@
+<div id="carro" class="checkout">
+    <div class="row title">
+        <h3>Mi Carro de Compras</h3>
+    </div><!-- /.row -->
+    <div class="row">
+        <table class="table table-bordered table-stripped">
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+            {% if productos is empty %}
+            <tr>
+                <td colspan="5" class="text-center"><h3>No hay productos en el carro</h3></td>
+            </tr>
+            {% else %}
+            {% for producto in productos %}
+            <tr>
+                <td class="producto">
+                    <div class="img-container">
+                        <img src="{{ producto.data.foto }}" alt="Foto">
+                    </div>
+                    <div class="details">
+                        <span class="nombre">{{ producto.data.nombre }}</span>
+                        <span class="sku">SKU: {{ producto.data.SKU }}</span>
+                    </div>
+                </td>
+                <td class="cantidad">
+                    <input type="text" value="{{ producto.getTotalItems() }}">
+                    <span class="control-cantidad">
+                        <a href="#" class="up" data-rel="{{ producto.data.id }}"></a>
+                        <a href="#" class="down" data-rel="{{ producto.data.id }}"></a>
+                    </span>
+                </td>
+                <td class="total">
+                    ${{ producto.getTotalPrice()|number_format(0,',','.') }}
+                </td>
+                <td class="action">
+                    <a href="#" class="btn btn-danger btn-remove-prd" data-rel="{{ producto.data.id }}"><i class="fa fa-times"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </table>
+    </div><!-- /.row -->
+    <div id="cart-footer" class="row">
+        <div class="col-md-6 col-sm-12">
+            {% if showCupones %}
+            <p class="gc-label">&iquest;Tienes un c&oacute;digo de descuento? <span class="revor">Agr&eacute;galo aqu&iacute;</span></p>
+            <input id="giftcard" type="text">
+            <button class="btn btn-info check-giftcard">Aplicar</button>
+            {% endif %}
+        </div>
+        <div class="col-md-6 col-sm-12 text-right">
+            <p class="bottom-cart-total">
+                <span class="detail">Subtotal:<span class="ammount">$ {{ totalBruto|number_format(0,',','.') }}</span></span>
+                {% if descuentos %}
+                <span class="detail">Dcto C&oacute;digo:<span class="ammount">$ {{ descuentos|number_format(0,',','.') }}</span></span>
+                {% endif %}
+                <span class="divider"></span>
+                <span class="detail total">Total:<span class="ammount">$ {{ total|number_format(0,',','.') }}</span></span>
+            </p>
+        </div>
+        <div class="col-md-12 text-right">
+            {% if warning is not empty %}
+            <div class="lert alert-warning text-center">{{warning|raw}}</div>
+            {% endif %}
+            <a href="/" class="btn btn-link seguir-comprando">&gt; Agregar m&aacute;s productos al carro</a>
+            <a class="btn btn-pagar" href="/identificacion">Completar Compra</a>
+        </div>
+    </div>
+</div><!-- /.container -->

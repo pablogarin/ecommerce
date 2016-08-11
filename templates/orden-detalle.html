@@ -1,0 +1,66 @@
+<div id="confirmar" class="checkout">
+    <div class="row title">
+        <h3>Confirmar Compra</h3>
+    </div><!-- /.row -->
+    <div class="row">
+        <table class="table table-bordered table-stripped">
+            <tr>
+                <th>Cliente</th>
+                <th>E-Mail</th>
+                <th>Tel&eacute;fono</th>
+                <th>Despacho</th>
+            </tr>
+            <tr>
+                <td>{{cliente.nombre|raw}} {{cliente.apellido|raw}}</td>
+                <td>{{cliente.correo}}</td>
+                <td>{{cliente.fono}}</td>
+                <td>No</td>
+            </tr>
+        </table>
+    </div><!-- /.row -->
+    <div class="row">
+        <table class="table table-bordered table-stripped">
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+            {% if productos is empty %}
+            <tr>
+                <td colspan="5" class="text-center"><h3>No hay productos en el carro</h3></td>
+            </tr>
+            {% else %}
+            {% for producto in productos %}
+            <tr>
+                <td class="producto">
+                    <div class="img-container">
+                        <img src="{{ producto.data.foto }}" alt="Foto">
+                    </div>
+                    <div class="details">
+                        <span class="nombre">{{ producto.data.nombre }}</span>
+                        <span class="sku">SKU: {{ producto.data.SKU }}</span>
+                    </div>
+                </td>
+                <td class="cantidad">
+                    {{ producto.getTotalItems() }}
+                </td>
+                <td class="total">
+                    ${{ producto.getTotalPrice()|number_format(0,',','.') }}
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+            <tr>
+                <td colspan="2">Subtotal:</td><td>$ {{ totalBruto|number_format(0,',','.') }}</td>
+            </tr>
+            {% if descuentos %}
+            <tr>
+                <td colspan="2">Dcto C&oacute;digo:</td><td>$ {{ descuentos|number_format(0,',','.') }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td colspan="2">Total:</td><td>$ {{ total|number_format(0,',','.') }}</td>
+            </tr>
+        </table>
+    </div><!-- /.row -->
+</div><!-- /.container -->

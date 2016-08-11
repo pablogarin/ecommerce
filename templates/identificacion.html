@@ -1,0 +1,35 @@
+<div id="identificacion" class="container">
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <h3>Identificaci&oacute;n</h3>
+            <p>
+                Por favor, ingrese sus datos personales. Recuerde ingresar datos de contacto v&aacute;lidos para coordinar la entrega de su compra.<br/>
+                <br/>
+                Si lo desea, podemos recordar sus datos para facilitar futuras compras.
+            </p>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <form method="POST" name="identity-form" class="">
+                {% if error is not empty %}
+                <div class="alert alert-danger">{{ error|raw }}</div>
+                {% endif %}
+                <div class="form-group">
+                    <input type="text" name="correo" value="{{ user.correo }}" class="form-control" placeholder="E-Mail *" />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="nombre" value="{{ user.nombre }}" class="form-control" placeholder="Nombres *" />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="apellido" value="{{ user.apellido }}" class="form-control" placeholder="Apellidos *" />
+                </div>
+                <div class="form-group">
+                    <input type="text" name="fono" value="{{ user.fono }}" class="form-control" placeholder="Tel&eacute;fono *" />
+                </div>
+                <div class="form-group text-left">
+                    <input type="checkbox" name="remember" id="recordar" {% if remember %} checked{% endif %}/><label for="recordar"><span></span> Recordarme</label>
+                    <button type="submit" class="btn btn-success pull-right" name="grabar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div><!-- /.row -->
+</div>

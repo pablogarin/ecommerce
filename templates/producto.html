@@ -1,0 +1,24 @@
+<div id="ficha-producto" class="row text-center">
+    <div class="descripcion col-md-3">
+        <h2 class="titulo">{{ nombre }}</h2>
+        <p class="stock">{{ stock }} disponibles</p>
+        <div class="resumen">{{ resumen | raw }}</div>
+        <h5 class="titulo-descripcion">DESCRIPCION</h5>
+        {{ descripcion|raw }}
+    </div>
+    <div class="image-container col-md-6">
+        <img class="product-image" src="{{ foto }}" alt="{{ nombre }}" title="{{ nombre }}" />
+        <span><i class="fa fa-search"></i></span>
+    </div>
+    <div class="botones col-md-3 text-left">
+        <div class="panel">
+            <h3 class="precio">${{ precio | number_format(0, ',', '.') }}</h3>
+            <p class="sku">SKU: {{ SKU }}</p>
+            <h5></h5>
+            <div class="agregar-group">
+                <input type="text" id="cantidad" value="1" />
+                <button class="btn-actions btn-add-cart" data-rel="{{id}}">AGREGAR AL CARRO</button>
+            </div>
+        </div>
+    </div>
+</div><!-- /.row -->

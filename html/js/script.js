@@ -42,6 +42,10 @@
             }
         });
     });
+    $("body").on("submit", "form[name='despacho-form']", function(e){
+        e.preventDefault();
+
+    });
     $("body").on("click", ".btn-actions", function(e){
         var id = $(this).attr("data-rel");
         var q = $("#cantidad").val();

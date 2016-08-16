@@ -56,8 +56,8 @@
                             {% for i, ban in banners %}
                             <tr>
                                 <td><img src="{{ banners[i].imagen }}" alt="Banner {{ i + 1 }}" height="80" data-rel="{{i}}"></td>
-                                <td><input type="text" name="banner[{{i}}][nombre]" value="{{ banners[i].nombre }}"></td>
-                                <td><input type="text" name="banner[{{i}}][url]" value="{{ banners[i].url }}"></td>
+                                <td><input type="text" name="banner[{{i}}][nombre]" value="{{ banners[i].nombre }}" class="form-control"></td>
+                                <td><input type="text" name="banner[{{i}}][url]" value="{{ banners[i].url }}" class="form-control"></td>
                                 <td>
                                     {% if banners[i].id is not empty %}
                                     <input type="hidden" name="banner[{{i}}][id]" value="{{ banners[i].id }}" />

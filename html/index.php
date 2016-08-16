@@ -213,8 +213,44 @@ switch( $page ){
             exit;
         }
         $cur = $dbh->query("SELECT * FROM zona WHERE padre=313;");
+        $comunas = array();
         if( !empty($cur) && isset($cur[0]) ){
             $view->set("comunas", $cur);
+            foreach( $cur as $row ){
+                $comunas[$row['id']] = $row['nombre'];
+            }
+        }
+        if( isset($_POST['grabar']) ){
+            if( !empty($_POST['direccion']) && !empty($_POST['comuna']) && !empty($_POST['fono']) ){
+                if( isset($_SESSION['cliente']) ){
+                    $id = $_SESSION['cliente'];
+                } else {
+                    $id = $_COOKIE[USER_COOKIE_ID];
+                }
+                $cliente = $dbh->query("SELECT * FROM cliente WHERE id=?;",array($id));
+                $cliente = $cliente[0];
+                $direccion = array(
+                    "nombre" => $_POST['direccion'].", ".$comunas[$_POST['comuna']],
+                    "receptorNombre" => $cliente['nombre'],
+                    "receptorApellido" => $cliente['apellido'],
+                    "idCliente" => $cliente['id'],
+                    "direccion" => $_POST["direccion"],
+                    "fono"      => $_POST["fono"],
+                    "comuna"    => $_POST["comuna"]
+                );
+                $view->set("direccion", $direccion);
+                $ins = $dbh->query("INSERT INTO direccion(nombre, receptorNombre, receptorApellido, idCliente, direccion, fono, idZona) VALUES(?,?,?,?,?,?,?);", array_values($direccion));
+                $_SESSION['direccion'] = $ins;
+            } else {
+                $view->set("direccion", $_POST);
+                $view->set("error", "Si desea ingresar una direcci&oacute;n debe llenar todos los campos.");
+            }
+        }
+        if( isset($_SESSION['direccion']) ){
+            $id = $_SESSION['direccion'];
+            $cur = $dbh->query("SELECT * FROM costo_despacho WHERE idZona=(SELECT idZona FROM direccion WHERE id=?);",array($id));
+            $costo = $cur[0]['costo'];
+            $view->set("costoEnvio", $costo);
         }
         $checkout = true;
         $view->setTemplate("despacho.html");

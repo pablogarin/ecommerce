@@ -1292,6 +1292,35 @@ input[type="checkbox"]:checked + label span {
         padding-left: 15px;
         padding-right: 15px;
     }
+    .producto-tile {
+        border-bottom: 1px solid rgba(0,0,0,0.5);
+        margin-bottom: 24px;
+    }
+    #main-container .btn-actions {
+        opacity: 1 !important;
+    }
+    #slider-home {
+    }
+    #slider-home .banner.item img{
+        width: auto !important;
+        min-width: 100% !important;
+        height: 100% !important;
+        min-height: unset !important;
+    }
+    .slick-arrow::before {
+        color: rgba(0,0,0,0) !important;
+    }
+    .slick-arrow {
+        position: absolute;
+        z-index: 1001;
+        font-size: 20px;
+    }
+    .slick-arrow.slick-next {
+        right: 0px;
+    }
+    .slick-arrow.slick-prev {
+        left: 0px;
+    }
 }
 
 /* Responsive: Portrait tablets and up */

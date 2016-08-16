@@ -2,7 +2,11 @@
 include_once 'common.php';
 if( isset($_FILES['upload']) ){
     $response = array();
-    $fileName = date("YmdHis")."-".$_FILES['upload']['name'];
+    $name = $_FILES['upload']['name'];
+    $tmp = split("\.", $name);
+    $ext = $tmp[count($tmp)-1];
+    $name = preg_replace("/\.$ext$/", "", $name);
+    $fileName = date("YmdHis")."-".url_slug($name).".$ext";
     $filepath = PATH."/html/assets/".$fileName;
     if( move_uploaded_file($_FILES['upload']['tmp_name'],$filepath) ){
         $response['uploaded'] = 1;

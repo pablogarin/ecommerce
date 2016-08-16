@@ -1,0 +1,18 @@
+<div id="compra-fallida">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-md-offset-2">
+            <h2>La compra no se pudo finalizar!</h2>
+            <div class="alert alert-danger row">
+                <div class="col-md-1" style="font-size: 40px;">
+                    <i class="fa fa-info-circle"></i>
+                </div>
+                <div class="col-md-11" style="padding-top: 10px;">
+                    <strong>Ocurri&oacute; el siguiente error al tratar de finalizar la compra:</strong>
+                    <br/>
+                    <p>{{ errorCompra|raw }}</p>
+                </div>
+            </div>
+            <a href="/carro" title="Volver al Carro" class="btn btn-success">Volver al Carro</a>
+        </div>
+    </div><!-- /.row -->
+</div>

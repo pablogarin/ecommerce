@@ -24,6 +24,8 @@
     <link href="/libs/jquery-ui-1.11.4.custom/jquery-ui.theme.css" rel="stylesheet">
     <link href="/libs/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700' rel='stylesheet' type='text/css'>
+    <link href="/js/slick/slick.css" rel="stylesheet" type="text/css">
+    <link href="/js/slick/slick-theme.css" rel="stylesheet" type="text/css">
     <link href="/admin/css/style.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
@@ -43,9 +45,11 @@
   <body>
 
     <nav class="navbar navbar-fixed-top">
+      <!--
       <div id="over-nav">
           <h2>Panel de Administrador</h2>
       </div>
+      -->
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -84,6 +88,15 @@
         {{ CONTENT|raw }}
       </div>
     </div>
+    <div id="loading" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p class="message">Cargando&hellip;</p>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -100,7 +113,8 @@
     <script type="text/javascript" src="/admin/js/spin.min.js"></script>
     <!-- Custom Script -->
     <script src="/admin/js/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script src="/admin/js/chartjs/Chart.min.js" type="text/javascript"></script>
+    <script src="/admin/js/Chart.bundle.min.js" type="text/javascript"></script>
+    <script src="/js/slick/slick.js" type="text/javascript"></script>
     <script src="/admin/js/script.js" type="text/javascript"></script>
   </body>
 </html>

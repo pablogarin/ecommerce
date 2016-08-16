@@ -1,4 +1,93 @@
 <?php
+if( isset($_GET['json']) ){
+    $data = array(
+        "fechas" => array(),
+        "ingresadas" => array(),
+        "aceptadas" => array(),
+        "finalizadas" => array()
+    );
+    $fechas = array();
+    $ingresadas = array();
+    $aceptadas = array();
+    $finalizadas = array();
+    $cur = $dbh->query($q = "SELECT idEstado, COUNT(*) as cantidad,DATE(fecha) as d FROM venta WHERE idEstado in (1,4,5) AND DATE(fecha) > DATE_SUB(NOW(), INTERVAL 8 DAY) GROUP BY idEstado, DATE(fecha);");
+    if( !empty($cur) && isset($cur[0]) ){
+        foreach( $cur as $row ){
+            $fechas[$row['d']] = $row['d'];
+            switch( $row['idEstado'] ){
+                case '1':
+                    $ingresadas[$row['d']] = $row['cantidad'];
+                    break;
+                case '4':
+                case '5':
+                    if( $row['idEstado']=='5' ){
+                        $finalizadas[$row['d']] = (int)$row['cantidad'];
+                    }
+                    if( isset($aceptadas[$row['d']]) ){
+                        $aceptadas[$row['d']] += (int)$row['cantidad'];
+                    } else {
+                        $aceptadas[$row['d']] = (int)$row['cantidad'];
+                    }
+                    break;
+            }
+        }
+        foreach( $fechas as $d ){
+            if( !isset($ingresadas[$d]) ){
+                $ingresadas[$d] = 0;
+            }
+            if( !isset($aceptadas[$d]) ){
+                $aceptadas[$d] = 0;
+            }
+            if( !isset($finalizadas[$d]) ){
+                $finalizadas[$d] = 0;
+            }
+        }
+        sort($fechas);
+        ksort($ingresadas);
+        ksort($aceptadas);
+        ksort($finalizadas);
+        $data = array(
+            "fechas" => array_values($fechas),
+            "ingresadas" => array_values($ingresadas),
+            "aceptadas" => array_values($aceptadas),
+            "finalizadas" => array_values($finalizadas)
+        );
+    }
+    $cur = $dbh->query("select idProducto, sum(cantidad) as productos from venta_detalle where idVenta in (select id from venta where idEstado in (4,5)) group by idProducto order by productos desc;");
+    $q = 0;
+    $productos = array();
+    $cantidades = array();
+    if( !empty($cur) && isset($cur[0]) ){
+        foreach( $cur as $row ){
+            $obj = new ProductoControl($row['idProducto']);
+            $objData = $obj->getData();
+            $productos[] = $objData['nombre']." (SKU: ".$objData['SKU'].")";
+            $cantidades[] = $row['productos'];
+            $q++;
+            if( $q == 5 ){
+                break;
+            }
+        }
+    }
+    $data['productosMasVendidos'] = $productos;
+    $data['productosCantidades'] = $cantidades;
+
+    header("Content-type: application/json; charset=utf-8");
+    print "var data = ".json_encode($data);
+    exit;
+}
+$cur = $dbh->query("select sum(total) as totalVentas from venta where idEstado in (5);");
+if( !empty($cur) && isset($cur[0]) ){
+    $view->set("totalVentas", $cur[0]['totalVentas']);
+}
+$cur = $dbh->query("select count(1) as ventasPendientes from venta where idEstado in (4);");
+if( !empty($cur) && isset($cur[0]) ){
+    $view->set("ventasPendientes", $cur[0]['ventasPendientes']);
+}
+$cur = $dbh->query("select count(1) as clientes from cliente;");
+if( !empty($cur) && isset($cur[0]) ){
+    $view->set("totalClientes", $cur[0]['clientes']);
+}
 $template = "dashboard.html";
 
 $view->setTemplate($template);

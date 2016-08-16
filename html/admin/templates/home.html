@@ -1,18 +1,84 @@
-<div id="home-form" class="row">
-    <div class="col-md-12">
-        <form method="POST">
-            <div class="toolbox">
-                <div class="toolbox-title">
-                    <strong class="lead">HOME</strong>
-                </div>
-                <div class="toolbox-actions">
-                    <a href="{{ back }}" class="btn btn-danger">Volver</a>
-                    <button type="submit" name="grabar" class="btn btn-success">Grabar</button>
+<div id="home-form">
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="toolbox">
+                    <div class="toolbox-title">
+                        <strong class="lead">HOME</strong>
+                    </div>
+                    <div class="toolbox-actions">
+                        <a href="{{ back }}" class="btn btn-danger">Volver</a>
+                        <button type="submit" name="grabar" class="btn btn-success">Grabar</button>
+                    </div>
                 </div>
             </div>
-            <textarea class="ckeditor" name="home">
-                {{ homeLayout }}
-            </textarea>
-        </form>
-    </div>
+        </div><!-- /.row -->
+        <div class="row">
+            <div class="col-md-4">
+                <textarea class="ckeditor inline" name="home">
+                    {{ homeLayout }}
+                </textarea>
+            </div>
+            <div id="banners-container" class="col-md-8">
+                <a href="#edit-banners" class="btn-add"><i class="fa fa-pencil"></i></a>
+                <div id="slider-home">
+                {% for banner in banners %}
+                    {% if banner.imagen is not empty %}
+                    <div class="banner item">
+                    {% if banner.url is not empty %}
+                    <a href="{{ banner.url }}" target="_blank">
+                        <img src="{{ banner.imagen }}" alt="{{ banner.nombre }}">
+                    </a>
+                    {% else %}
+                    <img src="{{ banner.imagen }}" alt="{{ banner.nombre }}">
+                    {% endif %}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+        </div><!-- /.row -->
+        <div id="banners" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Banners del Home</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-stripped table-bordered">
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Texto</th>
+                                <th>URL</th>
+                                <th>Subir</th>
+                            </tr>
+                            {% for i, ban in banners %}
+                            <tr>
+                                <td><img src="{{ banners[i].imagen }}" alt="Banner {{ i + 1 }}" height="80" data-rel="{{i}}"></td>
+                                <td><input type="text" name="banner[{{i}}][nombre]" value="{{ banners[i].nombre }}"></td>
+                                <td><input type="text" name="banner[{{i}}][url]" value="{{ banners[i].url }}"></td>
+                                <td>
+                                    {% if banners[i].id is not empty %}
+                                    <input type="hidden" name="banner[{{i}}][id]" value="{{ banners[i].id }}" />
+                                    <input type="hidden" name="banner[{{i}}][imagen]" value="">
+                                    {% else %}
+                                    <input type="hidden" name="banner[{{i}}][imagen]" value="{{ banners[i].imagen }}">
+                                    {% endif %}
+                                    <input type="file" name="upload[{{i}}]" class="hidden">
+                                    <button type="button" class="btn btn-success upload-image" data-rel="{{i}}"><i class="fa fa-upload"></i></button>
+                                    <button type="button" class="btn btn-danger delete-image" data-rel="{{i}}"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="grabar-banners" name="grabar-banners" value="1">Grabar Cambios</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </form>
 </div>

@@ -1,6 +1,13 @@
 <?php
 
 use Modelos\Producto as Producto;
+if( isset($_REQUEST['foto']) ){
+    $file = $_REQUEST['foto'];
+    if( file_exists(PATH."/html/assets/tmp/$file") ){
+        rename(PATH."/html/assets/tmp/$file", PATH."/html/assets/$file");
+        $_POST['foto'] = $_REQUEST['foto'] = $_GET['foto'] = "/assets/$file";
+    }
+}
 
 $Model = new Producto($dbh);
 $view->set("title", "Productos");

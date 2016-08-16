@@ -73,7 +73,7 @@
                         </div>
                         {% endif %}
                         {% if field.type == 'ckeditor' %}
-                        <textarea class="form-control ckeditor" name="{{ field.nombre }}">
+                        <textarea class="form-control ckeditor inline" name="{{ field.nombre }}">
                             {% if data[field.nombre] is empty %}{{ field.label|raw }}{% else %}{{ data[field.nombre] }}{% endif %}
                         </textarea>
                         {% endif %}

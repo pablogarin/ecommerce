@@ -291,7 +291,7 @@ class ProductoControl{
 		global $dbh;
 		$stock = ((int)$this->data['stock'])-((int)$quantity);
 		$res = $dbh->query("UPDATE producto SET stock=? WHERE id=?;",array($stock,$this->id));
-		if( !empty($dbh->dbh->errorInfo()[2]) ){
+		if( !empty($dbh->errorInfo()[2]) ){
 			return false;
 		}
 		return true;

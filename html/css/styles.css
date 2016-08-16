@@ -53,7 +53,13 @@ body {
 }
 
 /* Customize the nav-justified links to be fill the entire space of the .navbar */
-
+.navbar-collapse {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.navbar-toggle .icon-bar {
+    background-color: rgb(97, 6, 19);
+}
 .nav-justified {
     margin:0 auto;
     max-width: 1050px;
@@ -316,6 +322,114 @@ body {
 }
 #main-container #home {
     margin-top: 24px;
+}
+#main-container #home .banner.item > a,
+#main-container #home .banner.item {
+    display: inline-block;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+}
+#main-container #home .banner.item > a > img,
+#main-container #home .banner.item > img {
+    width: auto;
+    min-width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.slick-arrow::before {
+    color: #333 !important;
+}
+#main-container #home .banner.item > a > img.horizontal,
+#main-container #home .banner.item > img.horizontal {
+    width: 100%;
+    min-height: 100%;
+    height: auto;
+}
+#main-container #home #blog-preview {
+    border-radius: 5px;
+    border: 1px solid rgba(97,6,19,0.4);
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 12px;
+    margin: 24px auto;
+    position: relative;
+}
+#main-container #home #blog-preview > div {
+    display: inline-block;
+}
+#main-container #home #blog-preview .blog-image-cont {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    position: relative;
+}
+#main-container #home #blog-preview .blog-image-cont img {
+    height: 100%;
+    min-width: 100%;
+    width: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#main-container #home #blog-preview .blog-description {
+    position: absolute;
+    left: 120px;
+    right: 20px;
+    top: 10px;
+    bottom: 10px;
+    overflow: hidden;
+}
+#main-container #home #blog-preview a {
+    color: rgb(71,6,19);
+}
+#main-container #home #blog-preview .blog-description small {
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    font-size: 10px;
+    font-weight: bolder;
+    color: #000;
+}
+#main-container #home #blog-preview .blog-go {
+    position: absolute;
+    right: 0px;
+    height: 100%;
+    padding: 10px;
+    top: 0px;
+    clear:both;
+}
+#main-container #home #blog-preview .blog-go a {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 10px;
+    background-color: rgba(97, 6, 19, 0.8);
+    height: 100px;
+    width: 100px;
+    padding: 5px;
+    text-align: center;
+    color: rgba(255,255,255, 0.8);
+    font-weight: bolder;
+    font-size: 18px;
+    position: relative;
+    top: 50%;
+    transform: translate(0%, -50%);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+#main-container #home #blog-preview .blog-go a:hover {
+    background-color: rgba(97, 6, 19, 0.95);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.4);
+}
+#main-container #home #blog-preview .blog-go a::after {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    content: " ";
 }
 #main-container #home .categoria-container {
     text-align: center;
@@ -833,9 +947,14 @@ body {
     transform: translate(-50%, -50%);
 }
 #blog .blog-entry .blog-detail .image img.vertical {
+    /*
     height: 100%;
     min-width: 100%;
     width: auto;
+    */
+    height: auto;
+    min-height: 100%;
+    width: 100%;
 }
 #blog .blog-entry .blog-detail .image img.horizontal {
     width: 100%;
@@ -999,6 +1118,9 @@ input[type='checkbox'] + label span {
 input[type="checkbox"]:checked + label span {
     background-position: -1px -28px;
 }
+.nav-justified > li.dropdown , #bazar-dropdown{
+    transition: all 0.3s ease;
+}
 @media (max-width: 993px) {
     #cart-container #cart {
         right: -55px;
@@ -1007,6 +1129,9 @@ input[type="checkbox"]:checked + label span {
 @media (min-width: 768px) {
     .nav-justified {
         max-height: 52px;
+    }
+    .nav-justified > li {
+        float: none;
     }
     .nav-justified > li > a {
     }
@@ -1018,6 +1143,154 @@ input[type="checkbox"]:checked + label span {
     }
     #main-container #carro #cart-footer .bottom-cart-total > span {
         padding-left: 50%;
+    }
+    .navbar-header #cart-container {
+        display: none;
+    }
+}
+@media (max-width: 767px) {
+    .logo-container img {
+        height: 80px;
+        width: auto;
+        max-width: unset;
+        max-height: unset;
+    }
+    #texto p{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    #footer {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+    }
+    #cart-container {
+        display: block;
+        position: absolute;
+        top: 108px;
+    }
+    #cart-container.fixed-cart {
+        left: -1px;
+    }
+    .nav #cart-container {
+        display: none !important;
+    }
+    #cart-container #cart {
+        width: 100%;
+        left:-15px;
+    }
+    #cart-container.fixed-cart #cart {
+        position: fixed;
+        left: 0px;
+        right: 0px;
+        top: 60px;
+    }
+    #cart-container #cart #small-cart::after, #cart-container #cart #small-cart::before {
+        left: 25px;
+    }
+    .navbar-toggle .icon-bar {
+        transition: all 0.3s ease;
+    }
+    .navbar-toggle .icon-bar.top {
+        transform: rotate(45deg) !important;
+        transform-origin: 5px 0 0;
+    }
+    .navbar-toggle .icon-bar.mid {
+        opacity: 0;
+    }
+    .navbar-toggle .icon-bar.bot {
+        transform: rotate(-45deg) !important;
+        transform-origin: 0 0 0;
+    }
+    .navbar-toggle.collapsed .icon-bar {
+        transform: rotate(0deg) !important;
+        translate-origin: 0 0;
+        opacity: 1 !important;
+    }
+    .navbar-toggle .icon-bar.collapsed {
+    }
+    .nav .dropdown .dropdown-menu li {
+        text-align: center;
+    }
+    #main-container .producto-tile .product-image img {
+        min-width: unset;
+    }
+    .blog-entry .blog-detail > * {
+        display: block;
+        width: 100% !important;
+        position: relative !important;
+    }
+    .blog-entry .blog-detail a {
+        display: block;
+        position: relative !important;
+        margin-top: 10px;
+        text-align: center;
+    }
+    #main-container #home #blog-preview .blog-description small {
+        display: none;
+    }
+    #main-container #carro .table .cantidad .control-cantidad {
+        display: block;
+        position: relative;
+        width: 40px;
+        padding: 0;
+        margin: 0 auto;
+        text-align: center;
+        top:0;
+    }
+    #main-container #carro .table .cantidad .control-cantidad a {
+    }
+    #main-container #carro .table .cantidad .control-cantidad a.up {
+        position: absolute;
+        border-width: 20px;
+        top:-56px;
+    }
+    #main-container #carro .table .cantidad .control-cantidad a.down {
+        position: absolute;
+        border-width: 20px;
+        top: -2px;
+    }
+    #main-container #carro #cart-footer .seguir-comprando {
+        display: block;
+        position: absolute;
+        right: 0px;
+        top: 60px;
+    }
+    .checkout-container #actions-checkout #prev {
+        left: 15px !important;
+    }
+    .checkout-container #actions-checkout #next {
+        right: 15px !important;
+    }
+    #main-container #carro #cart-footer .btn-pagar {
+        display: block;
+        margin-top: 20px;
+    }
+    #main-container #confirmar .table .producto span, #main-container #carro .table .producto span {
+        height: auto !important;
+        line-height: 1.4 !important;
+    }
+    #main-container #confirmar .table .producto span::before, #main-container #carro .table .producto span::before {
+        height: auto;
+    }
+    #main-container #confirmar .table .producto .sku, #main-container #carro .table .producto .sku {
+        display: none;
+    }
+    #compra-exitosa .cliente tr ,
+    #confirmar .cliente tr {
+        position: relative;
+    }
+    #compra-exitosa .cliente th ,
+    #confirmar .cliente th {
+        display: none;
+    }
+    #compra-exitosa .cliente td ,
+    #confirmar .cliente td {
+        display: block;
+    }
+    #compra-exitosa {
+        padding-left: 15px;
+        padding-right: 15px;
     }
 }
 

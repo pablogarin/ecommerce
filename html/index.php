@@ -29,6 +29,9 @@ $cur = $dbh->query("SELECT * FROM texto;");
 $textos = array();
 if( isset($cur[0]) ){
     foreach( $cur as $row ){
+        if( (int)$row['id']==-1 ){
+            $view->set("presentacion", $row['cuerpo']);
+        }
         $textos[$row['llave']] = $row;
     }
 }
@@ -138,9 +141,6 @@ switch( $page ){
         $view->set("content", $content);
         break;
     case 'bazar':
-        $ctrl = new \Controllers\Bazar();
-        $bazar = $ctrl->getView();
-        $view->set("BAZAR", $bazar);
         $view->set("title","Bazar");
         $template = "bazar.html";
         break;
@@ -161,8 +161,10 @@ switch( $page ){
             if( isset($clienteArray) ){
                 $view->set("user", $clienteArray);
             }
-            if( $clienteArray['remember']=='on' ){
+            if( isset($clienteArray['remember']) && $clienteArray['remember']=='on' ){
                 $view->set("remember", true);
+            } else {
+                $view->set("remember", false);
             }
             if( !isset($cliente) ){
                 $cur = $dbh->query("SELECT * FROM cliente WHERE correo=?;", array($clienteArray['correo']) );
@@ -266,6 +268,10 @@ switch( $page ){
             // el carro aun tiene los productos pq se creo antes del switch
             $cart = new CartControl();
             $view->set("CART",$cart->getSmallView());
+        } else {
+            $view->setTemplate("compra-fallida.html");
+            $view->set("errorCompra", $sale->getError());
+            $view->set("content", $view->getView());
         }
         break;
     case '':
@@ -285,9 +291,11 @@ switch( $page ){
             }
         }
         $view->set("banners",$banners);
-        $cur = $dbh->query("Select * from producto;");
+        $cur = $dbh->query("SELECT * FROM blog WHERE fecha=(SELECT MAX(fecha) FROM blog);");
         if( isset($cur[0]) ){
-            $view->set("productos",$cur);
+            $cur[0]['url'] = "/blog/".$cur[0]['id']."/".url_slug($cur[0]['titulo']);
+            $cur[0]['cuerpo'] = substr(strip_tags($cur[0]['cuerpo'],'<p><br>') ,0, 200)."...";
+            $view->set("blog",$cur[0]);
         }
         $template = "home.html";
         break;

@@ -5,7 +5,7 @@
             <p>
                 Por favor, ingrese la direcci&oacute;n a la que desea enviar el producto.<br/>
                 <br/>
-                El env&iacute;o tiene un costo de ${{costoEnvio|number_format(0,',','.')}}<br/>
+                El env&iacute;o tiene un costo de <span id="valor-despacho">${{costoEnvio|number_format(0,',','.')}}</span><br/>
                 <br/>
                 Si desea coordinar el retiro, deje la direcci&oacute;n en blanco.
             </p>
@@ -17,7 +17,7 @@
                 </div>
                 <div class="form-group">
                     {% set current = direccion.comuna %}
-                    <select name="comuna" class="form-control">
+                    <select id="select-comuna" name="comuna" class="form-control">
                         <option value="0">Comuna</option>
                         {% for zona in comunas%}
                         <option value="{{ zona.id }}"{% if current==zona.id %} selected{% endif %}>{{ zona.nombre }}</option>

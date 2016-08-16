@@ -42,6 +42,17 @@ if( isset($_REQUEST['action']) ){
             }
         }
         break;
+    case 'costo-comuna':
+        if( isset($_REQUEST['zona']) ){
+            $zona = $_REQUEST['zona'];
+            $cur = $dbh->query("SELECT * FROM costo_despacho WHERE idZona=?;", array($zona));
+            if( isset($cur[0]) ){
+                print json_encode(array("ok" => true, "costo" => $cur[0]['costo']));
+            } else {
+                print json_encode(array("ok" => false, "message" => "La comuna seleccionada no está habilitada para el despacho"));
+            }
+        }
+        break;
     }
 }
 

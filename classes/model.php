@@ -9,6 +9,8 @@ abstract class Model extends stdClass{
 	protected $foreignFields;
 	protected $idField;
 	protected $isNew;
+    protected static $filter = false;
+    protected static $filterArray;
 
 	public $query;
 
@@ -19,7 +21,7 @@ abstract class Model extends stdClass{
 	*	- $table = String con el nombre de la tabla.
 	*/	
 	function __construct($dbh, $table){
-		$this->query = new query($dbh,$table);
+		$this->query = new query($dbh,$table,$this);
 		$this->table = $table;
 		$this->dbh = $dbh;
 		$validState = $this->validateStrings();
@@ -154,27 +156,66 @@ abstract class Model extends stdClass{
             $this->foreignFields = array();
         return $this->foreignFields;
     }
+    public static function setFilter($fields, $values)
+    {
+        self::$filter = true;
+        self::$filterArray = array("fields" => $fields, "values" => $values);
+    }
+    public static function getFilter()
+    {
+        if( self::$filter ){
+            return self::$filterArray;
+        }
+        return false;
+    }
 	// metodos abstractos
 	abstract function setValidFields();
 	abstract function setForeign($elements);
 }
 class query{
-	protected $table;
+	protected $table, $dbh, $model;
 
-	function __construct($dbh,$table){
+	function __construct($dbh,$table,$model=false){
 		$this->table = $table;
 		$this->dbh = $dbh;
+        if( $model!==false ){
+            $this->model = $model;
+        }
 	}
 	function all( $order = null ){
+        $query = "SELECT * FROM " . $this->table;
 		if( isset($_REQUEST['excel']) ){
-            $retval = $this->dbh->query($q = "SELECT * FROM " . $this->table . "");
+            //$retval = $this->dbh->query($q = "SELECT * FROM " . $this->table . "");
+            $retval = $this->dbh->query($query);
 		} else {
+            $where = false;
+            $data = null;
+            if( isset($this->model) ){
+                $filters = $this->model->getFilter();
+                if( $filters !== false && is_array($filters) ){
+                    $where = " WHERE ";
+                    $tmp = array();
+                    foreach( $filters['fields'] as $name ){
+                        foreach( $filters['values'] as $values ){
+                            $tmp[] = "$name like ?";
+                            $data[] = "%$values%";
+                        }
+                    }
+                    $where .= join(" OR ", $tmp);
+                }
+            }
+            if( $where!==false ){
+                $query .= $where;
+            }
 			$paginationArray = $this->setUpPagination();
             if( $order == null ){
-                $retval = $this->dbh->query( ("SELECT * FROM " . $this->table . " limit " . join(',',$paginationArray) . ";" ) );
+                $query .= " limit " . join(',',$paginationArray) . ";";
             } else {
-                $retval = $this->dbh->query( ("SELECT * FROM " . $this->table . " ORDER BY ".$order." LIMIT " . join(',',$paginationArray) . ";" ) );
+                $query .= " ORDER BY ".$order." LIMIT " . join(',',$paginationArray) . ";";
             }
+            //print_r($data);
+            //exit($query);
+            $retval = $this->dbh->query($query, $data);
 		}
 		if(isset($_REQUEST['debug'])){
 			print_r($this->dbh->errorInfo());exit;
@@ -327,5 +368,6 @@ include_once 'CostoDespacho.model.php';
 include_once 'Producto.model.php';
 include_once 'ProductoCategoria.model.php';
 include_once 'Texto.model.php';
+include_once 'Venta.model.php';
 
 ?>

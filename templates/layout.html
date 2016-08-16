@@ -10,6 +10,8 @@
         <!-- Bootstrap -->
         <link href="{{url}}/css/bootstrap.min.css" rel="stylesheet">
         <link href="{{url}}/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/js/slick/slick.css" rel="stylesheet" type="text/css" />
+        <link href="/js/slick/slick-theme.css" rel="stylesheet" type="text/css" />
         <link href="{{url}}/css/styles.css" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700' rel='stylesheet' type='text/css'>
 
@@ -29,26 +31,39 @@
                     </a>
                 </div>
                 <nav>
-                    <ul class="nav nav-justified">
-                        <li{% if current is empty %} class="active"{% endif %}><a href="{{ url }}">Home</a></li>
-                        <li{% if current=='quienes-somos' %} class="active"{% endif %}><a href="{{ url }}/quienes-somos">&iquest;Qui&eacute;nes Somos?</a></li>
-                        <li class="dropdown{% if current=='bazar' %} active{% endif %}">
-                            <a href="bazar" class="dropdown-toggle" data-toggle="dropdown">Bazar</a>
-                            <ul id="bazar-dropdown" class="dropdown-menu">
-                            {% for cat in categories %}
-                                <li{% if submenuCurrent==cat.link %} class="active"{% endif %}><a href="/{{ cat.link }}">{{ cat.nombre }}</a></li>
-                            {% endfor %}
-                            </ul>
-                        </li>
-                        <li{% if current=='como-comprar' %} class="active"{% endif %}><a href="{{ url }}/como-comprar">&iquest;C&oacute;mo Comprar?</a></li>
-                        <li{% if current=='blog' %} class="active"{% endif %}><a href="{{ url }}/blog">Blog</a></li>
-                        <li{% if current=='contacto' %} class="active"{% endif %}><a href="{{ url }}/contacto">Contacto</a></li>
-                        <li>
-                            <div id="cart-container">
-                            {{ CART|raw }}
-                            </div>
-                        </li>
-                    </ul>
+                    <div class="navbar-header">
+                        <div id="cart-container" class="responsive">
+                        {{ CART|raw }}
+                        </div>
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar top"></span>
+                            <span class="icon-bar mid"></span>
+                            <span class="icon-bar bot"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav nav-justified">
+                            <li{% if current is empty %} class="active"{% endif %}><a href="{{ url }}">Home</a></li>
+                            <li{% if current=='quienes-somos' %} class="active"{% endif %}><a href="{{ url }}/quienes-somos">&iquest;Qui&eacute;nes Somos?</a></li>
+                            <li class="dropdown{% if current=='bazar' %} active{% endif %}">
+                                <a href="bazar" class="dropdown-toggle" data-toggle="dropdown">Bazar</a>
+                                <ul id="bazar-dropdown" class="dropdown-menu">
+                                {% for cat in categories %}
+                                    <li{% if submenuCurrent==cat.link %} class="active"{% endif %}><a href="/{{ cat.link }}">{{ cat.nombre }}</a></li>
+                                {% endfor %}
+                                </ul>
+                            </li>
+                            <li{% if current=='como-comprar' %} class="active"{% endif %}><a href="{{ url }}/como-comprar">&iquest;C&oacute;mo Comprar?</a></li>
+                            <li{% if current=='blog' %} class="active"{% endif %}><a href="{{ url }}/blog">Blog</a></li>
+                            <li{% if current=='contacto' %} class="active"{% endif %}><a href="{{ url }}/contacto">Contacto</a></li>
+                            <li>
+                                <div id="cart-container">
+                                {{ CART|raw }}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </nav>
             </div><!-- /.masthead -->
             {% if crumbs is not empty %}
@@ -79,8 +94,9 @@
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="{{url}}/js/bootstrap.min.js"></script>
-        <script src="/js/zoom-master/jquery.zoom.min.js"></script>
+        <script src="{{url}}/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/zoom-master/jquery.zoom.min.js" type="text/javascript"></script>
+        <script src="/js/slick/slick.js" type="text/javascript"></script>
         <!-- Custom JS -->
         <script src="{{url}}/js/script.js" type="text/javascript"></script>
     </body>

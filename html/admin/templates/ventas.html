@@ -1,0 +1,70 @@
+<div id="lista" class="container">
+    <div class="row title">
+        <h3>Ventas</h3>
+    </div><!-- /.row.title -->
+    <form method="POST" class="form-inline">
+        <!--
+        <div class="toolbox">
+                <div class="actions">
+                    <button class="btn btn-success" name="action" value="new">Nuevo</button>
+                    <button class="btn btn-danger" name="action" value="del">Eliminar</button>
+                </div>
+                <div class="filter">
+                    Ordenar por 
+                    <select name="orden">
+                        <option>--Seleccione--</option>
+                        <option value="nombre">Nombre</option>
+                        <option value="orden">Orden</option>
+                    </select>
+                </div>
+        </div>
+        -->
+        <div class="toolbox">
+            <div class="form-group">
+                <label>Buscar</label>
+                <input type="text" name="q" value="{{ query }}" class="form-control"  placeholder="N&uacute;mero o Correo"/>
+            </div>
+            <button type="submit" class="btn btn-info form-control" title="Buscar" data-toggle="tooltip"><i class="fa fa-search"></i></button>
+            <a href="?excel" class="btn btn-success pull-right" title="Descargar ventas en Excel" data-toggle="tooltip"><i class="fa fa-file-excel-o"></i></a>
+        </div>
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th></th>
+                {% for name,col in cols %}
+                <th>{{ (fields[col]).label | raw }}</th>
+                {% endfor %}
+                <th></th>
+            </tr>
+            {% for row in data %}
+            <tr>
+                <td class="text-center"><input type="checkbox" id="id-{{ row.id }}" name="id" value="{{ row.id }}"><label for="id-{{ row.id }}"><span></span></label></th>
+                {% for name,col in cols %}
+                <td>
+                {% set type = (fields[col]).type %}
+                {% set colData = (fields[col]).data %}
+                {% if type=='money' %}
+                    ${{ row[col] | number_format(0,',','.') }}
+                {% elseif type=='thumb'  %}
+                    <div class="thumb-container">
+                        <img src="{{row[col]}}" alt="Thumb">
+                    </div>
+                {% elseif type=='label'  %}
+                    <span class="label {{colData[row[col]]}}">{{ row[col] | raw }}</span>
+                {% else %}
+                    {{ row[col] | raw }}
+                {% endif %}
+                </td>
+                {% endfor %}
+                <td><button type="submit" name="action" value="edit" onclick="$('#id-{{ row.id }}').attr('checked', true);" class="btn btn-default">Ver Detalle</button></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="col-md-12 text-center">
+            <ul class="pagination">
+                {% for page in pages %}
+                <li{% if page.current %} class="active"{% endif %}><a href="?pagina={{page.value}}">{{page.value}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </form>
+</div>

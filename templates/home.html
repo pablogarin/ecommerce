@@ -1,9 +1,9 @@
 <div id="home">
-    <div id="banners" class="row"></div>
-        <div class="col-md-2">
+    <div class="row">
+        <div class="col-md-4">
             {{ presentacion|raw }}
         </div>
-        <div class="col-md-10">
+        <div class="col-md-8">
             <div id="slider-home">
                 {% for banner in banners %}
                 <div class="banner item">
@@ -12,6 +12,29 @@
                 {% endfor %}
             </div>
         </div>
+    </div><!-- /.row -->
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Visita Nuestro <a href="/blog">Blog</a></h3>
+            <div id="blog-preview">
+                <a href="{{ blog.url }}">
+                    <div class="blog-image-cont">
+                        <img src="{{ blog.foto }}" title="{{ blog.titulo }}">
+                    </div>
+                    <div class="blog-description">
+                        <h4>{{ blog.titulo }}</h4>
+                        <small>{{ blog.fecha|localizeddate('long', 'none', 'es') }}</small>
+                        {{ blog.cuerpo|raw }}
+                    </div>
+                </a>
+                <!--
+                <div class="blog-go">
+                    <a href="/blog" class="btn">Ir al Blog</a>
+                </div>
+                -->
+            </div>
+        </div>
+    </div><!-- /.row -->
     <div class="row">
         {% for cat in categories %}
         <div class="categoria-container col-md-4">

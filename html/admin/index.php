@@ -38,6 +38,9 @@ switch( $current ){
     case 'dashboard':
         include_once 'dashboard.php';
         break;
+    case 'pedidos':
+        include_once 'pedidos.php';
+        break;
     case 'costos-despacho':
         include_once 'costo_despacho.php';
         break;
@@ -140,6 +143,67 @@ if( isset($Model) ){
             $Model->order = null;
         }
         $data = $Model->query->all($Model->order);
+
+        if( isset($_REQUEST['excel']) ){
+            $excel = array();
+            $header = array();
+            $columns = $Model->getValidFields();
+            foreach( $columns as $k=>$v ){
+                if( $v['type'] == 'boolean' ){
+                    if( $data!=null && is_array($data) ){
+                        foreach( $data as $id=>$row ){
+                            $data[$id][$v['nombre']] = $row[$v['nombre']] == '1' ? 'Si' : 'No'; // expresiones booleanas en espaN?ol;
+                        }
+                    }
+                }
+                /*
+                if( isset($v['label']) ){
+                    $excel[0][] = $v['nombre'];
+                    $header[] = html_entity_decode($v['label']);
+                }
+                **/
+                //*
+                if( !in_array($v['type'],array('hidden','index')) ){
+                    $excel[0][] = $v['nombre'];
+                    $header[] = html_entity_decode($v['label']);
+                }
+                //*/
+            }
+            foreach( $data as $k=>$v ){
+                $line = array();
+                foreach( $excel[0] as $name ){
+                    $line[] = $v[$name];
+                }
+                $excel[] = $line;
+            }
+            $excel[0] = $header;
+            date_default_timezone_set('Chile/Continental');
+            require_once('../libs/PHPExcel/PHPExcel.php');
+
+            $doc = new PHPExcel();
+            $doc->setActiveSheetIndex(0);
+
+            $doc->getActiveSheet()->fromArray($excel, null, 'A1');
+            $lastCol = $doc->getActiveSheet()->getHighestColumn();
+            foreach( range('A',$lastCol) as $col ){
+                $doc->getActiveSheet()->getColumnDimension($col)
+                    ->setAutoSize(true);  // ajustamos el ancho de las columnas automaticamente
+            }
+            $doc->getActiveSheet()->calculateColumnWidths();
+            $doc->getActiveSheet()->freezePane('A2'); // dejamos fija la primera columna del excel
+            $doc->getActiveSheet()->getStyle("A1:".$lastCol."1")->getFont()->setBold(true);
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="Ventas.xls"');
+            header('Cache-Control: max-age=0');
+
+            // Do your stuff here
+            $writer = PHPExcel_IOFactory::createWriter($doc, 'Excel5');
+
+            $writer->save('php://output');
+            exit;
+        }// fin Excel
+
         foreach( $data as $key => $value ){
             if( (int)$value['id']<0 ){
                 unset($data[$key]);

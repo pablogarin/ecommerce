@@ -18,7 +18,7 @@ CREATE TABLE venta(
 );
 */
 class OrdenCompra{
-	private $id, $data, $nuevo, $fields;
+	private $id, $data, $nuevo, $fields, $error;
 	public function __construct($id=null,$strict=true){
 		$this->fields = array(
 			'numero',
@@ -371,27 +371,45 @@ class OrdenCompra{
 		}
 		return $retval;
 	}
+    public function setError($string = "Error en la venta")
+    {
+        if( gettype($string) !== 'string' ){
+            $this->setError("Se trato de ingresar un error en un formato invalido.\nREF:".__FILE__);
+        }
+        $this->error = $string;
+    }
+    public function getError()
+    {
+        return $this->error;
+    }
 	public function acceptOrder(){
 		include_once 'CartControl.class.php';
 		global $dbh;
 		$retval = true;
+        if( !$this->checkStock() ){
+            $this->setError("No hay suficientes productos en Stock para finalizar la compra");
+            return false;
+        }
 		//*
-		$this->set("idEstado",4);
-		if( $this->syncToDB() ){
-			// $this->sendMail('aceptada');
-            /*
-			$this->checkAndCreateGiftcards();
-			$this->consumeGiftcards();
+        if( $this->dropStock() ){
+            $this->set("idEstado",4);
+            if( $this->syncToDB() ){
+                // $this->sendMail('aceptada');
+                /*
+                $this->checkAndCreateGiftcards();
+                $this->consumeGiftcards();
+                //*/
+                unset($_SESSION['orden']);
+                $idCarro = $this->data['idCarro'];
+                $cart = new CartControl($idCarro);
+                $cart->destroy();
+                // descontar stock de productos.
+            } else {
+                error_log("Orden no aceptada. errorInfo = ".print_r($dbh->dbh->errorInfo(),1));
+                $retval = false;
+            }
             //*/
-			unset($_SESSION['orden']);
-			$idCarro = $this->data['idCarro'];
-			$cart = new CartControl($idCarro);
-			$cart->destroy();
-		} else {
-			error_log("Orden no aceptada. errorInfo = ".print_r($dbh->dbh->errorInfo(),1));
-			$retval = false;
-		}
-		//*/
+        }
 
 		return $retval;
 	}

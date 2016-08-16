@@ -46,5 +46,12 @@
             </tr>
             {% endfor %}
         </table>
+        <div class="col-md-12 text-center">
+            <ul class="pagination">
+                {% for page in pages %}
+                <li{% if page.current %} class="active"{% endif %}><a href="?pagina={{page.value}}">{{page.value}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
     </form>
 </div>

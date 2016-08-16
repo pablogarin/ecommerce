@@ -66,12 +66,11 @@
                             {% endif %}
                             {% if field.type == 'thumb' %}
                             <a href="{{ data[field.nombre] }}" target="_blank"><img src="{{ data[field.nombre] }}" alt="{{ data[field.nombre] }}" height="80" /></a>
-                            <p class="p-{{ field.nombre }}">Foto: {{ data[field.nombre] }}</p>
                             <input type="hidden" name="{{ field.nombre }}" value="{{ data[field.nombre] }}" >
-                            <input type="file" class="thumb-change" name="{{ field.nombre }}" value="{{ data[field.nombre] }}" onchange="changeFoto('{{ field.nombre }}');">
+                            <input type="file" class="thumb-change" name="upload-{{ field.nombre }}" value="{{ data[field.nombre] }}" onchange="changeFoto(this,'{{field.nombre}}');">
                             <button 
                                 class="btn btn-thumb-change" 
-                                onclick="var inp = $('[name=\'{{ field.nombre }}\'][type=\'file\']'); inp.click(); return false;">
+                                onclick="var inp = $('[name=\'upload-{{ field.nombre }}\'][type=\'file\']'); inp.click(); return false;">
                                 Cambiar Foto
                             </button>
                             {% endif %}

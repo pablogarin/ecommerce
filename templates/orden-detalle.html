@@ -14,7 +14,7 @@
                 <td>{{cliente.nombre|raw}} {{cliente.apellido|raw}}</td>
                 <td>{{cliente.correo}}</td>
                 <td>{{cliente.fono}}</td>
-                <td>No</td>
+                <td>{% if direccion is not empty %}{{ direccion.nombre }}{% else %}No{% endif %}</td>
             </tr>
         </table>
     </div><!-- /.row -->
@@ -58,8 +58,13 @@
                 <td colspan="2">Dcto C&oacute;digo:</td><td>$ {{ descuentos|number_format(0,',','.') }}</td>
             </tr>
             {% endif %}
+            {% if direccion is not empty %}
             <tr>
-                <td colspan="2">Total:</td><td>$ {{ total|number_format(0,',','.') }}</td>
+                <td colspan="2">Costo Env&iacute;o:</td><td>$ {{ costoDespacho|number_format(0,',','.') }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td colspan="2">Total:</td><td>$ {{ (total+costoDespacho)|number_format(0,',','.') }}</td>
             </tr>
         </table>
     </div><!-- /.row -->

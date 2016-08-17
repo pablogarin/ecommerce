@@ -58,12 +58,12 @@ class Venta extends Model{
 			"costoDespacho" => array(
 				"nombre"=>"costoDespacho",
                 "label"=>"Costo Despacho",
-                "type"=>"text",
+                "type"=>"money",
 				"null" => true
 			),
 			"total" => array(
 				"nombre"=>"total",
-                "label"=>"Total",
+                "label"=>"Total Bruto",
                 "type"=>"money",
 				"null" => true
 			),

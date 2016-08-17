@@ -87,6 +87,14 @@ img {
     right: 12px;
     top: 7px;
 }
+/*
+ * #lista table.table th, 
+ */
+#lista table.table td {
+    vertical-align: middle;
+    text-align: center;
+    font-size: 16px;
+}
 #lista .thumb-container {
     width: 80px;
     height: 80px;

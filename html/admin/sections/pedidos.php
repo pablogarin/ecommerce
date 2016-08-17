@@ -43,6 +43,7 @@ if( isset($_REQUEST['excel']) ){
     $data = $Model->query->all();
     $tmp = array();
     foreach( $data as $k=>$v ){
+        $v['total'] = (float)$v["total"]+(float)$v["costoDespacho"];
         $estado = $dbh->query("SELECT * FROM estado WHERE id=?;",array($v['idEstado']));
         foreach( $estado as $row ){
             $v['idEstado'] = $row['descripcion'];
@@ -136,6 +137,10 @@ if( isset($_REQUEST['id']) ){
     foreach( $cur as $row ){
         $modelData['cliente'] = $row;
     }
+    $cur = $dbh->query("SELECT * FROM direccion WHERE id=?;",array($modelData['idDireccion']));
+    foreach( $cur as $row ){
+        $modelData['direccion'] = $row;
+    }
     if( (int)$modelData['idEstado']==4 ){
         $view->set("pagar", true);
     }
@@ -153,6 +158,7 @@ $cols = array(
     "numero",
     "idCliente",
     "fecha",
+    "costoDespacho",
     "total",
     "idEstado"
 );

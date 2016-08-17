@@ -248,9 +248,11 @@ switch( $page ){
         }
         if( isset($_SESSION['direccion']) ){
             $id = $_SESSION['direccion'];
-            $cur = $dbh->query("SELECT * FROM costo_despacho WHERE idZona=(SELECT idZona FROM direccion WHERE id=?);",array($id));
+            $cur = $dbh->query("SELECT * FROM direccion d LEFT JOIN costo_despacho cd ON d.idZona=cd.idZona WHERE d.id=?;",array($id));
             $costo = $cur[0]['costo'];
+            $cur[0]['comuna'] = $cur[0]["idZona"];
             $view->set("costoEnvio", $costo);
+            $view->set("direccion", $cur[0]);
         }
         $checkout = true;
         $view->setTemplate("despacho.html");
@@ -275,6 +277,15 @@ switch( $page ){
             $sale = new OrdenCompra($ID);
         }
         $sale->setFromCart($cart);
+        if( isset($_SESSION['direccion']) ){
+            $id = $_SESSION['direccion'];
+            $cur = $dbh->query("SELECT * FROM direccion d LEFT JOIN costo_despacho cd ON d.idZona=cd.idZona WHERE d.id=?;",array($id));
+            $costo = $cur[0]['costo'];
+            $sale->set("idDireccion", $id);
+            $sale->set("costoDespacho",(float)$costo);
+            $sale->syncToDB();
+            $view->set("direccion", $cur[0]);
+        }
         $checkout = true;
         $back = "/despacho";
         $next = "finalizar";
@@ -300,6 +311,9 @@ switch( $page ){
         }
         if($resultado){
             // La orden quedo aceptada
+            if( isset($_SESSION["direccion"]) ){
+                unset($_SESSION["direccion"]);
+            }
             $view->set("content", $sale->getSuccessView());
             // el carro aun tiene los productos pq se creo antes del switch
             $cart = new CartControl();

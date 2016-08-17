@@ -15,7 +15,7 @@
                 <td>{{ cliente.nombre }} {{ cliente.apellido }}</td>
                 <td>{{ cliente.correo }}</td>
                 <td>{{ cliente.fono }}</td>
-                <td>No</td>
+                <td>{% if direccion is not empty %}{{direccion.nombre}}{% else %}No{% endif %}</td>
             </tr>
         </table>
     </div><!-- /.row -->
@@ -50,8 +50,12 @@
             {% endfor %}
             {% endif %}
             <tr>
+                <td colspan="2">Costo Env&iacute;o</td>
+                <td><span class="total">${{ costoDespacho|number_format(0,',','.') }}</span></td>
+            </tr>
+            <tr>
                 <td colspan="2"><p class="lead">TOTAL<p></td>
-                <td><span class="total">${{ total|number_format(0,',','.') }}</span></td>
+                <td><span class="total">${{ (total+costoDespacho)|number_format(0,',','.') }}</span></td>
             </tr>
         </table>
     </div>

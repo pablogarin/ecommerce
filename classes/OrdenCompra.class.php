@@ -75,18 +75,12 @@ class OrdenCompra{
             /* CLIENTE */
             $cur = $dbh->query("SELECT * FROM cliente WHERE id=?;",array($this->data['idCliente']));
             $this->data['cliente'] = $cur[0];
-            
-            /* DIRECCION */
-            include_once('DireccionControl.class.php');
-            if( isset($this->data['idDireccion']) && !empty($this->data['idDireccion']) ){
-                $this->data['direccion'] = new DireccionControl($this->data['idDireccion']);
-                /*
-                $curUser = $_COOKIE[USER_COOKIE_ID];
-                if( (int)$this->data['idCliente']==(int)$curUser ){
-                    include_once('inc/classes/DireccionControl.class.php');
-                    $this->data['direccion'] = new DireccionControl($this->data['idDireccion']);
+
+            if( !empty($this->data['idDireccion']) ){
+                $cur = $dbh->query("SELECT * FROM direccion WHERE id=?;", array($this->data['idDireccion']));
+                if( isset($cur[0]) ){
+                    $this->data['direccion'] = $cur[0];
                 }
-                //*/
             }
             
             /* ESTADO */

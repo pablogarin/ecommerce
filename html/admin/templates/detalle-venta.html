@@ -27,8 +27,12 @@
                         <td>{{ data.fecha }}</td>
                     </tr>
                     <tr>
+                        <th>Costo Despacho</th>
+                        <td>${{ data.costoDespacho|number_format(0,',','.') }}</td>
+                    </tr>
+                    <tr>
                         <th>Total</th>
-                        <td>${{ data.total|number_format(0,',','.') }}</td>
+                        <td>${{ (data.total+data.costoDespacho)|number_format(0,',','.') }}</td>
                     </tr>
                     <tr>
                         <th>Estado</th>
@@ -56,6 +60,10 @@
                     <tr>
                         <th>Correo</th>
                         <td>{{ (data.cliente).correo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Despacho</th>
+                        <td>{% if data.direccion is not empty %}{{ (data.direccion).nombre }}{% else %}No{% endif %}</td>
                     </tr>
                     <tr>
                         <th>Tel&eacute;fono</th>

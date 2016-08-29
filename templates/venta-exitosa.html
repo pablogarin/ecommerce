@@ -1,6 +1,30 @@
 <div id="compra-exitosa" class="checkout">
     <div class="row title">
         <h1>&iexclCOMPRA EXITOSA!</h1>
+        <p>
+        Recuerde que para completar su compra debe realizar una transferencia o deposito a la siguiente cuenta:<br/>
+        </p>
+        <table class="datos-pago">
+            <tr>
+                <th>Titular</th><td>: {{ datosBancoTitular.valor }}</td>
+            </tr>
+            <tr>
+                <th>RUT</th><td>: {{ datosBancoRUTTitular.valor }}</td>
+            </tr>
+            <tr>
+                <th>Banco</th><td>: {{ datosBancoNombre.valor }}</td>
+            </tr>
+            <tr>
+                <th>Cuenta</th><td>: {{ datosBancoTipo.valor }}</td>
+            </tr>
+            <tr>
+                <th>Numero</th><td>: {{ datosBancoNumero.valor }}</td>
+            </tr>
+        </table>
+        <p>
+        <br/>
+        Una vez que tenga el comprobante, debe enviarlo como archivo adjunto al correo <b>{{ cuentaCorreo.valor }}</b>, indicando en el asunto <b>&quot;N&uacute;mero de Orden {{ numero }}&quot;</b>.
+        </p>
     </div>
     <div class="row">
         <h3>Datos del Cliente</h3>

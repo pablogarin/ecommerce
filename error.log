@@ -2328,3 +2328,13 @@
 [Wed Aug 17 00:28:48 2016] [error] [client 201.241.64.151] File does not exist: /var/www/preciada.pablogarin.cl/html/assets/favicon.png
 [Wed Aug 17 00:29:22 2016] [error] [client 201.241.64.151] File does not exist: /var/www/preciada.pablogarin.cl/html/assets/favicon.png
 [Wed Aug 17 00:32:25 2016] [error] [client 179.4.53.175] File does not exist: /var/www/preciada.pablogarin.cl/html/assets/favicon.png, referer: http://preciada.pablogarin.cl/
+[Wed Aug 17 23:00:33 2016] [error] [client 186.67.134.66] File does not exist: /var/www/preciada.pablogarin.cl/html/admin/css/bootstrap.min.css.map
+[Wed Aug 17 23:01:53 2016] [error] [client 186.67.134.66] File does not exist: /var/www/preciada.pablogarin.cl/html/admin/css/bootstrap.min.css.map
+[Wed Aug 17 23:02:05 2016] [error] [client 186.67.134.66] File does not exist: /var/www/preciada.pablogarin.cl/html/admin/css/bootstrap.min.css.map
+[Wed Aug 17 23:02:15 2016] [error] [client 186.67.134.66] File does not exist: /var/www/preciada.pablogarin.cl/html/admin/css/bootstrap.min.css.map
+[Wed Aug 17 23:04:50 2016] [error] [client 186.67.134.66] File does not exist: /var/www/preciada.pablogarin.cl/html/admin/css/bootstrap.min.css.map
+[Wed Aug 17 23:04:55 2016] [error] [client 186.67.134.66] File does not exist: /var/www/preciada.pablogarin.cl/html/admin/css/bootstrap.min.css.map
+[Wed Aug 17 23:05:11 2016] [error] [client 186.67.134.66] File does not exist: /var/www/preciada.pablogarin.cl/html/admin/css/bootstrap.min.css.map
+[Wed Aug 17 23:05:14 2016] [error] [client 186.67.134.66] File does not exist: /var/www/preciada.pablogarin.cl/html/admin/css/bootstrap.min.css.map
+[Wed Aug 17 23:05:26 2016] [error] [client 186.67.134.66] File does not exist: /var/www/preciada.pablogarin.cl/html/admin/css/bootstrap.min.css.map
+[Wed Aug 17 23:05:51 2016] [error] [client 186.67.134.66] File does not exist: /var/www/preciada.pablogarin.cl/html/admin/css/bootstrap.min.css.map

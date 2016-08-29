@@ -28,6 +28,18 @@ var indexNew = 0;
 // metodos, eventos y funciones
 $(document).on("ready",setEvents);
 function setEvents(){
+    $("img").on("load",function(){
+        var self = this;
+        var img = new Image();
+        img.onload = function(){
+            if(img.height<img.width){
+                $(self).addClass("horizontal");
+            } else {
+                $(self).addClass("vertical");
+            }
+        }
+        img.src = this.src;
+    });
     $('[data-toggle="tooltip"]').tooltip()
     console.log("setEvents...");
     $("select[name='orden']").off("change");

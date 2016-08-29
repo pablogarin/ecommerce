@@ -307,7 +307,7 @@ class OrdenCompra{
 		return $this->getView("orden-detalle.html");
 	}
 	public function getView($template=null){
-        global $view;
+        global $view, $dbh;
 		if( $template==null ){
 			$template = "pago.html";
 		}
@@ -322,6 +322,14 @@ class OrdenCompra{
 			$productos[$obData['id']] = $obj;
 			$totalBruto += $obData['precio']*$obj->getTotalItems();
 		}
+        $config = array();
+        $cur = $dbh->query("select * from config;");
+        foreach( $cur as $row ){
+            $config[$row['llave']] = $row;
+        }
+        foreach( $config as $k=>$v ){
+            $view->set($k,$v);
+        }
         $view->set("totalBruto",$totalBruto);
 		$view->setTemplate($template);
 		return $view->getView();

@@ -1,0 +1,152 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700' rel='stylesheet' type='text/css'>
+        <style>
+            * {
+                font-family: 'Libre Baskerville', serif;
+                padding: 0px;
+                margin: 0px;
+            }
+            #mail-container {
+                background-color: #ccc;
+                padding-top:12px;
+                padding-bottom:12px;
+            }
+            #compra-exitosa {
+                width: 600px;
+                margin: 0 auto;
+                background-color: #fff;
+                position: relative;
+                padding-bottom:12px;
+            }
+            .row {
+                width: 100%;
+                padding-right: -15px;
+                padding-left: -15px;
+            }
+            table, h1, h3, p {
+                display: block;
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+            table {
+                border-spacing: 0px;
+                border-collapse:  collapse;
+            }
+            tbody {
+                display: table;
+                width: 100%;
+            }
+            table th, table td {
+                text-align: left;
+                border: 1px solid #ccc;
+                padding: 4px;
+            }
+            .datos-pago th, .datos-pago td {
+                border-width: 0;
+            }
+        </style>
+    </head>
+    <body id="mail-container">
+        <div id="compra-exitosa">
+            <div class="row title">
+                <h1>&iexclCOMPRA EXITOSA!</h1>
+                <p>
+                Estimado {{ cliente.nombre }} {{ cliente.apellido }},<br/>
+                <br/>
+                Muchas gracias por comprar en nuestra tienda.<br/>
+                <br/>
+                Recuerde que para completar su compra debe realizar una transferencia o deposito a la siguiente cuenta:<br/>
+                </p>
+                <table class="datos-pago">
+                    <tr>
+                        <th>Titular</th><td>: {{ datosBancoTitular.valor }}</td>
+                    </tr>
+                    <tr>
+                        <th>RUT</th><td>: {{ datosBancoRUTTitular.valor }}</td>
+                    </tr>
+                    <tr>
+                        <th>Banco</th><td>: {{ datosBancoNombre.valor }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cuenta</th><td>: {{ datosBancoTipo.valor }}</td>
+                    </tr>
+                    <tr>
+                        <th>Numero</th><td>: {{ datosBancoNumero.valor }}</td>
+                    </tr>
+                </table>
+                <p>
+                <br/>
+                Una vez que tenga el comprobante, debe enviarlo como archivo adjunto al correo <b>{{ cuentaCorreo.valor }}</b>, indicando en el asunto <b>&quot;N&uacute;mero de Orden {{ numero }}&quot;</b>.
+                </p>
+            </div>
+            <div class="row">
+                <h3>Datos del Cliente</h3>
+                <table class="table table-bordered table-striped cliente">
+                    <tr>
+                        <th>Cliente</th>
+                        <th>E-Mail</th>
+                        <th>Tel&eacute;fono</th>
+                        <th>Despacho</th>
+                    </tr>
+                    <tr>
+                        <td>{{ cliente.nombre }} {{ cliente.apellido }}</td>
+                        <td>{{ cliente.correo }}</td>
+                        <td>{{ cliente.fono }}</td>
+                        <td>{% if direccion is not empty %}{{direccion.nombre}}{% else %}No{% endif %}</td>
+                    </tr>
+                </table>
+            </div><!-- /.row -->
+            <div id="detalle-compra-productos" class="row">
+                <h3>Detalles de la Compra</h3>
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Sub-Total</th>
+                    </tr>
+                    {% for producto in productos %}
+                    <tr>
+                        <td class="name">{{ (producto.getData()).nombre }}</td>
+                        <td class="items">{{ (producto.getTotalItems()) }}</td>
+                        <td><span class="subtotal-producto">$ {{ ((producto.getPrice())*(producto.getTotalItems()))|number_format(0,',','.') }}</span>{% if producto.hasDiscount() %} <span class="descuento-subtotal">({{ producto.getDiscount() }} DCTO)</span>{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                    {% if descuentos is not empty or giftcards is not empty %}
+                    <tr><td colspan="3">DESCUENTOS</td></tr>
+                    {% for descuento in descuentos %}
+                    <tr>
+                        <td colspan="2">CUP&Oacute;N: {{ descuento.titulo|upper }}</td>
+                        <td><span class="subtotal-producto">-$ {{ descuento.descuento|number_format(0,',','.') }}</span></td>
+                    </tr>
+                    {% endfor %}
+                    {% for codigo,monto in giftcards %}
+                    <tr>
+                        <td colspan="2">Giftcard: {{ codigo }}</td>
+                        <td><span class="subtotal-producto">-$ {{ monto|number_format(0,',','.') }}</span></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                    <tr>
+                        <td colspan="2">Costo Env&iacute;o</td>
+                        <td><span class="total">${{ costoDespacho|number_format(0,',','.') }}</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><p class="lead">TOTAL<p></td>
+                        <td><span class="total">${{ (total+costoDespacho)|number_format(0,',','.') }}</span></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <p>
+                Saluda cordialmente,<br/>
+                <br/>
+                Equipo {{ nombreSitio.valor }}
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

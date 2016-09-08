@@ -193,15 +193,21 @@ function getLogoBase64(){
 }
 
 function sendEmail($to, $title, $htmlBody, $attachments=null){
+	error_reporting(E_ALL);
+    ini_set("display_errors",1);
     global $configs;
-	error_reporting(~E_ALL);
-	require_once(PROJECT_FOLDER.'inc/swift/swift_required.php');
-	$transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl")
-		->setUsername('sdbsantarita@gmail.com')
-	  	->setPassword('nMlgp.Ytp-67Rt');
+    $mail = $configs['cuentaCorreo']['valor'];
+    $pass = $configs['claveCorreo']['valor'];
+    $serv = $configs['servidorCorreo']['valor'];
+    $port = $configs['puertoCorreo']['valor'];
+    $secu = $configs['seguridadCorreo']['valor'];
+	require_once('swift/swift_required.php');
+	$transport = Swift_SmtpTransport::newInstance($serv, (int)$port, $secu)
+		->setUsername($mail)
+	  	->setPassword($pass);
 	$mailer = Swift_Mailer::newInstance($transport);
 	$message = Swift_Message::newInstance($title)
-	  	->setFrom(array('sdbsantarita@gmail.com' => 'SDB.CL - Selección de Bodega'))
+	  	->setFrom(array( $mail => 'Contacto '.$configs['nombreSitio']['valor']))
 	  	->setTo(array($to))
 		->setContentType("text/html")
 	  	->setBody($htmlBody, 'text/html');
@@ -212,8 +218,8 @@ function sendEmail($to, $title, $htmlBody, $attachments=null){
 			);
 		}	
 	}
-
-	return $result = $mailer->send($message);
+    $result = $mailer->send($message);
+    return $result;
 }
 function getPage($columns,$table,$condition=null){
 	global $Sql,$View;

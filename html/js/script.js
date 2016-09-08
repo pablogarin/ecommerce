@@ -123,17 +123,19 @@
             }
         });
     });
-    $("img").on("load",function(){
-        var self = this;
-        var img = new Image();
-        img.onload = function(){
-            if(img.height<img.width){
-                $(self).addClass("horizontal");
-            } else {
-                $(self).addClass("vertical");
+    $("img").each(function(k,v){
+        $(v).on("load",function(){
+            var self = this;
+            var img = new Image();
+            img.onload = function(){
+                if(img.height<img.width){
+                    $(self).addClass("horizontal");
+                } else {
+                    $(self).addClass("vertical");
+                }
             }
-        }
-        img.src = this.src;
+            img.src = this.src;
+        });
     });
     var cartFixed = false;
     $(window).on("scroll", function(){

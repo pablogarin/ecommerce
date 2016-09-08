@@ -396,7 +396,7 @@ class OrdenCompra{
         if( $this->dropStock() ){
             $this->set("idEstado",4);
             if( $this->syncToDB() ){
-                // $this->sendMail('aceptada');
+                $this->sendMail('aceptada');
                 /*
                 $this->checkAndCreateGiftcards();
                 $this->consumeGiftcards();
@@ -430,72 +430,48 @@ class OrdenCompra{
 		return $retval;
 	}
 	public function sendMail($type){
-		global $View, $dbh;
+		global $view, $dbh, $configs;
 		$descuentos = 0;
 		$totalBruto = 0;
-		$View->set("logo",getLogoBase64());
-		$View->setPath("templates");
+		$view->set("logo",getLogoBase64());
+		$view->setFolder(PATH."/templates");
 
-		$productos = array();
-		$cur = $dbh->query("Select * from cupon_venta cv left join cupon c on c.id=cv.idCupon where idVenta=?;",array($this->id));
 		foreach( $this->data['productos'] as $obj ){
 			$obData = $obj->getData();
 			$productos[$obData['id']] = $obj;
 			$totalBruto += $obData['precio']*$obj->getTotalItems();
 		}
-		$View->set("totalBruto",$totalBruto);
-		
-		if( isset($cur[0]) ){
-			foreach( $cur as $cup ){
-				if( !empty($cup['giftcard']) ){
-					$sc = $dbh->query("Select * from giftcard where id=?;",array($cup['giftcard']));
-					if( isset($sc[0]) ){
-						$descuentos += $sc[0]['monto'];
-					}
-				} else {
-					$sc = $dbh->query("Select p.id as idProd, ((cp.descuento/100)*p.precio) as descuento from cupon_producto cp left join producto p on cp.idProducto=p.id where cp.idCupon=? and cp.idProducto in (".join(',',array_keys($productos)).");",array($cup['idCupon']));
-					if( isset($sc[0]) ){
-						foreach( $sc as $dcto ){
-							$descuentos += $mnt = (int)$dcto['descuento']*(int)$productos[$dcto['idProd']]->getTotalItems();
-						}
-					}
-				}
-			}
-		}
+		$view->set("totalBruto",$totalBruto);
 		
 		$attachments = null;
+        $notify = false;
 		switch( $type ){
 			case 'aceptada':
-				$cur = $dbh->query("Select * from giftcard where idVenta=?;",array($this->id));
-				if( isset($cur[0]) ){
-					$attachments = array();
-					foreach( $cur as $val ){
-						$attachments[$val['codigo'].".pdf"] = "/var/www/dev/sdb.cl/assets/".$val['archivo'];
-					}
-				}
-				if( $this->getData(false)['notificada']=='1' ){
-					return true;
-				} else {
-					$this->set("notificada","1");
-					$this->syncToDB();
-				}
 				$title = "Compra exitosa";
-				$View->setTemplate("mail-venta-exitosa.html");
+				$view->setTemplate("mail-venta-exitosa.html");
+                $notify = true;
 				break;
 			case 'despacho':
 				$title = "Compra enviada";
-				$View->setTemplate("mail-despacho.html");
+				$view->setTemplate("mail-despacho.html");
 				break;
 		}
 		$tmp = $this->getData(false);
-		foreach( $tmp as $k=>$v ){
-			$View->set($k,$v);
+		foreach( $configs as $k=>$v ){
+			$view->set($k,$v);
 		}
-		// la variable descuentos ya existe, pero no la usamos aca... la sobreescribimos con el descuento.
-		$View->set('descuentos', $descuentos);
+		foreach( $tmp as $k=>$v ){
+			$view->set($k,$v);
+		}
 
-		$body = $View->getView();
+		$body = $view->getView();
 		sendEmail($this->getData(false)['cliente']['correo'], $title, $body, $attachments);
+        if( $notify ){
+            $title = "Compra nueva";
+            $view->setTemplate("mail-compra-nueva.html");
+            $body = $view->getView();
+            sendEmail($configs['cuentaCorreo']['valor'], $title, $body);
+        }
 		return $body;
 	}
 	private function checkAndCreateGiftcards(){

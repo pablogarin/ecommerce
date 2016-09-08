@@ -76,7 +76,7 @@ if( isset($_GET['json']) ){
     print "var data = ".json_encode($data);
     exit;
 }
-$cur = $dbh->query("select sum(total+costoDespacho) as totalVentas from venta where idEstado in (5);");
+$cur = $dbh->query("select sum(total+costoDespacho) as totalVentas from venta where idEstado in (5) and YEAR(fecha)=YEAR(CURRENT_DATE) AND MONTH(fecha)=MONTH(CURRENT_DATE);");
 if( !empty($cur) && isset($cur[0]) ){
     $view->set("totalVentas", $cur[0]['totalVentas']);
 }

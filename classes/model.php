@@ -198,7 +198,7 @@ class query{
                     foreach( $filters['fields'] as $name ){
                         foreach( $filters['values'] as $values ){
                             $tmp[] = "$name like ?";
-                            $data[] = "%$values%";
+                            $data[] = is_numeric($values) ? $values : "%$values%";
                         }
                     }
                     $where .= join(" OR ", $tmp);
@@ -207,7 +207,7 @@ class query{
             if( $where!==false ){
                 $query .= $where;
             }
-			$paginationArray = $this->setUpPagination();
+			$paginationArray = $this->setUpPagination($where,$data);
             if( $order == null ){
                 $query .= " limit " . join(',',$paginationArray) . ";";
             } else {

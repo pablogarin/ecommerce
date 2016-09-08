@@ -1,6 +1,4 @@
 body {
-    font-family: 'Libre Baskerville', serif;
-    /*font-style: italic;*/
     min-height: 100vh;
     color: #470613;
 }
@@ -100,7 +98,8 @@ body {
     padding: 48px 0;
 }
 .logo-container img{
-    width: 335px;
+    height: auto;
+    max-height: 150px;
 }
 .logo-container.logo-small {
     padding: 12px 0;

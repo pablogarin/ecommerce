@@ -93,14 +93,14 @@ class SQLHelper extends PDO{
         // leer script de creacion de tablas
         switch( $this->mode ){
         case 1:
-            $this->readSQLFile($cmds, PATH."/db/script.sql");
+            $this->readSQLFile($cmds, PATH."/db/tienda.sql");
             break;
         case 2:
             $this->readSQLFile($cmds, PATH."/db/mysql.sql");
             break;
         }
         // leer archivo con zonas
-        $this->readSQLFile($cmds, PATH."/db/zonas.sql");
+        // $this->readSQLFile($cmds, PATH."/db/zonas.sql");
 
         foreach( $cmds as $cmd ){
             $create = $this->exec($cmd);

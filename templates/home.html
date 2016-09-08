@@ -10,38 +10,4 @@
             </div>
         </div>
     </div><!-- /.row -->
-    <div class="row">
-        <div class="col-md-12">
-            <h3>Visita Nuestro <a href="/blog">Blog</a></h3>
-            <div id="blog-preview">
-                <a href="{{ blog.url }}">
-                    <div class="blog-image-cont">
-                        <img src="{{ blog.foto }}" title="{{ blog.titulo }}">
-                    </div>
-                    <div class="blog-description">
-                        <h4>{{ blog.titulo }}</h4>
-                        <small>{{ blog.fecha|localizeddate('long', 'none', 'es') }}</small>
-                        {{ blog.cuerpo|raw }}
-                    </div>
-                </a>
-                <!--
-                <div class="blog-go">
-                    <a href="/blog" class="btn">Ir al Blog</a>
-                </div>
-                -->
-            </div>
-        </div>
-    </div><!-- /.row -->
-    <div class="row">
-        {% for cat in categories %}
-        <div class="categoria-container col-md-4">
-            <a href="{{ cat.link }}">
-                <h3>{{ cat.nombre }}</h3>
-                <div  class="categoria-portada">
-                    <img src="{{ cat.foto }}" />
-                </div>
-            </a>
-        </div>
-        {% endfor %}
-    </div><!-- /.row -->
 </div>

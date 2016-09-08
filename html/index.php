@@ -51,7 +51,7 @@ if( isset($cats[0]) ){
                 "value" => $value['nombre']
             );
             $subPage = $page;
-            $page = "bazar";
+            $page = "tienda";
             $view->set("submenuCurrent", $subPage);
         }
     }
@@ -140,9 +140,9 @@ switch( $page ){
         $content = $cart->getView();
         $view->set("content", $content);
         break;
-    case 'bazar':
+    case 'tienda':
         $view->set("title","Bazar");
-        $template = "bazar.html";
+        $template = "tienda.html";
         break;
     case 'identificacion':
         if( $cart->isEmpty() ){

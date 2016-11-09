@@ -1,0 +1,9 @@
+<form id="confirmar" action="{{URL}}/KCC/tbk_bp_pago.cgi" name="frm" method="POST"> 
+    <input type="hidden" name="TBK_TIPO_TRANSACCION" value="TR_NORMAL"/>
+    <input type="hidden" name="TBK_MONTO" value="{{total+costoDespacho}}00"/>
+    <input type="hidden" name="TBK_ORDEN_COMPRA" value="{{numero}}"/>
+    <input type="hidden" name="TBK_ID_SESION" value="{{id}}"/>
+    <input type="hidden" name="TBK_URL_EXITO" value="{{URL}}/exito"/>
+    <input type="hidden" name="TBK_URL_FRACASO" value="{{URL}}/fracaso"/>
+    <button type="submit" class="btn btn-pagar btn-success">Pagar <i class="fa fa-arrow-right"></i></button>
+</form>

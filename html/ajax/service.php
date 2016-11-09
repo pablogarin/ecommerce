@@ -53,6 +53,11 @@ if( isset($_REQUEST['action']) ){
             }
         }
         break;
+    case 'modo-pago':
+        $id = $_POST['id'];
+        $_SESSION['modo-pago'] = $id;
+        print json_encode(array("ok"=>true));
+        break;
     }
 }
 

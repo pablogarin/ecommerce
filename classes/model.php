@@ -368,6 +368,7 @@ include_once 'CostoDespacho.model.php';
 include_once 'Producto.model.php';
 include_once 'ProductoCategoria.model.php';
 include_once 'Texto.model.php';
+include_once 'TipoPago.model.php';
 include_once 'Venta.model.php';
 
 ?>

@@ -41,6 +41,9 @@ switch( $current ){
     case 'pedidos':
         include_once 'pedidos.php';
         break;
+    case 'modos-pago':
+        include_once 'modos_pago.php';
+        break;
     case 'costos-despacho':
         include_once 'costo_despacho.php';
         break;

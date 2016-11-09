@@ -13,13 +13,11 @@ $navs = array(
                 'name' => 'Pedidos',
                 'current' => $current=='pedidos'
             ),
-            /*
             "modos-pago" => array(
                 'url' => 'modos-pago',
                 'name' => 'Modos de Pago',
                 'current' => $current=='modos-pago'
             ),
-             */
             "costos-despacho" => array(
                 'url' => 'costos-despacho',
                 'name' => 'Costos de Despacho',

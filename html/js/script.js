@@ -123,6 +123,25 @@
             }
         });
     });
+    $("body").on("click","form[name='frm-modo-pago'] input[type='radio']", function(e){
+        var self = this;
+        var data = {
+            action  : "modo-pago",
+            id      : self.value
+        };
+        $("#next").attr("disabled",true);
+        $.ajax({
+            url     : "/ajax/service",
+            data    : data,
+            dataType: "json",
+            type    : "post",
+            success : function(data){
+                if(data.ok){
+                    window.location.reload();
+                }
+            }
+        });
+    });
     $("img").each(function(k,v){
         $(v).on("load",function(){
             var self = this;

@@ -1,6 +1,7 @@
 <div id="compra-exitosa" class="checkout">
     <div class="row title">
         <h1>&iexclCOMPRA EXITOSA!</h1>
+        {% if idTipoPago==1 %}
         <p>
         Recuerde que para completar su compra debe realizar una transferencia o deposito a la siguiente cuenta:<br/>
         </p>
@@ -25,6 +26,7 @@
         <br/>
         Una vez que tenga el comprobante, debe enviarlo como archivo adjunto al correo <b>{{ cuentaCorreo.valor }}</b>, indicando en el asunto <b>&quot;N&uacute;mero de Orden {{ numero }}&quot;</b>.
         </p>
+        {% endif %}
     </div>
     <div class="row">
         <h3>Datos del Cliente</h3>

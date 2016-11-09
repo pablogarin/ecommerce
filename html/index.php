@@ -199,7 +199,7 @@ switch( $page ){
         }
         if( isset($cliente) ){
             $view->set("user", $cliente->getData());
-            $next = "/despacho";
+            $next = "/facturacion";
         } else {
             $view->set("status_message","Debe ingresar sus datos para continuar con la compra.");
             $next = false;
@@ -207,7 +207,7 @@ switch( $page ){
         $nextMessage = "Datos de Despacho";
         $view->set("content", $view->getView());
         break;
-    case 'despacho':
+    case 'facturacion':
         if( !$sesion_activa ){
             header("Location: /identificacion");
             exit;
@@ -219,6 +219,10 @@ switch( $page ){
             foreach( $cur as $row ){
                 $comunas[$row['id']] = $row['nombre'];
             }
+        }
+        $cur = $dbh->query("SELECT * FROM tipo_pago WHERE estado=1;");
+        if( !empty($cur) && isset($cur[0]) ){
+            $view->set("modos_pago", $cur);
         }
         if( isset($_POST['grabar']) ){
             if( !empty($_POST['direccion']) && !empty($_POST['comuna']) && !empty($_POST['fono']) ){
@@ -254,10 +258,22 @@ switch( $page ){
             $view->set("costoEnvio", $costo);
             $view->set("direccion", $cur[0]);
         }
+        $confirmar = true;
+        if( isset($_SESSION['modo-pago']) ){
+            $view->set("modopago",$_SESSION['modo-pago']);
+        }
+        if( isset($_GET['confirmar-orden']) ){
+            if( !isset($_SESSION['modo-pago']) ){
+                $confirmar = false;
+                $view->set("error","Debe seleccionar un modo de pago");
+            } else {
+                header("Location: ".URL."/confirmar-orden");
+            }
+        }
         $checkout = true;
         $view->setTemplate("despacho.html");
         $back = "/identificacion";
-        $next = "/confirmar-orden";
+        $next = "/facturacion?confirmar-orden=1";
         $nextMessage = "Confirmar Orden";
         $view->set("content", $view->getView());
         break;
@@ -286,12 +302,14 @@ switch( $page ){
             $sale->syncToDB();
             $view->set("direccion", $cur[0]);
         }
+        $sale->set("idTipoPago",$_SESSION['modo-pago']);
+        $sale->syncToDB();
         $checkout = true;
-        $back = "/despacho";
+        $back = "/facturacion";
         $next = "finalizar";
         $nextMessage = "Finalizar Compra";
-        $view->set("content", $sale->getDetailView());
         $view->set("idOrden", $sale->getID());
+        $view->set("content", $sale->getDetailView());
         break;
     case 'comprar':
         if( !$sesion_activa ){
@@ -308,6 +326,37 @@ switch( $page ){
         $resultado = true;
         if( (int)$sale->getEstado()!=4 ){
             $resultado = $sale->acceptOrder();
+        }
+        if($resultado){
+            // La orden quedo aceptada
+            if( isset($_SESSION["direccion"]) ){
+                unset($_SESSION["direccion"]);
+            }
+            $view->set("content", $sale->getSuccessView());
+            // el carro aun tiene los productos pq se creo antes del switch
+            $cart = new CartControl();
+            $view->set("CART",$cart->getSmallView());
+        } else {
+            $view->setTemplate("compra-fallida.html");
+            $view->set("errorCompra", $sale->getError());
+            $view->set("content", $view->getView());
+        }
+        break;
+    case 'exito':
+        if( !$sesion_activa ){
+            header("Location: /identificacion");
+            exit;
+        }
+        if( isset($_POST['TBK_ID_SESION']) ){
+            $ID = $_POST['TBK_ID_SESION'];
+            $sale = new OrdenCompra($ID);
+        } else {
+            header("Location: /confirmar-orden");
+            exit;
+        }
+        $resultado = true;
+        if( (int)$sale->getEstado()!=5 ){
+            $resultado = $sale->acceptOrder(5);
         }
         if($resultado){
             // La orden quedo aceptada

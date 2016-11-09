@@ -1,4 +1,9 @@
 <div id="despacho" class="container">
+    {% if error %}
+    <div class="row">
+        <div class="col-sm-12 alert alert-warning text-center"><i class="fa fa-info-circle"></i> {{error}}</div>
+    </div>
+    {% endif %}
     <div class="row">
         <div class="col-md-6 col-sm-6 col-xs-12">
             <h3>Direcci&oacute;n de Env&iacute;o</h3>
@@ -30,6 +35,24 @@
                 <div class="form-group text-right">
                     <button type="submit" class="btn btn-success" name="grabar">Guardar</button>
                 </div>
+            </form>
+        </div>
+    </div><!-- /.row -->
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <h3>Modo de Pago</h3>
+            <p>
+                Por favor, seleccione un medio de pago.<br/>
+            </p>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <form method="POST" name="frm-modo-pago" class="text-left">
+                {% for modo in modos_pago %}
+                <div class="radio">
+                    <input id="modo-{{modo.id}}" type="radio" name="modo-pago" value="{{modo.id}}"{% if modopago==modo.id %} checked="ckecked"{% endif %}>
+                    <label for="modo-{{modo.id}}"><span></span> {{modo.nombre}}</label>
+                </div>
+                {% endfor %}
             </form>
         </div>
     </div><!-- /.row -->

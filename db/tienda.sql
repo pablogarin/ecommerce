@@ -86,7 +86,7 @@ CREATE TABLE `banner` (
   `orden` float DEFAULT NULL,
   `imagen` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +95,7 @@ CREATE TABLE `banner` (
 
 LOCK TABLES `banner` WRITE;
 /*!40000 ALTER TABLE `banner` DISABLE KEYS */;
-INSERT INTO `banner` VALUES (4,'Primer Banner','/preciada-deco',NULL,NULL,NULL,'2016-08-15 21:21:04',NULL,'/assets/20160815212048beautiful-floral-vintage-by-marie-nichols-ft-chicdeco-copia.png'),(8,'Segundo Banner','/preciada-cocina',NULL,NULL,NULL,'2016-08-16 00:28:36',NULL,'/assets/20160816002824elle-lisa-cohen-frenchbydesign1.png'),(9,'Tercer Banner','',NULL,NULL,NULL,'2016-08-16 00:31:15',NULL,'/assets/20160816003108il-570xn-848492214-qwtf.jpg');
+INSERT INTO `banner` VALUES (4,'Primer Banner','/placas',NULL,NULL,NULL,'2016-09-08 20:23:13',NULL,'/assets/20160908202308banner1.jpg'),(10,'Lanzamiento Raspberry','http://tienda.pablogarin.cl/7/raspberry-pi-3',NULL,NULL,NULL,'2016-10-21 22:27:37',NULL,'/assets/20161021222724maxresdefault.jpg');
 /*!40000 ALTER TABLE `banner` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +115,7 @@ CREATE TABLE `blog` (
   `activo` int(11) DEFAULT '1',
   `autor` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,6 +124,7 @@ CREATE TABLE `blog` (
 
 LOCK TABLES `blog` WRITE;
 /*!40000 ALTER TABLE `blog` DISABLE KEYS */;
+INSERT INTO `blog` VALUES (3,'La lily es mala de adentro','1970-01-01 00:00:00','/assets/20161107214916mapeo-jpg','<p><span style=\"font-size:20px\">Sub Titulo</span>.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><img src=\"/assets/20161015164349-habilidades.jpg\" style=\"float:left; height:160px; margin:10px; width:199px\" />Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum<span style=\"font-size:14px\">&nbsp;.</span></p>\r\n',1,NULL);
 /*!40000 ALTER TABLE `blog` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,7 +142,7 @@ CREATE TABLE `carro` (
   `total` float DEFAULT NULL,
   `despacho` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=324 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=370 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +151,7 @@ CREATE TABLE `carro` (
 
 LOCK TABLES `carro` WRITE;
 /*!40000 ALTER TABLE `carro` DISABLE KEYS */;
-INSERT INTO `carro` VALUES (323,NULL,'2016-09-08 20:00:21',0,0);
+INSERT INTO `carro` VALUES (323,NULL,'2016-09-08 20:00:21',0,0),(325,NULL,'2016-10-15 16:38:38',0,0),(328,NULL,'2016-10-15 16:54:52',0,0),(329,NULL,'2016-10-15 18:45:30',0,0),(330,NULL,'2016-10-15 21:03:20',0,0),(332,NULL,'2016-10-15 23:11:42',0,0),(334,NULL,'2016-10-21 21:43:47',0,0),(337,NULL,'2016-10-21 22:17:43',0,0),(340,NULL,'2016-10-21 22:23:24',0,0),(341,NULL,'2016-10-31 01:48:21',0,0),(342,NULL,'2016-11-04 23:39:54',0,0),(343,NULL,'2016-11-04 23:42:04',0,0),(345,NULL,'2016-11-06 19:24:15',0,0),(349,NULL,'2016-11-07 00:55:28',0,0),(351,NULL,'2016-11-07 04:53:47',0,0),(353,NULL,'2016-11-07 13:15:06',0,0),(354,NULL,'2016-11-07 13:17:21',0,0),(355,NULL,'2016-11-07 13:28:56',0,0),(357,NULL,'2016-11-07 13:41:59',0,0),(359,NULL,'2016-11-07 15:26:18',0,0),(360,NULL,'2016-11-07 15:27:50',0,0),(361,NULL,'2016-11-07 15:39:36',0,0),(362,NULL,'2016-11-07 15:39:36',0,0),(363,NULL,'2016-11-07 15:39:37',0,0),(365,NULL,'2016-11-07 16:38:52',0,0),(366,NULL,'2016-11-07 16:38:52',0,0),(367,NULL,'2016-11-07 16:38:52',0,0),(368,NULL,'2016-11-07 17:03:34',0,0),(369,NULL,'2016-11-07 18:09:13',0,0);
 /*!40000 ALTER TABLE `carro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +171,7 @@ CREATE TABLE `categoria` (
   `banner` int(11) DEFAULT NULL,
   `orden` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +180,7 @@ CREATE TABLE `categoria` (
 
 LOCK TABLES `categoria` WRITE;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
-INSERT INTO `categoria` VALUES (-1,'Home',-1,1,NULL,NULL,NULL);
+INSERT INTO `categoria` VALUES (-1,'Home',-1,1,NULL,NULL,NULL),(7,'Placas',-1,1,'/assets/20160908203108placas.jpg',NULL,1),(8,'Impresoras 3D',-1,1,'/assets/20161021223004zortrax-3d-printer-04.jpg',NULL,2),(9,'Steampunk',-1,1,'/assets/20161107003919camara-steam.jpg',NULL,1);
 /*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,7 +198,7 @@ CREATE TABLE `cliente` (
   `apellido` varchar(255) NOT NULL,
   `fono` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,6 +207,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES (33,'pablo.garin@hotmail.com','Pablo','Garín','123123123'),(34,'pablito.garin@gmail.com','Pablo','Garín','123123'),(35,'malbornoz@outlook.com','Miguel','Albornoz','5698468868'),(36,'pablo.leiva@doitmedia.cl','Pablo','Leiva','78192201'),(37,'a@a.cl','aasdasd','aasdasd','aasdasd');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +238,7 @@ CREATE TABLE `config` (
 
 LOCK TABLES `config` WRITE;
 /*!40000 ALTER TABLE `config` DISABLE KEYS */;
-INSERT INTO `config` VALUES (1,'Nombre del Sitio','Preciada',NULL,'2016-07-05 20:13:09','text','nombreSitio'),(2,'URL del Sitio','http://preciada.cl',NULL,'2016-09-08 14:05:37','text','urlSitio'),(3,'URL de Facebook','http://facebook.com',NULL,'2016-07-05 20:13:09','text','facebookURL'),(4,'URL de Twitter','http://twitter.com',NULL,'2016-07-05 20:13:09','text','twitterURL'),(5,'Correo Sitio','pablito.garin@gmail.com',NULL,'2016-07-05 20:13:09','text','cuentaCorreo'),(6,'Clave del Correo','G8r33x5434',NULL,'2016-08-10 16:43:55','password','claveCorreo'),(7,'Servidor de Correo Saliente','smtp.gmail.com',NULL,'2016-07-05 20:13:09','text','servidorCorreo'),(8,'Puerto para Correo','465',NULL,'2016-09-08 15:06:51','text','puertoCorreo'),(9,'Tipo de Seguridad del Correo','ssl',NULL,'2016-07-05 20:13:09','select[ssl,tls]','seguridadCorreo'),(10,'URL de Instragram','http://instagram.com',NULL,'2016-07-05 20:38:15','text','instagramURL'),(11,'Banco','Santander',NULL,'2016-08-29 14:14:04','text','datosBancoNombre'),(12,'Tipo Cuenta','Corriente',NULL,'2016-08-29 14:14:45','text','datosBancoTipo'),(13,'Número de cuenta','0-000-000-0',NULL,'2016-08-29 14:15:21','text','datosBancoNumero'),(14,'Titular Cuenta','Karen Contreras',NULL,'2016-08-29 14:29:38','text','datosBancoTitular'),(15,'RUT Titular','11.111.111-1',NULL,'2016-08-29 14:30:54','text','datosBancoRUTTitular');
+INSERT INTO `config` VALUES (1,'Nombre del Sitio','Tienda Demo',NULL,'2016-09-08 20:07:01','text','nombreSitio'),(2,'URL del Sitio','http://tienda.pablogarin.cl',NULL,'2016-09-08 20:06:47','text','urlSitio'),(3,'URL de Facebook','http://facebook.com',NULL,'2016-07-05 20:13:09','text','facebookURL'),(4,'URL de Twitter','http://twitter.com',NULL,'2016-07-05 20:13:09','text','twitterURL'),(5,'Correo Sitio','pablito.garin@gmail.com',NULL,'2016-07-05 20:13:09','text','cuentaCorreo'),(6,'Clave del Correo','G8r33x5434',NULL,'2016-08-10 16:43:55','password','claveCorreo'),(7,'Servidor de Correo Saliente','smtp.gmail.com',NULL,'2016-07-05 20:13:09','text','servidorCorreo'),(8,'Puerto para Correo','465',NULL,'2016-09-08 15:06:51','text','puertoCorreo'),(9,'Tipo de Seguridad del Correo','ssl',NULL,'2016-07-05 20:13:09','select[ssl,tls]','seguridadCorreo'),(10,'URL de Instragram','http://instagram.com',NULL,'2016-07-05 20:38:15','text','instagramURL'),(11,'Banco','Santander',NULL,'2016-08-29 14:14:04','text','datosBancoNombre'),(12,'Tipo Cuenta','Corriente',NULL,'2016-08-29 14:14:45','text','datosBancoTipo'),(13,'Número de cuenta','0-000-000-0',NULL,'2016-08-29 14:15:21','text','datosBancoNumero'),(14,'Titular Cuenta','Pablo Garín',NULL,'2016-09-08 20:06:47','text','datosBancoTitular'),(15,'RUT Titular','11.111.111-1',NULL,'2016-08-29 14:30:54','text','datosBancoRUTTitular');
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,7 +307,7 @@ CREATE TABLE `costo_despacho` (
   `idZona` int(11) NOT NULL,
   `costo` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -447,7 +449,7 @@ CREATE TABLE `direccion` (
   `cod_destinatario_SAP` text,
   `retiro` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -456,6 +458,7 @@ CREATE TABLE `direccion` (
 
 LOCK TABLES `direccion` WRITE;
 /*!40000 ALTER TABLE `direccion` DISABLE KEYS */;
+INSERT INTO `direccion` VALUES (16,'San Diego 516 depto 1116, Santiago','Pablo','Garín',NULL,0,0,33,'San Diego 516 depto 1116','123123123',NULL,603,NULL,0),(17,'Alameda 111, Santiago','Miguel','Albornoz',NULL,0,0,35,'Alameda 111','5698468868',NULL,603,NULL,0),(18,'Alameda 111, Santiago','Miguel','Albornoz',NULL,0,0,35,'Alameda 111','5698468868',NULL,603,NULL,0),(19,'San Diego 516 depto 1116, Santiago','Pablo','Garín',NULL,0,0,33,'San Diego 516 depto 1116','123123123',NULL,603,NULL,0);
 /*!40000 ALTER TABLE `direccion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -795,6 +798,7 @@ CREATE TABLE `pago_venta` (
 
 LOCK TABLES `pago_venta` WRITE;
 /*!40000 ALTER TABLE `pago_venta` DISABLE KEYS */;
+INSERT INTO `pago_venta` VALUES ('','','','','','','','','','','','','','','',''),('','','','','','','','','','','','','','','',''),('1478522127','TR_NORMAL','0','900000','636439','6623','1107','1107','101855','102','852487457','VN','0','','TSY','93749255cc3b78d79f510d6aef932f8ea2e086748e10cf7ee35f585945ffa73eee03430518607854281902d90d93089efd79d3974d628e7a700c6e513bd8efceb85e1000f1fe426ef15f78679596fc60eec15fb55019a2bb5bccd4cb6f76870fdf7f18bf289d699cd0a8c6abd6651c0f2949c00a278c6bdf80370e83939f3474e72d4ebc2bc8fd3074c7ce5e0e8d8b2c0e40257f25b96d5c1ca121ba3872c6e999b010f28dcfbdd887f31d899e3695e7d5d2998722761762c0d9b0330d3c4056d2b751622db06ed6839e364791195435ebfc2e3feeb899057a9bd22a178217c41c259d1d5b24d65e0b2943c141eeec3548e3e0d42dfc16ce4aa685bf2d5da77ea4127902a6a7d5705eab2a0d77b47e38facdf4baf5c53c928ab6f4b34b45b43391e28fadfdf38f156602566ef0c26930697ae1b1b51a216098d8a062b933efc21789ceb0f1f93a9e9527b057473b5daccce1f7f7df19afd1eb8363cc1d59ee5f804ae325b1edb1ba85bfa2b1704af3b2d828e10dba3833da52f2aba868e29f78bf17a65bff0169f72ce5448f8bc5e3fea80ff95715c2fde56733c1696330341a7b483c24c8f58441feaaedd8edffeaacc020972b44985bb2d10582d3995884b15a0e1d6a41580bc4dbd77c405e4f175cd36512474aaad6bbd8373130aa444d8d1f7957dc0e5e32c02a31118e8aba803abc1c6685c50e4ff96c216843f1c2d0bc'),('1478525611','TR_NORMAL','0','7600000','202261','6623','1107','1107','103806','103','852602515','VN','0','','TSY','1c3f48be3d15223db4f992adcfab3b8fbb70cf9f8d17ef6c0afc798e868ca9af455f7148948d445c46bbb6c676caa3bafd1b766b2c4a1c2bb9879ba2c3236ae36a8c3864d811c24ae658325c1362c4dcb925c89894b8dfad7bce99a8da8d5e0ec7ee7f273d5c0473bf7f21a5dd3864d36152e36d975a0391235e12bae449cdb25de206d9a0f78b08ab8f061748e4771f621ea63a6627522f2dbe1e3df9e04b9ddcf19de4360f25c2dad007f3f30b26928b5e031af248ad173f52762be810b3e044cb6cbcda5f3fdc314a1f58bc4d705d491f0c05ab757745318b354d36368aac735cf4d6dc5d1160b0ed6c0492a81fac2e2980ac6d7aba4c6af0ee8c3ecdef1d9e6482ee2b47705892ee57d521c680da47588ccc2391a11d932b13de5ce879abc5530b95f19d84a9510b5e5c59a3feef52eb03be698024eee36bb968de4dc2702ee0ecd7da26ed91c8cf68ec14f6d2ede2a12e2f46b84d469f5af762ddd9e4e8f130f458741c7211a80d313026fac53230da2ed54bd403501e12e6e670ac4aa5ba5c4e6a13ed07953fd2bc3f0f86cdf3bda3e1a166eb5bd897e9d4b72915648e5ad77536c1cf8a5846bbc1c5f88ad45e09e0953bdc52463654de82e7f51127da4d4c504482224b2d7111c73292e67460b16771d8d628cec570f4878a13013c4aa1647f35a14a789705cee339c42baa8c74e8ed550a72c398080362192eb29173'),('1478525611','TR_NORMAL','0','7600000','111132','6623','1107','1107','103917','103','852609643','VN','0','','TSY','50cdd4aa624bf5ba5f21e069f08c1052a2d28f612935f4300ce29eb9921ebcf1a7c446bc404f6ab5b8029d1914c18a554d50e0c2a7e94b907cbc2b31d64f1da02eaa558b2d9f352053fb64e5568b309bda7f67b3569b1ecfbc944320080ee91b91c965ed44a422eb621384ad552c7fb56dc511a4e193aa5ac2ea690f49983f377df6a720d45eef34960b22dcadf71e9cf2f9028ee6c767184d4ce802e2f314f7059e33f4374c987ce314b97db8957cb0222eb61504301665d05bce483068a8604aaea5364d83b86c0d344918c25b2b97c79062f8232b489c05fa45e014ebeee0e16b4bea4fe7f32f3678210cd3d97c9f8c65c069c4fec044d56cdd99527628a48104728f41f88b819d52640b3ba9d2c08ad5b221620125964d9fcf74ba6a62029070fad9f20cbe0f636a6f1a6b1e101306c1d0f4ce56fe2dedb1a73b6bd419d742d976049f68bf50b2cefe229763594c8a28330a00515ef30bebce4a82bedf8b7c2ad9b8632fc3e1cc5f3fe5d1df22317206a516e439da4233db48a173adc24e02c5c7d8a690a849df9400d297b4a90e09e00fdc6c046875f5b521a23c12749d374d46bb0ea67cb77879ec010677d9f2a553e79a92f95199f585787f3eca4984ba86f9c0f8c608ce1c98a1a7a0dcc0fb19bb08e3979414cd896e2694932d2de2e9333a0304eedd6e9e8eaf0a425763b6e929ddc0a814ea3ba5a6822b7b1fe2be'),('','','','','','','','','','','','','','','','');
 /*!40000 ALTER TABLE `pago_venta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -855,7 +859,7 @@ CREATE TABLE `producto` (
   `entrega` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `SKU` (`SKU`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -864,6 +868,7 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` VALUES (7,'Raspberry Pi 3',0,'<p>Raspberry Pi 3 Modelo B+</p>\r\n','<ul>\r\n	<li>A 1.2GHz 64-bit quad-core ARMv8 CPU</li>\r\n	<li>802.11n Wireless LAN</li>\r\n	<li>Bluetooth 4.1</li>\r\n	<li>Bluetooth Low Energy (BLE)</li>\r\n	<li>1GB RAM</li>\r\n	<li>4 USB ports</li>\r\n	<li>40 GPIO pins</li>\r\n	<li>Full HDMI port</li>\r\n	<li>Ethernet port</li>\r\n	<li>Combined 3.5mm audio jack and composite video</li>\r\n	<li>Camera interface (CSI)</li>\r\n	<li>Display interface (DSI)</li>\r\n	<li>Micro SD card slot (now push-pull rather than push-push)</li>\r\n	<li>VideoCore IV 3D graphics core</li>\r\n</ul>\r\n','rpi3',NULL,NULL,91,NULL,'/assets/20160908201103rpi3.rpi3',NULL,50000,57000,NULL,1,1,NULL,'2016-09-08 20:12:29',1,NULL,NULL),(8,'Arduino UNO R3',0,'<p>asd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asd</p>\r\n','<p>asd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asd</p>\r\n','arduinounor3',NULL,'placa, desarrollo, arduino, uno, r3',92,NULL,'/assets/20161021221729arduino-uno-r3.jpg',NULL,9000,12000,NULL,1,1,NULL,'2016-10-21 22:14:19',2,NULL,NULL),(9,'Arduino Mega',0,'<p>asd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd a','<p>asd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asdasd asd asddasd asdasdasd asd</p>\r\n','arduinomega',NULL,NULL,94,NULL,'/assets/20161021222006arduino-mega.jpg',NULL,24000,30000,NULL,1,1,NULL,'2016-10-21 22:20:42',2,NULL,NULL),(10,'Cámara Speampunk',0,'<p><strong><span style=\"font-size:12px\">Descripci&oacute;n producto</span></strong></p>\r\n','<ul>\r\n	<li style=\"text-align: justify;\">info 1</li>\r\n	<li style=\"text-align: justify;\">info 2</li>\r\n	<li style=\"text-align: justify;\">info 3</li>\r\n	<li style=\"text-align: justify;\">info 4</li>\r\n	<li style=\"text-align: justify;\">info 5</li>\r\n</ul>\r\n','111111111',NULL,'camara',0,NULL,'/assets/20161107004000camara-steam.jpg',NULL,1000,1500,NULL,1,1,NULL,'2016-11-07 00:50:39',1,NULL,NULL),(11,'Cocker Steampunk',0,'<p>Sexy, peludo y orejon</p>\r\n','<ul>\r\n	<li style=\"text-align: justify;\">Sexy</li>\r\n	<li style=\"text-align: justify;\">Peludo</li>\r\n	<li style=\"text-align: justify;\">Orejon</li>\r\n	<li style=\"text-align: justify;\">Ma&ntilde;oso</li>\r\n	<li style=\"text-align: justify;\">Bello</li>\r\n</ul>\r\n','2121212',NULL,'perri',1,0,'/assets/20161107005834cocker-steam.jpg',NULL,10000,40000,NULL,1,1,NULL,'2016-11-07 01:00:13',1,NULL,NULL);
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -922,7 +927,7 @@ CREATE TABLE `producto_carro` (
   `cantidad` int(11) DEFAULT NULL,
   `descuento` float DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5537 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7030 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -931,6 +936,7 @@ CREATE TABLE `producto_carro` (
 
 LOCK TABLES `producto_carro` WRITE;
 /*!40000 ALTER TABLE `producto_carro` DISABLE KEYS */;
+INSERT INTO `producto_carro` VALUES (5594,323,7,1,0),(5845,342,8,1,0),(6200,337,7,1,0),(6201,337,8,1,0),(6202,337,9,1,0),(6800,360,8,1,0),(6801,360,9,1,0),(6992,351,7,1,0),(7029,369,7,1,0);
 /*!40000 ALTER TABLE `producto_carro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -948,7 +954,7 @@ CREATE TABLE `producto_categoria` (
   `orden` float DEFAULT NULL,
   `prioridad` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -957,6 +963,7 @@ CREATE TABLE `producto_categoria` (
 
 LOCK TABLES `producto_categoria` WRITE;
 /*!40000 ALTER TABLE `producto_categoria` DISABLE KEYS */;
+INSERT INTO `producto_categoria` VALUES (43,7,7,NULL,NULL),(46,8,7,NULL,NULL),(47,9,7,NULL,NULL),(50,10,9,NULL,NULL),(51,11,9,NULL,NULL);
 /*!40000 ALTER TABLE `producto_categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1114,7 +1121,7 @@ CREATE TABLE `texto` (
 
 LOCK TABLES `texto` WRITE;
 /*!40000 ALTER TABLE `texto` DISABLE KEYS */;
-INSERT INTO `texto` VALUES (-1,'Home','<p><span style=\"font-size:28px\">&iexcl;Ven a </span></p>\r\n\r\n<p><span style=\"font-size:28px\">Conocernos!</span></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><span style=\"font-size:20px\">Te invitamos a conocer nuestro bazar y sus productos. </span></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><span style=\"font-size:16px\">Ac&aacute; podr&aacute;s encontrar lo que desees para tu casa, siempre con ese estilo vintage que nos encanta...</span></p>\r\n',NULL,'ES',1,NULL),(1,'Contacto','<p><strong>Direcci&oacute;n</strong>: Bartolo Soto 8080, San Miguel, Santiago, RM.</p>\r\n\r\n<p><strong>Fono</strong>: +56 9 9414 9917</p>\r\n\r\n<p><strong>Horario</strong>: 8AM a 6PM</p>\r\n\r\n<p><strong>E-Mail</strong>: pablo.garin@hotmail.com</p>\r\n','contacto','ES',1,NULL),(2,'¿Quiénes Somos?','<p>&ldquo;Encontrar y flecharse con ese objeto especial y &uacute;nico, un tesoro para quedarse con el&hellip;&rdquo; Bajo esta primicia nace Preciada, un bazar online de&nbsp;decoraci&oacute;n&nbsp;fundado con el deseo de descubrir bellos objetos antiguos, nuevos, reciclados y hechos a mano, cl&aacute;sicos y de aire vintage.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Podr&aacute;s encontrar solo piezas &uacute;nicas o bien, muy pocas unidades de objetos como vasos, fuentes, enlozados,&nbsp;pocillos, juegos de platos y tazas, arte, floreros, marcos, y tantos otros, que han sido cuidadosamente elegidos para convertirse en un preciado y &uacute;nico tesoro para preservarlo en el tiempo.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Este es el emprendimiento, que con mi hermana Soledad dese&aacute;bamos hace tiempo concretar. Naci&oacute; de la nada, r&aacute;pido, mirando lo que ten&iacute;amos alrededor y a la vez, viendo que ten&iacute;amos lo m&aacute;s importante, las ganas. Es reflejo de nuestros gustos y anhelos, una clara muestra de las cosas a las que nos gusta poner mucha fuerza y atenci&oacute;n.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Preciada ya esta aqu&iacute;. Solo esperamos que la marcha y la experiencia nos vaya haciendo cada vez mejores, perseverantes y con buenas ideas para perpetuar esto, lo que nos gusta hacer.</p>\r\n','quienesSomos',NULL,1,NULL),(3,'¿Cómo Comprar?','<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\r\n','comoComprar',NULL,1,NULL);
+INSERT INTO `texto` VALUES (-1,'Home','<p><span style=\"font-size:28px\">&iexcl;Ven a </span></p>\r\n\r\n<p><span style=\"font-size:28px\">Conocernos!</span></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><span style=\"font-size:20px\">Te invitamos a conocer nuestro bazar y sus productos. </span></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><span style=\"font-size:16px\">Ac&aacute; podr&aacute;s encontrar lo que desees para tu casa, siempre con ese estilo vintage que nos encanta...</span></p>\r\n',NULL,'ES',1,NULL),(1,'Contacto','<p><strong>Direcci&oacute;n</strong>: Fake St 123.</p>\r\n\r\n<p><strong>Fono</strong>: +56 9 9414 9917</p>\r\n\r\n<p><strong>Horario</strong>: 8AM a 6PM</p>\r\n\r\n<p><strong>E-Mail</strong>: pablo.garin@hotmail.com</p>\r\n','contacto','ES',1,NULL),(2,'¿Quiénes Somos?','<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\r\n','quienesSomos',NULL,1,NULL),(3,'¿Cómo Comprar?','<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\r\n','comoComprar',NULL,1,NULL);
 /*!40000 ALTER TABLE `texto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1140,6 +1147,32 @@ CREATE TABLE `tipo` (
 LOCK TABLES `tipo` WRITE;
 /*!40000 ALTER TABLE `tipo` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tipo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tipo_pago`
+--
+
+DROP TABLE IF EXISTS `tipo_pago`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tipo_pago` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(128) NOT NULL,
+  `template` varchar(128) NOT NULL,
+  `estado` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tipo_pago`
+--
+
+LOCK TABLES `tipo_pago` WRITE;
+/*!40000 ALTER TABLE `tipo_pago` DISABLE KEYS */;
+INSERT INTO `tipo_pago` VALUES (1,'Transferencia','boton-orden.html',1),(2,'WebPay','webpay.html',1);
+/*!40000 ALTER TABLE `tipo_pago` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1219,8 +1252,9 @@ CREATE TABLE `venta` (
   `notificada` int(11) DEFAULT '0',
   `sync` int(11) DEFAULT '0',
   `cod_venta_SAP` text,
+  `idTipoPago` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1229,6 +1263,7 @@ CREATE TABLE `venta` (
 
 LOCK TABLES `venta` WRITE;
 /*!40000 ALTER TABLE `venta` DISABLE KEYS */;
+INSERT INTO `venta` VALUES (88,'1476549505',0,'2016-10-15 13:38:25',2000,100000,33,5,16,NULL,'TR_NORMAL',NULL,324,0,NULL,0,NULL,1),(89,'1476550046',0,'2016-10-15 13:47:26',0,50000,33,5,NULL,NULL,'TR_NORMAL',NULL,326,0,NULL,0,NULL,1),(90,'1476557125',0,'2016-10-15 15:45:25',0,50000,33,4,NULL,NULL,'TR_NORMAL',NULL,327,0,NULL,0,NULL,1),(91,'1477086222',0,'2016-10-21 18:43:42',0,50000,34,3,NULL,NULL,'TR_NORMAL',NULL,333,0,NULL,0,NULL,1),(92,'1477087845',0,'2016-10-21 19:10:45',0,50000,34,5,NULL,NULL,'TR_NORMAL',NULL,335,0,NULL,0,NULL,1),(93,'1477088288',0,'2016-10-21 19:18:08',0,9000,34,5,NULL,NULL,'TR_NORMAL',NULL,336,0,NULL,0,NULL,1),(94,'1477088478',0,'2016-10-21 19:21:18',0,24000,34,5,NULL,NULL,'TR_NORMAL',NULL,338,0,NULL,0,NULL,1),(95,'1477088600',0,'2016-10-21 19:23:20',0,18000,34,5,NULL,NULL,'TR_NORMAL',NULL,339,0,NULL,0,NULL,1),(96,'1478460244',0,'2016-11-06 16:24:04',0,68000,33,4,NULL,NULL,'TR_NORMAL',NULL,344,0,NULL,0,NULL,1),(97,'1478475426',0,'2016-11-06 20:37:06',2000,24000,35,3,17,NULL,'TR_NORMAL',NULL,331,0,NULL,0,NULL,1),(98,'1478475858',0,'2016-11-06 20:44:18',2000,24000,35,5,18,NULL,'TR_NORMAL',NULL,346,0,NULL,0,NULL,1),(99,'1478478105',0,'2016-11-06 21:21:45',0,24000,35,4,NULL,NULL,'TR_NORMAL',NULL,347,0,NULL,0,NULL,1),(100,'1478480121',0,'2016-11-06 21:55:21',0,12000,35,4,NULL,NULL,'TR_NORMAL',NULL,348,0,NULL,0,NULL,1),(101,'1478494228',0,'2016-11-07 01:50:28',0,50000,36,4,NULL,NULL,'TR_NORMAL',NULL,350,0,NULL,0,NULL,1),(102,'1478522127',0,'2016-11-07 10:28:33',0,9000,33,5,NULL,NULL,'TR_NORMAL',NULL,352,0,NULL,0,NULL,1),(103,'1478525611',0,'2016-11-07 12:25:55',0,33000,33,4,19,NULL,'TR_NORMAL','111132',358,0,NULL,0,NULL,1),(104,'1478532497',0,'2016-11-07 13:35:12',0,33000,33,1,NULL,NULL,'TR_NORMAL',NULL,360,0,NULL,0,NULL,2),(105,'1478536717',0,'2016-11-07 15:09:09',0,74000,33,4,NULL,NULL,'TR_NORMAL',NULL,364,0,NULL,0,NULL,1),(106,'1478542195',0,'2016-11-07 15:10:07',0,50000,33,1,NULL,NULL,'TR_NORMAL',NULL,369,0,NULL,0,NULL,2),(107,'1478551956',0,'2016-11-07 18:33:15',0,50000,33,1,NULL,NULL,'TR_NORMAL',NULL,369,0,NULL,0,NULL,2),(108,'1478609012',0,'2016-11-08 10:04:30',0,50000,33,1,NULL,NULL,'TR_NORMAL',NULL,369,0,NULL,0,NULL,2),(109,'1478624411',0,'2016-11-08 14:00:22',0,50000,33,1,NULL,NULL,'TR_NORMAL',NULL,369,0,NULL,0,NULL,2);
 /*!40000 ALTER TABLE `venta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1249,7 +1284,7 @@ CREATE TABLE `venta_detalle` (
   `incluyeIVA` int(11) DEFAULT '1',
   `paraRegalo` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=380 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1258,6 +1293,7 @@ CREATE TABLE `venta_detalle` (
 
 LOCK TABLES `venta_detalle` WRITE;
 /*!40000 ALTER TABLE `venta_detalle` DISABLE KEYS */;
+INSERT INTO `venta_detalle` VALUES (180,88,7,2,50000,13,1,0),(181,89,7,1,50000,13,1,0),(182,90,7,1,50000,13,1,0),(183,91,7,1,50000,13,1,0),(184,92,7,1,50000,13,1,0),(185,93,8,1,9000,25,1,0),(186,94,9,1,24000,20,1,0),(187,95,8,2,9000,25,1,0),(188,96,7,1,50000,13,1,0),(189,96,8,2,9000,25,1,0),(190,97,9,1,24000,20,1,0),(191,98,9,1,24000,20,1,0),(192,99,9,1,24000,20,1,0),(193,100,10,12,1000,34,1,0),(194,101,7,1,50000,13,1,0),(214,102,8,1,9000,25,1,0),(293,103,8,1,9000,25,1,0),(294,103,9,1,24000,20,1,0),(337,104,8,1,9000,25,1,0),(338,104,9,1,24000,20,1,0),(365,105,7,1,50000,13,1,0),(366,105,9,1,24000,20,1,0),(368,106,7,1,50000,13,1,0),(372,107,7,1,50000,13,1,0),(377,108,7,1,50000,13,1,0),(379,109,7,1,50000,13,1,0);
 /*!40000 ALTER TABLE `venta_detalle` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1296,4 +1332,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-08 20:05:28
+-- Dump completed on 2016-11-09 19:27:22

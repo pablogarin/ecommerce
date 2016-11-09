@@ -126,7 +126,7 @@ class SQLHelper extends PDO{
                 $commandList[$this->i] = "";
             }
             $commandList[$this->i] .= "$line";
-            if( (trim($line)==');') OR (trim($line)=='-- GO')){
+            if( (trim($line)==');') OR (trim($line)=='-- GO') OR (trim($line)=='CHARSET=latin1;') ){
                 $this->i++;
             }
         }

@@ -1,9 +1,3 @@
-CREATE TABLE zona(
-	id integer primary key AUTO_INCREMENT not null,
-	nombre varchar(128) not null,
-	codigo varchar(3) not null,
-	padre integer not null default -1 references zona(id)
-);
 CREATE TABLE atributo(
 	id integer primary key AUTO_INCREMENT not null,
 	nombre varchar(255) not null,
@@ -29,6 +23,8 @@ CREATE TABLE banner(
 	estado varchar(255),
 	timestamp timestamp,
 	orden float
+);
+CREATE TABLE blog(
 );
 CREATE TABLE carro(
 	id integer primary key AUTO_INCREMENT not null,
@@ -359,6 +355,8 @@ CREATE TABLE tipo( /* TAMBIEN CONOCIDO COMO ENVEJICIMIENTO, CALIDAD O CLASE */
 	nombre varchar(120) not null, /* varietal, reserva, reserva especial, etc... */
 	activo integer default 1
 );
+CREATE TABLE tipo_pago(
+);
 CREATE TABLE tipo_texto(
 	id integer primary key AUTO_INCREMENT not null,
 	nombre varchar(120) not null
@@ -396,6 +394,12 @@ CREATE TABLE venta_detalle(
 	descuento float default 0, /* misma razon anterior, se debe poder saber cuando se hizo descuento y por cuanto */
 	incluyeIVA integer default 1, /* 1 si, 0 no; indica si el precio incluye previamente el iva o si hay que agregarselo dinamicamente al finalizar la compra */
 	paraRegalo integer default 0 /* 1 si, 0 no; los productos no necesariamente son todos para regalo, por eso se pone aca  */
+);
+CREATE TABLE zona(
+	id integer primary key AUTO_INCREMENT not null,
+	nombre varchar(128) not null,
+	codigo varchar(3) not null,
+	padre integer not null default -1 references zona(id)
 );
 
 -- inserts

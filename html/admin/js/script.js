@@ -388,7 +388,10 @@ function load(url,target,callback){
     }
 }
 var loading = false;
-function showSpinner(message = "Cargando&hellip;") {
+function showSpinner(message) {
+    if( typeof message === 'undefined' ){
+        message = "Cargando&hellip;"
+    }
     var load = $("#loading");
     if( !loading ){
         load.find("p.message").html(message);

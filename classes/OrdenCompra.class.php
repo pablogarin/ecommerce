@@ -301,11 +301,30 @@ class OrdenCompra{
 		return false;
 	}
 	public function getSuccessView(){
+        global $view, $dbh;
+        if( $this->data['idTipoPago']==2 ){
+            $cur = $dbh->query("SELECT * FROM pago_venta WHERE TBK_ID_SESION=?;",array($this->id));
+            if( isset($cur[0]) ){
+                foreach( $cur[0] as $name=>$value ){
+                    $view->set($name, $value);
+                }
+            }
+        }
 		return $this->getView("venta-exitosa.html",false);
 	}
 	public function getDetailView(){
+        global $view, $dbh;
+        $cur = $dbh->query("SELECT * FROM tipo_pago WHERE id=?;",array($this->data['idTipoPago']));
+        $template = $cur[0]['template'];
+		foreach( $this->data as $k=>$v ){
+			$view->set($k,$v);
+		}
+        $view->set("btnPago", $this->getView($template));
 		return $this->getView("orden-detalle.html");
 	}
+    public function getWebpayBtn() {
+        return $this->getView("webpay.html");
+    }
 	public function getView($template=null){
         global $view, $dbh;
 		if( $template==null ){
@@ -337,7 +356,7 @@ class OrdenCompra{
 	public function syncToDB(){
 		global $dbh;
 		$data = array();
-		$fields = array('numero','esFactura','fecha','costoDespacho','total','idCliente','idEstado','idDireccion','idEmpresa','tipoTransaccionTBK','codigoAutorizacionTBK','idCarro','notificada=?');
+		$fields = array('numero','esFactura','fecha','costoDespacho','total','idCliente','idEstado','idDireccion','idEmpresa','tipoTransaccionTBK','codigoAutorizacionTBK','idCarro','notificada','idTipoPago');
 		foreach( $fields as $key ){
 			if( isset($this->data[$key]) ){
 				$data[$key] = $this->data[$key];
@@ -346,7 +365,7 @@ class OrdenCompra{
 			}
 		}
 		$data['id'] = $this->id;
-		$query = "UPDATE venta SET numero=?, esFactura=?, fecha=?, costoDespacho=?, total=?, idCliente=?, idEstado=?, idDireccion=?, idEmpresa=?, tipoTransaccionTBK=?, codigoAutorizacionTBK=?, idCarro=?, notificada=? WHERE id=?;";
+		$query = "UPDATE venta SET numero=?, esFactura=?, fecha=?, costoDespacho=?, total=?, idCliente=?, idEstado=?, idDireccion=?, idEmpresa=?, tipoTransaccionTBK=?, codigoAutorizacionTBK=?, idCarro=?, notificada=?, idTipoPago=? WHERE id=?;";
 		$res = $dbh->query($query,array_values($data));
 		if( !empty($dbh->errorInfo()[2]) ){
 			return false;
@@ -384,7 +403,7 @@ class OrdenCompra{
     {
         return $this->error;
     }
-	public function acceptOrder(){
+	public function acceptOrder($estado=4){
 		include_once 'CartControl.class.php';
 		global $dbh;
 		$retval = true;
@@ -394,7 +413,7 @@ class OrdenCompra{
         }
 		//*
         if( $this->dropStock() ){
-            $this->set("idEstado",4);
+            $this->set("idEstado",$estado);
             if( $this->syncToDB() ){
                 $this->sendMail('aceptada');
                 /*
@@ -525,6 +544,10 @@ class OrdenCompra{
             }
             return "Ingresada";
         }
+    }
+    public function setTipoPago($id="1"){
+        $this->set('idTipoPago',$id);
+        $this->syncToDB();
     }
 }
 ?>

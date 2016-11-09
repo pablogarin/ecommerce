@@ -37,6 +37,13 @@
                     <div class="thumb-container">
                         <img src="{{row[col]}}" alt="Thumb">
                     </div>
+                {% elseif type=='boolean'  %}
+                    {% if row[col]==0 %}
+                    <div class="label label-danger">Inactivo</div>
+                    {% endif %}
+                    {% if row[col]==1 %}
+                    <div class="label label-success">Activo</div>
+                    {% endif %}
                 {% else %}
                     {{ row[col] | raw }}
                 {% endif %}

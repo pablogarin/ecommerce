@@ -52,6 +52,7 @@
                                 {% endfor %}
                                 </ul>
                             </li>
+                            <li{% if current=='blog' %} class="active"{% endif %}><a href="{{ url }}/blog">Blog</a></li>
                             <li{% if current=='quienes-somos' %} class="active"{% endif %}><a href="{{ url }}/quienes-somos">&iquest;Qui&eacute;nes Somos?</a></li>
                             <li{% if current=='como-comprar' %} class="active"{% endif %}><a href="{{ url }}/como-comprar">&iquest;C&oacute;mo Comprar?</a></li>
                             <li{% if current=='contacto' %} class="active"{% endif %}><a href="{{ url }}/contacto">Contacto</a></li>

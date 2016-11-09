@@ -894,6 +894,10 @@ body {
     border-radius: 5px;
     text-align: center;
 }
+.checkout-container #identificacion form .radio,
+.checkout-container #despacho form .radio {
+    text-align: left;
+}
 .checkout-container #identificacion form .form-group,
 .checkout-container #despacho form .form-group {
     display: block;
@@ -1135,6 +1139,37 @@ input[type='checkbox'] + label span {
     width:20px;
 }
 input[type="checkbox"]:checked + label span {
+    background-position: -1px -28px;
+}
+input[type='radio'] {
+    display:none;
+}
+input[type='radio'] + label {
+    display: inline-block;
+    position: relative;
+    height: 22px;
+    vertical-align: middle;
+    padding: 0px;
+    margin: 0px;
+}
+input[type='radio'] + label:after {
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    content: " ";
+    vertical-align: middle;
+}
+input[type='radio'] + label span {
+    display:inline-block;
+    background-image: url(/assets/input-sprite.png);
+    background-repeat: no-repeat;
+    background-position: -1px -1px;
+    position: relative;
+    top: 5px;
+    height:20px;
+    width:20px;
+}
+input[type="radio"]:checked + label span {
     background-position: -1px -28px;
 }
 .nav-justified > li.dropdown , #bazar-dropdown{

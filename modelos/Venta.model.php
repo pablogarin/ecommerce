@@ -1,7 +1,7 @@
 <?php namespace Modelos;
 class Venta extends Model{
-	public $insert = "INSERT INTO venta VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-    public $update = "UPDATE venta SET numero=?,esFactura=?,fecha=?,costoDespacho=?,total=?,idCliente=?,idEstado=?,idDireccion=?,idEmpresa=?,tipoTransaccionTBK=?,codigoAutorizacionTBK=?,idCarro=?,descuento=?,notificada=?,sync=?,cod_venta_SAP=? WHERE id=?;";
+	public $insert = "INSERT INTO venta VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+    public $update = "UPDATE venta SET numero=?,esFactura=?,fecha=?,costoDespacho=?,total=?,idCliente=?,idEstado=?,idDireccion=?,idEmpresa=?,tipoTransaccionTBK=?,codigoAutorizacionTBK=?,idCarro=?,descuento=?,notificada=?,sync=?,cod_venta_SAP=?, idTipoPago=? WHERE id=?;";
 	public $delete = "DELETE FROM venta WHERE id=?;";
 	public $create = "
 		CREATE TABLE venta(
@@ -21,7 +21,8 @@ class Venta extends Model{
             descuento float default 0, 
             notificada integer default 0, 
             sync integer default 0, 
-            cod_venta_SAP text
+            cod_venta_SAP text,
+            idTipoPago integer not null references tipo_pago(id)
 		);
 	";
 	function __construct($Sql,$values=null){
@@ -127,6 +128,11 @@ class Venta extends Model{
 			),
 			"cod_venta_SAP" => array(
 				"nombre"=>"cod_venta_SAP",
+                "type"=>"hidden",
+				"null" => true
+			),
+			"idTipoPago" => array(
+				"nombre"=>"idTipoPago",
                 "type"=>"hidden",
 				"null" => true
 			)

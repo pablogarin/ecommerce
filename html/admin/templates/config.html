@@ -8,7 +8,27 @@
     {% if success is not empty %}
     <p class="alert alert-success">{{ success|raw }}</p>
     {% endif %}
+    {% if error is not empty %}
+    <p class="alert alert-warning">{{ error|raw }}</p>
+    {% endif %}
 	<form method="POST" enctype="form/multipart">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>Contrase&ntilde;a Actual</td>
+                <td><input type="password" name="actual" /></td>
+            </tr>
+            <tr>
+                <td>Contrase&ntilde;a Nueva</td>
+                <td><input type="password" name="nueva" /></td>
+            </tr>
+            <tr>
+                <td>Repita Contrase&ntilde;a</td>
+                <td><input type="password" name="repeat" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit" class="btn btn-success" name="cambia-pass">Cambiar</button></td>
+            </tr>
+        </table>
         <table class="table table-bordered table-striped">
             <tr>
                 <th>Configuraci&oacute;n</th>

@@ -4,9 +4,17 @@ include_once 'session.php';
 include_once 'model.php';
 
 // seccion actual
-$current = $_SERVER['SCRIPT_URL'];
-$current = str_replace("/admin/","",$current);
-$current = str_replace("/","",$current);
+if( isset($_SERVER['SCRIPT_URL']) ) {
+	$current = $_SERVER['SCRIPT_URL'];
+	$current = str_replace("/admin/","",$current);
+	$current = str_replace("/","",$current);
+} elseif( isset($_SERVER['REQUEST_URI']) ) {
+	$current = $_SERVER['REQUEST_URI'];
+	$current = str_replace("/admin/","",$current);
+	$current = str_replace("/","",$current);
+	$current = explode("?", $current);
+	$current = $current[0];
+}
 
 if( empty($current) ){
     header("Location: /admin/dashboard");

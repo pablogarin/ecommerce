@@ -6,7 +6,7 @@
 define("SQLITE", 1);
 define("MYSQL", 2);
 class SQLHelper extends PDO{
-    private $mode, $connectionString, $error, $lastId;
+    private $mode, $connectionString, $error, $lastId, $url;
 
     public function __construct( $mode = MYSQL ){
         $this->mode = $mode;
@@ -27,6 +27,7 @@ class SQLHelper extends PDO{
             $configs = fread($handle, filesize($filename));
             fclose($handle);
             $configs = unserialize($configs);
+	    $this->url = $configs['url'];
             $this->connectionString = 'mysql:host='.$configs['host'].';dbname='.$configs['dbname'].';charset=utf8mb4'; // MYSQL
             try{
                 parent::__construct($this->connectionString, $configs['username'], $configs['password']);
@@ -116,6 +117,7 @@ class SQLHelper extends PDO{
                 var_dump($create);
             }
         }
+	$this->exec("UPDATE config SET valor='".$this->url."' WHERE id=2;");
     }
 
     private function readSQLFile(&$commandList, $source)

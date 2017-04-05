@@ -5,7 +5,8 @@ if( !file_exists(PATH.'/configs/database.conf') ){
             "host" => $_REQUEST['host'],
             "dbname" => $_REQUEST['dbname'],
             "username" => $_REQUEST['username'],
-            "password" => $_REQUEST['password']
+            "password" => $_REQUEST['password'],
+            "url" => $_REQUEST['url']
         );
         $filename = PATH.'/configs/database.conf';
         $handle = fopen($filename,'w');

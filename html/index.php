@@ -373,6 +373,10 @@ switch( $page ){
             $view->set("content", $view->getView());
         }
         break;
+    case 'webpay':
+      require_once 'webpay.php';
+      exit("webpay");
+      break;
     case '':
     case null:
         include_once "Banner.class.php";

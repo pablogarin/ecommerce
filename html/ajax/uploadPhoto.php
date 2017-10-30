@@ -3,7 +3,7 @@ include_once 'common.php';
 header("Content-type: application/json; charset=utf-8");
 $response = array();
 $name = $_FILES['file']['name'];
-$tmp = split("\.", $name);
+$tmp = explode("\.", $name);
 $ext = $tmp[count($tmp)-1];
 $name = preg_replace("/\.$ext$/", "", $name);
 $response['name'] = date("YmdHis").url_slug($name).".$ext";

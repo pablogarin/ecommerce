@@ -3,6 +3,8 @@ include_once 'common.php';
 include_once 'install.php';
 include_once "ClienteControl.class.php";
 
+ini_set('display_errors',1);
+
 $view = new View();
 $view->setFolder(PATH."/templates/");
 
@@ -418,7 +420,7 @@ switch( $page ){
             $view->set("content", $cat->getView());
         } else {
             if( $page != "" ){
-                $tmp = split("/",$page);
+                $tmp = explode("/",$page);
                 $id = $tmp[0];
                 if( is_numeric($id) ){
                     try {

@@ -3,7 +3,7 @@ include_once 'common.php';
 if( isset($_FILES['upload']) ){
     $response = array();
     $name = $_FILES['upload']['name'];
-    $tmp = split("\.", $name);
+    $tmp = explode("\.", $name);
     $ext = $tmp[count($tmp)-1];
     $name = preg_replace("/\.$ext$/", "", $name);
     $fileName = date("YmdHis")."-".url_slug($name).".$ext";

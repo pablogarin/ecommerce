@@ -375,6 +375,22 @@ switch( $page ){
             $view->set("content", $view->getView());
         }
         break;
+    case 'fracaso':
+        if( !$sesion_activa ){
+            header("Location: /identificacion");
+            exit;
+        }
+        if( isset($_POST['TBK_ID_SESION']) ){
+            $ID = $_POST['TBK_ID_SESION'];
+            $sale = new OrdenCompra($ID);
+        } else {
+            header("Location: /confirmar-orden");
+            exit;
+        }
+        $view->setTemplate("compra-fallida.html");
+        $view->set("errorCompra", $sale->getError());
+        $view->set("content", $view->getView());
+        break;
     case 'webpay':
       require_once 'webpay.php';
       exit("webpay");

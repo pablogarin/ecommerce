@@ -3,10 +3,10 @@ MEDCOM = 2
 TBK_KEY_ID = 101
 PARAMVERIFCOM = 1
 URLCGICOM = http://tienda.pablogarin.cl/KCC/tbk_bp_resultado.cgi
-SERVERCOM = 45.55.171.126
+SERVERCOM = 104.236.56.23
 PORTCOM = 80
 WHITELISTCOM = ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789./:=&?_-
-HOST = 45.55.171.126
+HOST = 104.236.56.23
 WPORT = 80
 URLCGITRA = /filtroUnificado/bp_revision.cgi
 URLCGIMEDTRA = /filtroUnificado/bp_validacion.cgi

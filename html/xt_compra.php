@@ -62,10 +62,10 @@
 
 
 /*----- DB CONFIG ------*/
-$handle = fopen(PATH."/comun/postData.md","wa+");
+include_once("common.php");
+$handle = fopen(PATH."/html/comun/postData.md","wa+");
 fwrite($handle, "XT COMPRA INVOCADO!: ". print_r($_POST,1));
 fclose($handle);
-include_once("common.php");
 $cur = $dbh->query("SELECT * FROM config;");
 $configs = array();
 if( isset($cur[0]) ){

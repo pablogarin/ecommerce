@@ -58,6 +58,7 @@
                 Estimado {{ cliente.nombre }} {{ cliente.apellido }},<br/>
                 <br/>
                 Muchas gracias por comprar en nuestra tienda.<br/>
+                {% if idTipoPago == 1 %}
                 <br/>
                 Recuerde que para completar su compra debe realizar una transferencia o deposito a la siguiente cuenta:<br/>
                 </p>
@@ -82,6 +83,27 @@
                 <br/>
                 Una vez que tenga el comprobante, debe enviarlo como archivo adjunto al correo <b>{{ cuentaCorreo.valor }}</b>, indicando en el asunto <b>&quot;N&uacute;mero de Orden {{ numero }}&quot;</b>.
                 </p>
+                {% else %}
+                <p>
+                <br/>
+                El n&uacute;mero de su compra es el <b>{{ numero }}</b>
+                </p>
+                {% endif %}
+                {% if idDireccion %}
+                <p>
+                <br/>
+                Dentro de poco recibir&aacute; la compra en su domicilio. En caso de necesitar informaci&oacute;n de su despacho, por favor contacte al correo <b>{{ cuentaCorreo.valor }}</b> con el asunto <b>&quot;Despacho compra N&deg; {{ numero }}&quot;</b>.
+                <br/>
+                <br/>
+                </p>
+                {% else %}
+                <p>
+                <br/>
+                Recuerde imprimir &eacute;ste correo y llevarlo al momento de retirar su producto de la tienda.
+                <br/>
+                <br/>
+                </p>
+                {% endif %}
             </div>
             <div class="row">
                 <h3>Datos del Cliente</h3>
@@ -101,7 +123,7 @@
                 </table>
             </div><!-- /.row -->
             <div id="detalle-compra-productos" class="row">
-                <h3>Detalles de la Compra</h3>
+                <h3>Detalles de la Compra N&deg; {{ numero }}</h3>
                 <table class="table table-bordered table-striped">
                     <tr>
                         <th>Producto</th>

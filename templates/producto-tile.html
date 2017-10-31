@@ -11,5 +11,9 @@
 <div class="product-detail text-center">
     {{ resumen | raw }}
     <label class="precio">${{ precio|number_format(0, ',', '.') }}{% if offer is not empty %}<br/><small>(Antes: ${{ precioReferencia|number_format(0,',','.') }})</small>{% endif %}</label>
+    {% if stock>0 %}
     <button class="btn-actions btn-cart-add" data-rel="{{ id }}">AGREGAR AL CARRO</button>
+    {% else %}
+    <h3>Producto Agotado</h3>
+    {% endif %}
 </div>

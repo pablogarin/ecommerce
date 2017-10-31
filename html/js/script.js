@@ -1,7 +1,7 @@
 (function(){
     var self = this;
     var opened = false;
-    console.log("Inicializando Sitio...");
+    console.log("Inicializando Sitio . . . ");
     // var url = "http://follert.neversaynever.cl"
     var title = $("title").text();
     $("body").on("click","#cart-container a[href='#cart']",function(evt){
@@ -142,6 +142,28 @@
             }
         });
     });
+	$("body").on("submit", "form[name='contacto']", function(e,f){
+		e.preventDefault();
+        var self = this,
+            data = {
+                'nombre':$(self).find("[name='nombre']").val(),
+                'mail':$(self).find("[name='mail']").val(),
+                'fono':$(self).find("[name='fono']").val(),
+                'comentario':$(self).find("[name='comentario']").val(),
+            };
+        $.ajax({
+            url: '/ajax/send.php',
+            data: data,
+            success: function(resp){
+                if(resp=='Mensaje enviado'){
+                    self.reset();
+                }
+            }
+        }).done(function(resp){
+            alert(resp);
+        });
+		return false;
+	});
     $("img").each(function(k,v){
         $(v).on("load",function(){
             var self = this;

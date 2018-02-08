@@ -1,5 +1,10 @@
 <div id="categoria">
     <div class="row">
+    {% if productos is empty %}
+        <div class="jumbotron col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+            <h2>No Hay Productos Para Mostrar</h2>
+        </div>
+    {% else %}
     {% for producto in productos %}
         <div class="producto-tile col-xs-12 col-sm-4 col-md-3 col-lg-3">
         {{ producto.getTileView() | raw }}
@@ -9,5 +14,6 @@
     <div class="row">
         {% endif %}
     {% endfor %}
+    {% endif %}
     </div><!-- /.row -->
 </div><!-- /#categoria -->
